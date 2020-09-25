@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">proj1</string>
+    <string name="welcome">Welcome to Checkers</string>
+    <string name="startButton">Start</string>
+    <string name="player1text">Player 1</string>
+    <string name="nameHint">Name</string>
+</resources>
