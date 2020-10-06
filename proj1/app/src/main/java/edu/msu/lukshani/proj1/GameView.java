@@ -23,6 +23,16 @@ public class GameView extends View {
      */
     private Game game;
 
+    /**
+     * Player 1
+     */
+    private Player player1;
+
+    /**
+     * Player 2
+     */
+    private Player player2;
+
 
     public GameView(Context context) {
         super(context);
@@ -41,6 +51,8 @@ public class GameView extends View {
 
     private void init(AttributeSet attrs, int defStyle) {
         game = new Game(getContext());
+        player1 = new Player(getContext(), false);
+        player2 = new Player(getContext(), true);
 
     }
 
@@ -50,6 +62,8 @@ public class GameView extends View {
         super.onDraw(canvas);
 
         game.draw(canvas);
+        player1.draw(canvas);
+        player2.draw(canvas);
 
     }
 

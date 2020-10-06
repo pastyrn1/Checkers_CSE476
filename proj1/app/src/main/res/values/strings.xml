@@ -5,4 +5,5 @@
     <string name="player1text">Player 1</string>
     <string name="nameHint">Name</string>
     <string name="player2text">Player 2</string>
+    <string name="restart">Restart</string>
 </resources>
