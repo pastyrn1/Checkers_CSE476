@@ -16,8 +16,6 @@ public class Game {
 
     private BitmapShader shader;
 
-
-
     /**
      * Percentage of the display width or height that
      * is occupied by the puzzle.
