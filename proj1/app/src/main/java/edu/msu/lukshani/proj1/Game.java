@@ -80,9 +80,6 @@ public class Game {
         int sq_wid = 100;
         int sq_hit = 100;
 
-        int offsetX = (sq_wid - pixelSize) / 2;
-        int offsetY = (sq_hit - pixelSize) / 2;
-
         //falg
         //for (i<6) - x asix
             //for(j<6) - y axis
