@@ -77,21 +77,41 @@ public class Game {
         int marginX = (wid - pixelSize) / 2;
         int marginY = (hit - pixelSize) / 2;
 
-        int sec_wid = 100;
-        int sec_hit = 100;
+        int sq_wid = 100;
+        int sq_hit = 100;
 
-        int offsetX = (sec_wid - pixelSize) / 2;
-        int offsetY = (sec_hit - pixelSize) / 2;
+        int offsetX = (sq_wid - pixelSize) / 2;
+        int offsetY = (sq_hit - pixelSize) / 2;
 
-
-        //
+        //falg
+        //for (i<6) - x asix
+            //for(j<6) - y axis
+//            canvas.drawRect(offsetX, offsetY, sec_hit, sec_wid, fillPaintSec);
         // Draw the outline of the puzzle
         //
 
-        canvas.drawRect(marginX, marginY,
-                 marginX+ pixelSize,  marginY + pixelSize, fillPaint);
+        for(int i = 0; i < 8; i++)
+        {
+            for(int j = 0; j < 8; j ++)
+            {
+                marginX = sq_wid * i;
+                marginY = sq_hit * j;
+                if ((i % 2) == (j & 2))
+                {
+                    fillPaint.setColor(0xff006400);
+                }
+                else
+                {
+                    fillPaint.setColor(0xffDCDCDC);
+                }
+                canvas.drawRect(marginX, marginY,
+                        marginX+ pixelSize,  marginY + pixelSize, fillPaint);
+            }
+        }
 
-        canvas.drawRect(offsetX, offsetY, sec_hit,  sec_wid, fillPaintSec);
+
+
+        //canvas.drawRect(offsetX, offsetY, sec_hit,  sec_wid, fillPaintSec);
 
        // return paint;
 
