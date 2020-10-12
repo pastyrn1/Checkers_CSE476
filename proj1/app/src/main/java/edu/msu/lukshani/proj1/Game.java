@@ -77,8 +77,8 @@ public class Game {
         int marginX = (wid - pixelSize) / 2;
         int marginY = (hit - pixelSize) / 2;
 
-        int sq_wid = 100;
-        int sq_hit = 100;
+        int sq_wid = minDim/8;
+        int sq_hit = minDim/8;
 
         //falg
         //for (i<6) - x asix
@@ -91,8 +91,8 @@ public class Game {
         {
             for(int j = 0; j < 8; j ++)
             {
-                marginX = sq_wid * i;
-                marginY = sq_hit * j;
+                int offset_x = sq_wid * i;
+                int offset_y = sq_hit * j;
                 if ((i % 2) == (j & 2))
                 {
                     fillPaint.setColor(0xff006400);
@@ -101,8 +101,8 @@ public class Game {
                 {
                     fillPaint.setColor(0xffDCDCDC);
                 }
-                canvas.drawRect(marginX, marginY,
-                        marginX+ pixelSize,  marginY + pixelSize, fillPaint);
+                canvas.drawRect(offset_x, offset_y,
+                        sq_wid,  sq_hit, fillPaint);
             }
         }
 
