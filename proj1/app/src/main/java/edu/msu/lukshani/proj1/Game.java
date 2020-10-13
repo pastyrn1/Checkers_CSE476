@@ -93,6 +93,7 @@ public class Game {
             {
                 int offset_x = sq_wid * j;
                 int offset_y = sq_hit * i;
+
                 if ((i % 2) == (j % 2))
                 {
                     fillPaint.setColor(0xff006400);
