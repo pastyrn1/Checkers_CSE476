@@ -91,9 +91,9 @@ public class Game {
         {
             for(int j = 0; j < 8; j ++)
             {
-                int offset_x = sq_wid * i;
-                int offset_y = sq_hit * j;
-                if ((i % 2) == (j & 2))
+                int offset_x = sq_wid * j;
+                int offset_y = sq_hit * i;
+                if ((i % 2) == (j % 2))
                 {
                     fillPaint.setColor(0xff006400);
                 }
