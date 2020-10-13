@@ -43,15 +43,21 @@ public class Player {
     private int boardSize;
 
     /**
+     * Percentage of the display width or height that
+     * is occupied by the puzzle.
+     */
+    final static float SCALE_IN_VIEW = 1;
+
+    /**
      * Collection of player's checker pieces
      */
     public ArrayList<CheckerPiece> pieces = new ArrayList<CheckerPiece>();
 
     public Player(Context context, boolean flip) {
         if (flip){
-            pieces.add(new CheckerPiece(context, R.drawable.white, new float[] {0.666f}, new float[] {0.158f})); //TODO: add actual location values for valid squares
+            pieces.add(new CheckerPiece(context, R.drawable.white, new float[] {.0625f,.1875f,.3125f,.4375f,.5625f,.6875f,.8125f,.9375f}, new float[] {.0625f,.1875f,.3125f,.4375f,.5625f,.6875f,.8125f,.9375f}, 1, 0)); //TODO: add actual location values for valid squares
         } else {
-            pieces.add(new CheckerPiece(context, R.drawable.green, new float[] {0.666f}, new float[] {0.158f})); //TODO: add actual location values for valid squares
+            pieces.add(new CheckerPiece(context, R.drawable.green, new float[] {.0625f,.1875f,.3125f,.4375f,.5625f,.6875f,.8125f,.9375f}, new float[] {.0625f,.1875f,.3125f,.4375f,.5625f,.6875f,.8125f,.9375f}, 3, 0)); //TODO: add actual location values for valid squares
         }
 
     }
@@ -63,17 +69,21 @@ public class Player {
         // Determine the minimum of the two dimensions
         int minDim = wid < hit ? wid : hit;
 
-        boardSize = (int) (minDim); //TODO: multiply minDim by SCALE_IN_VIEW
+        boardSize = (int) (minDim); //TODO: multiply minDim by SCALE_IN_VIEW if decided we want it smaller than tot wid/hit
 
-        //scaleFactor = (float)boardSize / (float)puzzleComplete.getWidth();
+        marginX = (wid - boardSize) / 2;
+        marginY = (hit - boardSize) / 2;
+
+        //Scale based on a 16x16 grid representation of the checker board
+        scaleFactor = 1;//(float)boardSize / 16f;
 
         canvas.save();
         canvas.translate(marginX, marginY);
-        canvas.scale(scaleFactor, scaleFactor);
+        //canvas.scale(scaleFactor, scaleFactor);
         canvas.restore();
 
         for (CheckerPiece piece : pieces) {
-            piece.draw(canvas, marginX, marginY, boardSize, .3f);//TODO: change scaleFactor so that it isn't hard-coded
+            piece.draw(canvas, marginX, marginY, boardSize, scaleFactor);
         }
     }
 }

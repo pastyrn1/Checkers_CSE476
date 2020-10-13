@@ -87,6 +87,9 @@ public class Game {
         // Draw the outline of the puzzle
         //
 
+        canvas.save();
+        canvas.translate(marginX, marginY);
+
         for(int i = 0; i < 8; i++)
         {
             for(int j = 0; j < 8; j ++)
@@ -106,6 +109,7 @@ public class Game {
                         sq_wid,  sq_hit, fillPaint);
             }
         }
+        canvas.restore();
 
 
 

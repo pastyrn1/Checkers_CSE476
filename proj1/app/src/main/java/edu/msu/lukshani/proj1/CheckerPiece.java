@@ -39,7 +39,10 @@ public class CheckerPiece {
      */
     private float[] validY = {};
 
-    public CheckerPiece(Context context, int id, float[] validX, float[] validY) {
+    public CheckerPiece(Context context, int id, float[] validX, float[] validY, int posX, int posY) {
+        this.x = validX[posX];
+        this.y = validY[posY];
+
         this.validX = validX;
         this.validY = validY;
 
@@ -72,13 +75,13 @@ public class CheckerPiece {
         canvas.translate(marginX + x * boardSize, marginY + y * boardSize);
 
         // Scale it to the right size
-        canvas.scale(scaleFactor, scaleFactor);
+        //canvas.scale(scaleFactor, scaleFactor);
 
         // This magic code makes the center of the piece at 0, 0
         canvas.translate(-piece.getWidth() / 2f, -piece.getHeight() / 2f);
 
         // Draw the bitmap
-        canvas.drawBitmap(piece, 0, 0, null);
+        //canvas.drawBitmap(piece, 0, 0, null);
         canvas.restore();
     }
 
