@@ -106,7 +106,7 @@ public class Game {
                     fillPaint.setColor(0xffDCDCDC);
                 }
                 canvas.drawRect(offset_x, offset_y,
-                        sq_wid,  sq_hit, fillPaint);
+                        offset_x + sq_wid, offset_y + sq_hit, fillPaint);
             }
         }
         canvas.restore();
