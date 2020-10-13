@@ -30,21 +30,15 @@ public class CheckerPiece {
     private float y = 0;
 
     /**
-     * x locations of checker squares
+     * valid locations of checker squares
      */
-    private float[] validX = {};
+    private float[] valid = {};
 
-    /**
-     * y locations of checker squares, each corresponds to an x value at equal index in validX
-     */
-    private float[] validY = {};
+    public CheckerPiece(Context context, int id, float[] valid, int posX, int posY) {
+        this.x = valid[posX];
+        this.y = valid[posY];
 
-    public CheckerPiece(Context context, int id, float[] validX, float[] validY, int posX, int posY) {
-        this.x = validX[posX];
-        this.y = validY[posY];
-
-        this.validX = validX;
-        this.validY = validY;
+        this.valid = valid;
 
         piece = BitmapFactory.decodeResource(context.getResources(), id);
     }
@@ -74,14 +68,11 @@ public class CheckerPiece {
         // Convert x,y to pixels and add the margin, then draw
         canvas.translate(marginX + x * boardSize, marginY + y * boardSize);
 
-        // Scale it to the right size
-        //canvas.scale(scaleFactor, scaleFactor);
-
-        // This magic code makes the center of the piece at 0, 0
-        canvas.translate(-piece.getWidth() / 2f, -piece.getHeight() / 2f);
+        // Center of the piece at 0, 0
+        canvas.translate(-(boardSize/8) / 2f, -(boardSize/8) / 2f);
 
         // Draw the bitmap
-        //canvas.drawBitmap(piece, 0, 0, null);
+        canvas.drawBitmap(Bitmap.createScaledBitmap(piece, boardSize/8, boardSize/8, false), 0, 0, null);
         canvas.restore();
     }
 

@@ -55,9 +55,25 @@ public class Player {
 
     public Player(Context context, boolean flip) {
         if (flip){
-            pieces.add(new CheckerPiece(context, R.drawable.white, new float[] {.0625f,.1875f,.3125f,.4375f,.5625f,.6875f,.8125f,.9375f}, new float[] {.0625f,.1875f,.3125f,.4375f,.5625f,.6875f,.8125f,.9375f}, 1, 0)); //TODO: add actual location values for valid squares
+            //create upper pieces
+            for(int i = 0; i < 3; i++){
+                for(int j = 0; j < 8; j++){
+                    if(i % 2 !=  j % 2) {
+                        pieces.add(new CheckerPiece(context, R.drawable.white, new float[]{.0625f, .1875f, .3125f, .4375f, .5625f, .6875f, .8125f, .9375f}, j, i));
+                    }
+                }
+            }
+
         } else {
-            pieces.add(new CheckerPiece(context, R.drawable.green, new float[] {.0625f,.1875f,.3125f,.4375f,.5625f,.6875f,.8125f,.9375f}, new float[] {.0625f,.1875f,.3125f,.4375f,.5625f,.6875f,.8125f,.9375f}, 3, 0)); //TODO: add actual location values for valid squares
+            //create lower pieces
+            for(int i = 5; i < 8; i++){
+                for(int j = 0; j < 8; j++){
+                    if(i % 2 !=  j % 2) {
+                        pieces.add(new CheckerPiece(context, R.drawable.green, new float[]{.0625f, .1875f, .3125f, .4375f, .5625f, .6875f, .8125f, .9375f}, j, i));
+                    }
+                }
+            }
+
         }
 
     }
@@ -74,16 +90,9 @@ public class Player {
         marginX = (wid - boardSize) / 2;
         marginY = (hit - boardSize) / 2;
 
-        //Scale based on a 16x16 grid representation of the checker board
-        scaleFactor = 1;//(float)boardSize / 16f;
-
-        canvas.save();
-        canvas.translate(marginX, marginY);
-        //canvas.scale(scaleFactor, scaleFactor);
-        canvas.restore();
-
         for (CheckerPiece piece : pieces) {
             piece.draw(canvas, marginX, marginY, boardSize, scaleFactor);
         }
+        
     }
 }
