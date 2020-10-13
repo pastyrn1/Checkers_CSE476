@@ -6,4 +6,5 @@
     <string name="nameHint">Name</string>
     <string name="player2text">Player 2</string>
     <string name="restart">Restart</string>
+    <string name="piece_desc">checker pieces design</string>
 </resources>
