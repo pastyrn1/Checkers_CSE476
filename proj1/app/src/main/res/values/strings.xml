@@ -7,4 +7,6 @@
     <string name="player2text">Player 2</string>
     <string name="restart">Restart</string>
     <string name="piece_desc">checker pieces design</string>
+    <string name="resignButton">Resign</string>
+    <string name="doneButton">Done</string>
 </resources>

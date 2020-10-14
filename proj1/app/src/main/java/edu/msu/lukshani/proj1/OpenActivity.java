@@ -19,7 +19,6 @@ public class OpenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open);
 
-        configureStartButton();
 
         nameInput = (EditText)findViewById(R.id.player1name);
 
@@ -34,13 +33,9 @@ public class OpenActivity extends AppCompatActivity {
 
     }
 
-    private void configureStartButton(){
-        Button startButton = (Button) findViewById(R.id.startButton);
-        startButton.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
+
+            public void onStart(View view) {
                 startActivity(new Intent(OpenActivity.this, GameActivity.class));
             }
-        });
-    }
+
 }
