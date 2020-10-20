@@ -7,6 +7,15 @@
     android:layout_height="match_parent"
     tools:context=".GameActivity">
 
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="123dp"
+        android:layout_height="53dp"
+        android:gravity="center"
+        android:text="@string/nameHint"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <view
         android:id="@+id/gameView"
         class="edu.msu.lukshani.proj1.GameView"
