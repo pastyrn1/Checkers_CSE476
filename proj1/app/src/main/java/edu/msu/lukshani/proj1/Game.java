@@ -66,6 +66,11 @@ public class Game {
     private boolean isTurnPlayer1 = true;
 
     /**
+     * boolean for whose turn it is
+     */
+    private boolean isTurnPlayer2 = true;
+
+    /**
      * This variable is set to a piece we are dragging. If
      * we are not dragging, the variable is null.
      */
@@ -238,14 +243,19 @@ public class Game {
         if(dragging != null) {
             if(dragging.isValid() == 1) {
                 //The movement is valid
-                isTurnPlayer1 = !isTurnPlayer1;
-                view.invalidate();
-            } else if(dragging.isValid() == 0){
+                if (isTurnPlayer1 = !isTurnPlayer1) {
+                    view.invalidate();
+
+            }else if(isTurnPlayer2 = !isTurnPlayer2){
+                    view.invalidate();
+                }
+            else if (dragging.isValid() == 0) {
                 dragging.setPos(lastRelX, lastRelY);
-            } else if(dragging.isValid() == -1){
+            } else if (dragging.isValid() == -1) {
                 //The movement is valid
                 view.invalidate();
                 //TODO:add double jump code
+            }
             }
             dragging = null;
             return true;
