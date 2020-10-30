@@ -69,7 +69,8 @@ public class Game {
     /**
      * Collection of puzzle pieces
      */
-    public ArrayList<CheckerPiece> pieces = new ArrayList<CheckerPiece>();
+    public ArrayList<CheckerPiece> player1_pieces = new ArrayList<CheckerPiece>();
+    public ArrayList<CheckerPiece> player2_pieces = new ArrayList<CheckerPiece>();
     
     public Game(Context context){
 
@@ -78,6 +79,23 @@ public class Game {
         fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         fillPaint.setColor(0xff006400);
 
+        //create lower pieces
+        for(int i = 5; i < 8; i++){
+            for(int j = 0; j < 8; j++){
+                if(i % 2 !=  j % 2) {
+                    player1_pieces.add(new CheckerPiece(context, R.drawable.green, new float[]{.0625f, .1875f, .3125f, .4375f, .5625f, .6875f, .8125f, .9375f}, j, i));
+                }
+            }
+        }
+
+        //create upper pieces
+        for(int i = 0; i < 3; i++){
+            for(int j = 0; j < 8; j++){
+                if(i % 2 !=  j % 2) {
+                    player2_pieces.add(new CheckerPiece(context, R.drawable.white, new float[]{.0625f, .1875f, .3125f, .4375f, .5625f, .6875f, .8125f, .9375f}, j, i));
+                }
+            }
+        }
     }
 
     public void draw(Canvas canvas){
@@ -152,6 +170,14 @@ public class Game {
         }
         canvas.restore();
 
+        for (CheckerPiece piece : player1_pieces) {
+            piece.draw(canvas, marginX, marginY, pixelSize, scaleFactor);
+        }
+
+        for (CheckerPiece piece : player2_pieces) {
+            piece.draw(canvas, marginX, marginY, pixelSize, scaleFactor);
+        }
+
         //canvas.drawRect(offsetX, offsetY, sec_hit,  sec_wid, fillPaintSec);
         //scaleFactor = (float)pixelSize / (float)GameComplete.getWidth();
 
@@ -207,7 +233,7 @@ public class Game {
 
         // Check each piece to see if it has been hit
         // We do this in reverse order so we find the pieces in front
-        for(int p =pieces.size()-1; p>=0;  p--) {
+        /*for(int p =pieces.size()-1; p>=0;  p--) {
             if(pieces.get(p).hit(x, y, pixelSize, scaleFactor)) {
                 // We hit a piece!
                 dragging = pieces.get(p);
@@ -215,7 +241,7 @@ public class Game {
                 lastRelY = y;
                 return true;
             }
-        }
+        }*/
 
         return false;
     }

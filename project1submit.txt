@@ -1,0 +1,30 @@
+
+Project 1 Submission
+
+Group Name:   Team 7
+
+When you have completed the project, complete the following form and include it with your project. Include this file as a text file in the folder with your project when you turn it in. 
+
+
+Member 1: Shania Joy Luk
+
+Responsiblity: The activities including the opening, game play, and end of game activities.
+
+
+
+Member 2: Jewelyan Wd Bradley
+
+Responsiblity: The custom game play view and drawing the board and the pieces. This includes handling the touch events.
+
+
+
+Member 3: Anna Lynn Pastyrnak
+
+Responsiblity: The movement rules, including jumping and capturing and also detecting valid and invalid moves. 
+
+(Given these are primarily late-development tasks, I implemented the player/piece classes and initialized/drew them on the board for this checkpoint)
+
+
+Member 4 (if applicable): n/a
+
+Responsiblity: n/a

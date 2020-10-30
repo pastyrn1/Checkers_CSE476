@@ -93,6 +93,6 @@ public class Player {
         for (CheckerPiece piece : pieces) {
             piece.draw(canvas, marginX, marginY, boardSize, scaleFactor);
         }
-        
+
     }
 }
