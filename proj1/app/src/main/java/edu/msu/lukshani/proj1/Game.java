@@ -61,6 +61,11 @@ public class Game {
     private float lastRelY;
 
     /**
+     * boolean for whose turn it is
+     */
+    private boolean isTurnPlayer1 = true;
+
+    /**
      * This variable is set to a piece we are dragging. If
      * we are not dragging, the variable is null.
      */
@@ -100,34 +105,13 @@ public class Game {
 
     public void draw(Canvas canvas){
 
-        //int wid = 2;
-        //int hit = 2;
-
-       // int pixelSize = wid * hit;
-
-        //Bitmap bitmap = Bitmap.createBitmap(pixelSize * 2, pixelSize * 2, Bitmap.Config.ARGB_8888);
-
-
-        //BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.REPEAT, Shader.TileMode.REPEAT);
-        //Paint paint = new Paint();
-        //paint.setShader(shader);
-
         int wid = canvas.getWidth();
         int hit = canvas.getHeight();
-
 
         // Determine the minimum of the two dimensions
         int minDim = wid < hit ? wid : hit;
 
          pixelSize = (int)(minDim * SCALE_IN_VIEW);
-
-        //new Canvas(bitmap);
-        //Rect rect = new Rect(0, 0, pixelSize, pixelSize);
-        //canvas.drawRect(rect, fillPaint);
-        //rect.offset(pixelSize, pixelSize);
-        //canvas.drawRect(rect, fillPaint);
-
-
 
         // Compute the margins so we center the puzzle
         marginX = (wid - pixelSize) / 2;
@@ -135,13 +119,6 @@ public class Game {
 
         int sq_wid = minDim/8;
         int sq_hit = minDim/8;
-
-        //falg
-        //for (i<6) - x asix
-            //for(j<6) - y axis
-//            canvas.drawRect(offsetX, offsetY, sec_hit, sec_wid, fillPaintSec);
-        // Draw the outline of the puzzle
-        //
 
         canvas.save();
         canvas.translate(marginX, marginY);
@@ -164,7 +141,6 @@ public class Game {
                 canvas.drawRect(offset_x, offset_y,
                         offset_x + sq_wid, offset_y + sq_hit, fillPaint);
 
-
             }
 
         }
@@ -177,11 +153,6 @@ public class Game {
         for (CheckerPiece piece : player2_pieces) {
             piece.draw(canvas, marginX, marginY, pixelSize, scaleFactor);
         }
-
-        //canvas.drawRect(offsetX, offsetY, sec_hit,  sec_wid, fillPaintSec);
-        //scaleFactor = (float)pixelSize / (float)GameComplete.getWidth();
-
-       // return paint;
 
     }
 
@@ -252,11 +223,18 @@ public class Game {
      * @return true if the touch is handled
      */
     private boolean onReleased(View view, float x, float y) {
-        dragging.maybeSnap();
+        dragging.isValid();
         if(dragging != null) {
-            if(dragging.maybeSnap()) {
-                // We have snapped into place
+            if(dragging.isValid() == 1) {
+                //The movement is valid
+                isTurnPlayer1 = !isTurnPlayer1;
                 view.invalidate();
+            } else if(dragging.isValid() == 0){
+                dragging.setPos(lastRelX, lastRelY);
+            } else if(dragging.isValid() == -1){
+                //The movement is valid
+                view.invalidate();
+                //TODO:add double jump code
             }
             dragging = null;
             return true;

@@ -30,15 +30,9 @@ public class CheckerPiece {
     private float y = 0;
 
     /**
-     * x location when the puzzle is solved
+     * whether the piece is a king or not
      */
-    private float finalX;
-
-    /**
-     * y location when the puzzle is solved
-     */
-    private float finalY;
-
+    private boolean isKing = false;
 
     /**
      * valid locations of checker squares
@@ -62,6 +56,16 @@ public class CheckerPiece {
     public void move(float dx, float dy) {
         x += dx;
         y += dy;
+    }
+
+    /**
+     * Move the puzzle piece to new_x, new_y
+     * @param new_x x amount to move
+     * @param new_y y amount to move
+     */
+    public void setPos(float new_x, float new_y) {
+        x = new_x;
+        y = new_y;
     }
 
     /**
@@ -114,20 +118,8 @@ public class CheckerPiece {
         return (piece.getPixel(pX, pY) & 0xff000000) != 0;
     }
 
-    /**
-     * If we are within SNAP_DISTANCE of the correct
-     * answer, snap to the correct answer exactly.
-     * @return
-     */
-    public boolean maybeSnap() {
-        if(Math.abs(x - finalX) < SNAP_DISTANCE &&
-                Math.abs(y - finalY) < SNAP_DISTANCE) {
-
-            x = finalX;
-            y = finalY;
-            return true;
-        }
-
-        return false;
+    public int isValid(){
+        return 1;
     }
+
 }
