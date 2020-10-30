@@ -180,11 +180,7 @@ public class Game {
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                if(dragging != null) {
-                    dragging = null;
-                    return true;
-                }
-                break;
+                return onReleased(view, relX, relY);
 
             case MotionEvent.ACTION_MOVE:
                 // If we are dragging, move the piece and force a redraw
@@ -192,9 +188,10 @@ public class Game {
                     dragging.move(relX - lastRelX, relY - lastRelY);
                     lastRelX = relX;
                     lastRelY = relY;
-                    view.invalidate();
+                    //view.invalidate();
                     return true;
                 }
+                break;
         }
 
         return false;
@@ -218,6 +215,25 @@ public class Game {
                 lastRelY = y;
                 return true;
             }
+        }
+
+        return false;
+    }
+    /**
+     * Handle a release of a touch message.
+     * @param x x location for the touch release, relative to the puzzle - 0 to 1 over the puzzle
+     * @param y y location for the touch release, relative to the puzzle - 0 to 1 over the puzzle
+     * @return true if the touch is handled
+     */
+    private boolean onReleased(View view, float x, float y) {
+        dragging.maybeSnap();
+        if(dragging != null) {
+            if(dragging.maybeSnap()) {
+                // We have snapped into place
+                view.invalidate();
+            }
+            dragging = null;
+            return true;
         }
 
         return false;

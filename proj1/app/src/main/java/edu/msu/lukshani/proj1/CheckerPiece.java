@@ -30,6 +30,17 @@ public class CheckerPiece {
     private float y = 0;
 
     /**
+     * x location when the puzzle is solved
+     */
+    private float finalX;
+
+    /**
+     * y location when the puzzle is solved
+     */
+    private float finalY;
+
+
+    /**
      * valid locations of checker squares
      */
     private float[] valid = {};
@@ -103,6 +114,20 @@ public class CheckerPiece {
         return (piece.getPixel(pX, pY) & 0xff000000) != 0;
     }
 
+    /**
+     * If we are within SNAP_DISTANCE of the correct
+     * answer, snap to the correct answer exactly.
+     * @return
+     */
+    public boolean maybeSnap() {
+        if(Math.abs(x - finalX) < SNAP_DISTANCE &&
+                Math.abs(y - finalY) < SNAP_DISTANCE) {
 
+            x = finalX;
+            y = finalY;
+            return true;
+        }
 
+        return false;
+    }
 }
