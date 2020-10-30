@@ -204,15 +204,26 @@ public class Game {
 
         // Check each piece to see if it has been hit
         // We do this in reverse order so we find the pieces in front
-        /*for(int p =pieces.size()-1; p>=0;  p--) {
-            if(pieces.get(p).hit(x, y, pixelSize, scaleFactor)) {
-                // We hit a piece!
-                dragging = pieces.get(p);
+        for(int p1 = player1_pieces.size()-1; p1>=0;  p1--) {
+            if(player1_pieces.get(p1).hit(x, y, pixelSize, scaleFactor)) {
+                // We hit player 1 piece!
+                dragging = player1_pieces.get(p1);
                 lastRelX = x;
                 lastRelY = y;
                 return true;
             }
-        }*/
+
+        }
+        for(int p2 = player2_pieces.size()-1; p2>=0;  p2--) {
+            if(player2_pieces.get(p2).hit(x, y, pixelSize, scaleFactor)) {
+                // We hit player2 piece!
+                dragging = player2_pieces.get(p2);
+                lastRelX = x;
+                lastRelY = y;
+                return true;
+            }
+
+        }
 
         return false;
     }
