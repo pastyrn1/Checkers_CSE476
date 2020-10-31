@@ -94,7 +94,7 @@ public class Player {
         marginY = (hit - boardSize) / 2;
 
         for (CheckerPiece piece : pieces) {
-            piece.draw(canvas, marginX, marginY, boardSize, scaleFactor);
+            piece.draw(canvas, marginX, marginY, boardSize);
         }
 
     }

@@ -15,25 +15,20 @@ import java.util.ArrayList;
 
 public class Game {
     /**
-     * Paint for filling the area the puzzle is in
+     * Paint for filling the area the checkerboard is in
      */
     private Paint fillPaint;
 
     /**
      * Percentage of the display width or height that
-     * is occupied by the puzzle.
+     * is occupied by the checkerboard.
      */
     final static float SCALE_IN_VIEW = 1;
 
     /**
-     * The size of the puzzle in pixels
+     * The size of the board in pixels
      */
     private int pixelSize;
-
-    /**
-     * How much we scale the puzzle pieces
-     */
-    private float scaleFactor;
 
     /**
      * We consider a piece to be in a valid location if within
@@ -45,11 +40,6 @@ public class Game {
      * Left margin in pixels
      */
     private int marginX;
-
-    /**
-     * Completed puzzle bitmap
-     */
-    private Bitmap GameComplete;
 
     /**
      * Top margin in pixels
@@ -83,7 +73,7 @@ public class Game {
     private CheckerPiece dragging = null;
 
     /**
-     * Collection of puzzle pieces
+     * Collection of checker pieces
      */
     public ArrayList<CheckerPiece> player1_pieces = new ArrayList<CheckerPiece>();
     public ArrayList<CheckerPiece> player2_pieces = new ArrayList<CheckerPiece>();
@@ -158,11 +148,11 @@ public class Game {
         canvas.restore();
 
         for (CheckerPiece piece : player1_pieces) {
-            piece.draw(canvas, marginX, marginY, pixelSize, scaleFactor);
+            piece.draw(canvas, marginX, marginY, pixelSize);
         }
 
         for (CheckerPiece piece : player2_pieces) {
-            piece.draw(canvas, marginX, marginY, pixelSize, scaleFactor);
+            piece.draw(canvas, marginX, marginY, pixelSize);
         }
 
     }
@@ -181,6 +171,7 @@ public class Game {
 
         float relX = (event.getX() - marginX) / pixelSize;
         float relY = (event.getY() - marginY) / pixelSize;
+
         switch (event.getActionMasked()) {
 
             case MotionEvent.ACTION_DOWN:
@@ -196,12 +187,11 @@ public class Game {
                     dragging.move(relX - lastRelX, relY - lastRelY);
                     lastRelX = relX;
                     lastRelY = relY;
-                    //view.invalidate();
+                    view.invalidate();
                     return true;
                 }
                 break;
         }
-
         return false;
     }
 
@@ -215,25 +205,33 @@ public class Game {
 
         // Check each piece to see if it has been hit
         // We do this in reverse order so we find the pieces in front
-        for(int p1 = player1_pieces.size()-1; p1>=0;  p1--) {
-            if(player1_pieces.get(p1).hit(x, y, pixelSize, scaleFactor)) {
-                // We hit player 1 piece!
-                dragging = player1_pieces.get(p1);
-                lastRelX = x;
-                lastRelY = y;
-                return true;
-            }
 
-        }
-        for(int p2 = player2_pieces.size()-1; p2>=0;  p2--) {
-            if(player2_pieces.get(p2).hit(x, y, pixelSize, scaleFactor)) {
-                // We hit player2 piece!
-                dragging = player2_pieces.get(p2);
-                lastRelX = x;
-                lastRelY = y;
-                return true;
-            }
+        if(isTurnPlayer1){
+            for(int p = player1_pieces.size()-1; p>=0;  p--) {
+                if(player1_pieces.get(p).hit(x, y, pixelSize)) {
+                    // We hit player 1 piece!
+                    dragging = player1_pieces.get(p);
+                    player1_pieces.set(p, player1_pieces.get(player1_pieces.size()-1));
+                    player1_pieces.set(player1_pieces.size()-1, dragging);
+                    lastRelX = x;
+                    lastRelY = y;
+                    return true;
+                }
 
+            }
+        } else {
+            for (int p = player2_pieces.size() - 1; p >= 0; p--) {
+                if (player2_pieces.get(p).hit(x, y, pixelSize)) {
+                    // We hit player2 piece!
+                    dragging = player2_pieces.get(p);
+                    player2_pieces.set(p, player2_pieces.get(player2_pieces.size()-1));
+                    player2_pieces.set(player2_pieces.size()-1, dragging);
+                    lastRelX = x;
+                    lastRelY = y;
+                    return true;
+                }
+
+            }
         }
 
         return false;

@@ -125,25 +125,14 @@ public class CheckerPiece {
     }
 
     /**
-     * Move the puzzle piece to new_x, new_y
-     * @param new_x x to move to
-     * @param new_y y to move to
-     */
-    public void getIdx(float new_x, float new_y) {
-        x = new_x;
-        y = new_y;
-    }
-
-    /**
      * Draw the checker piece
      * @param canvas Canvas we are drawing on
      * @param marginX Margin x value in pixels
      * @param marginY Margin y value in pixels
      * @param boardSize Size we draw the checker board in pixels
-     * @param scaleFactor Amount we scale the checker pieces when we draw them
      */
     public void draw(Canvas canvas, int marginX, int marginY,
-                     int boardSize, float scaleFactor) {
+                     int boardSize) {
         canvas.save();
 
         // Convert x,y to pixels and add the margin, then draw
@@ -158,20 +147,19 @@ public class CheckerPiece {
     }
 
     /**
-     * Test to see if we have touched a puzzle piece
+     * Test to see if we have touched a checker piece
      * @param testX X location as a normalized coordinate (0 to 1)
      * @param testY Y location as a normalized coordinate (0 to 1)
-     * @param pixelSize the size of the puzzle in pixels
-     * @param scaleFactor the amount to scale a piece by
+     * @param pixelSize the size of the checkerboard in pixels
      * @return true if we hit the piece
      */
     public boolean hit(float testX, float testY,
-                       int pixelSize, float scaleFactor) {
+                       int pixelSize) {
 
         // Make relative to the location and size to the piece size
-        int pX = (int)((testX - x) * pixelSize / scaleFactor) +
+        int pX = (int)((testX - x) * pixelSize) +
                 piece.getWidth() / 2;
-        int pY = (int)((testY - y) * pixelSize / scaleFactor) +
+        int pY = (int)((testY - y) * pixelSize) +
                 piece.getHeight() / 2;
 
         if(pX < 0 || pX >= piece.getWidth() ||
