@@ -257,41 +257,10 @@ public class Game {
                 //TODO:add double jump code
             }
             }
-<<<<<<< HEAD
-        }
-
-        //TODO: check if is in final row, if so king
-        
-
-        //TODO: add win trigger and uncomment code
-//        if (player2_pieces.isEmpty()){
-//            //player 1 win
-//        } else if (player1_pieces.isEmpty()){
-//            //player 2 win
-//        }
-
-        return 0;
-    }
-
-    public boolean oneSpace(float x, float y, int xIdx, int yIdx, int yD, int xD, boolean opponent){
-        if (xIdx - xD < 0 || xIdx - xD > 7 || yIdx + yD < 0 ||  yIdx + yD > 7){
-            return false;
-        }
-
-        if(Math.abs(x - valid[xIdx + xD]) < SNAP_DISTANCE &&
-                Math.abs(y - valid[yIdx + yD]) < SNAP_DISTANCE && !opponent) {
-            dragging.setPos(valid[xIdx + xD], valid[yIdx + yD]);
 
             dragging = null;
             return true;
         }
-
-=======
-            dragging = null;
-            return true;
-        }
-
->>>>>>> a496c7c09a387339b7b7f855923b2358e813669f
         return false;
     }
 
