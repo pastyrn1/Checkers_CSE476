@@ -34,7 +34,7 @@ public class Game {
      * We consider a piece to be in a valid location if within
      * this distance.
      */
-    final static float SNAP_DISTANCE = 0.05f;
+    final static float SNAP_DISTANCE = 0.1f;
 
     /**
      * Left margin in pixels
@@ -55,6 +55,16 @@ public class Game {
      * Most recent relative Y touch when dragging
      */
     private float lastRelY;
+
+    /**
+     * Most recent X pos of dragging
+     */
+    private float preX;
+
+    /**
+     * Most recent Y pos of dragging
+     */
+    private float preY;
 
     /**
      * valid locations of checker squares
@@ -211,6 +221,8 @@ public class Game {
                 if(player1_pieces.get(p).hit(x, y, pixelSize)) {
                     // We hit player 1 piece!
                     dragging = player1_pieces.get(p);
+                    preX = dragging.getX();
+                    preY = dragging.getY();
                     player1_pieces.set(p, player1_pieces.get(player1_pieces.size()-1));
                     player1_pieces.set(player1_pieces.size()-1, dragging);
                     lastRelX = x;
@@ -224,6 +236,8 @@ public class Game {
                 if (player2_pieces.get(p).hit(x, y, pixelSize)) {
                     // We hit player2 piece!
                     dragging = player2_pieces.get(p);
+                    preX = dragging.getX();
+                    preY = dragging.getY();
                     player2_pieces.set(p, player2_pieces.get(player2_pieces.size()-1));
                     player2_pieces.set(player2_pieces.size()-1, dragging);
                     lastRelX = x;
@@ -245,13 +259,13 @@ public class Game {
     private boolean onReleased(View view, float x, float y) {
         isValid();
         if(dragging != null) {
-            /*if(isValid() == 1) {
+            if(isValid() == 1) {
                 //The movement is valid
                 isTurnPlayer1 = !isTurnPlayer1;
                 view.invalidate();
-            } else if(isValid() == 0){
-                dragging.setPos(lastRelX, lastRelY);
-            } else if(isValid() == -1){
+            } else {
+                dragging.setPos(preX, preY);
+            } /*else if(isValid() == -1){
                 //The movement is valid
                 view.invalidate();
                 //TODO:add double jump code
@@ -277,7 +291,7 @@ public class Game {
         CheckerPiece[] deletable = {null, null, null, null};
 
         //TODO: create opponent/deletable internal class so this can be turned into a pretty function (private class Opponents {)
-        if(!isTurnPlayer1){
+        /*if(!isTurnPlayer1){
             for(CheckerPiece piece: player1_pieces){
                 if (piece.equals(new int[]{xIdx - 1, yIdx + d})){
                     opponent[0] = true;
@@ -331,7 +345,7 @@ public class Game {
                     }
                 }
             }
-        }
+        }*/
 
         //TODO: add 'hypothetical' boolean to the function call to use for determining if a double jump is possible
         //move one space
@@ -366,7 +380,7 @@ public class Game {
     }
 
     public boolean oneSpace(float x, float y, int xIdx, int yIdx, int yD, int xD, boolean opponent){
-        if (xIdx - xD < 0 || xIdx - xD > 7 || yIdx + yD < 0 ||  yIdx + yD > 7){
+        if (xIdx + xD < 0 || xIdx + xD > 7 || yIdx + yD < 0 ||  yIdx + yD > 7){
             return false;
         }
 
@@ -379,18 +393,18 @@ public class Game {
     }
 
     public boolean twoSpace(float x, float y, int xIdx, int yIdx, int yD, int xD, boolean opponent, boolean victim, CheckerPiece deletable){
-        if (xIdx - xD * 2 < 0 || xIdx - xD * 2 > 7 || yIdx + yD * 2 < 0 ||  yIdx + yD * 2 > 7){
+        if (xIdx + xD * 2 < 0 || xIdx + xD * 2 > 7 || yIdx + yD * 2 < 0 ||  yIdx + yD * 2 > 7){
             return false;
         }
 
-        if(Math.abs(x - valid[xIdx - xD * 2]) < SNAP_DISTANCE &&
+        if(Math.abs(x - valid[xIdx + xD * 2]) < SNAP_DISTANCE &&
                 Math.abs(y - valid[yIdx + yD * 2]) < SNAP_DISTANCE && !opponent && victim) {
             if (!isTurnPlayer1) {
                 player1_pieces.remove(deletable);
             } else {
                 player2_pieces.remove(deletable);
             }
-            dragging.setPos(valid[xIdx - xD * 2], valid[yIdx + yD * 2]);
+            dragging.setPos(valid[xIdx + xD * 2], valid[yIdx + yD * 2]);
             return true;
         }
         return false;

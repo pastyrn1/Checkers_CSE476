@@ -156,13 +156,14 @@ public class CheckerPiece {
     public boolean hit(float testX, float testY,
                        int pixelSize) {
 
+        //TODO: make this range slightly wider so it isn't so finicky
+
         // Make relative to the location and size to the piece size
         int pX = (int)((testX - x) * pixelSize) +
-                pixelSize/8 / 2;
+                pixelSize/7 / 2;
         int pY = (int)((testY - y) * pixelSize) +
-                pixelSize/8 / 2;
+                pixelSize/7 / 2;
 
-        //TODO: make this range slightly wider so it isn't so finicky
         if(pX < 0 || pX >= pixelSize/8 ||
                 pY < 0 || pY >= pixelSize/8) {
             return false;
