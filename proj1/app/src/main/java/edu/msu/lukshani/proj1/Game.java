@@ -328,8 +328,14 @@ public class Game {
         }
 
         //TODO: check if is in final row, if so king
+        
 
-        //TODO: check if one array is empty - if so trigger win condition
+        //TODO: add win trigger and uncomment code
+        /*if (player2_pieces.isEmpty()){
+            //player 1 win
+        } else if (player1_pieces.isEmpty()){
+            //player 2 win
+        }*/
 
         return 0;
     }

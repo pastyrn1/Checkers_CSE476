@@ -191,6 +191,6 @@ public class CheckerPiece {
         }
         return true;
     }
-    
+
 
 }
