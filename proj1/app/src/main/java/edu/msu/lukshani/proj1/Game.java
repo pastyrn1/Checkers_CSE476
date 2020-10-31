@@ -247,7 +247,7 @@ public class Game {
     private boolean onReleased(View view, float x, float y) {
         isValid();
         if(dragging != null) {
-            if(isValid() == 1) {
+            /*if(isValid() == 1) {
                 //The movement is valid
                 isTurnPlayer1 = !isTurnPlayer1;
                 view.invalidate();
@@ -257,7 +257,7 @@ public class Game {
                 //The movement is valid
                 view.invalidate();
                 //TODO:add double jump code
-            }
+            }*/
             dragging = null;
             return true;
         }
@@ -275,9 +275,10 @@ public class Game {
 
         int d = dragging.getDirection();
 
-        boolean[] opponent = {false, false, false, false};
-        CheckerPiece[] deletable = {null, null};
+        boolean[] opponent = {false, false, false, false, false, false, false, false};
+        CheckerPiece[] deletable = {null, null, null, null};
 
+        //TODO: create opponent/deletable internal class so this can be turned into a pretty function (private class Opponents {)
         if(!isTurnPlayer1){
             for(CheckerPiece piece: player1_pieces){
                 if (piece.equals(new int[]{xIdx - 1, yIdx + d})){
@@ -287,9 +288,22 @@ public class Game {
                     opponent[1] = true;
                     deletable[1] = piece;
                 } else if (piece.equals(new int[]{xIdx - 2, yIdx + d * 2})){
-                    opponent[3] = true;
+                    opponent[2] = true;
                 } else if (piece.equals(new int[]{xIdx + 2, yIdx + d * 2})){
-                    opponent[4] = true;
+                    opponent[3] = true;
+                }
+                if(dragging.getKing()){
+                    if (piece.equals(new int[]{xIdx - 1, yIdx - d})){
+                        opponent[4] = true;
+                        deletable[2] = piece;
+                    } else if (piece.equals(new int[]{xIdx + 1, yIdx - d})){
+                        opponent[5] = true;
+                        deletable[3] = piece;
+                    } else if (piece.equals(new int[]{xIdx - 2, yIdx - d * 2})){
+                        opponent[6] = true;
+                    } else if (piece.equals(new int[]{xIdx + 2, yIdx - d * 2})){
+                        opponent[7] = true;
+                    }
                 }
             }
         } else {
@@ -301,9 +315,22 @@ public class Game {
                     opponent[1] = true;
                     deletable[1] = piece;
                 } else if (piece.equals(new int[]{xIdx - 2, yIdx + d * 2})){
-                    opponent[3] = true;
+                    opponent[2] = true;
                 } else if (piece.equals(new int[]{xIdx + 2, yIdx + d * 2})){
-                    opponent[4] = true;
+                    opponent[3] = true;
+                }
+                if(dragging.getKing()){
+                    if (piece.equals(new int[]{xIdx - 1, yIdx - d})){
+                        opponent[4] = true;
+                        deletable[2] = piece;
+                    } else if (piece.equals(new int[]{xIdx + 1, yIdx - d})){
+                        opponent[5] = true;
+                        deletable[3] = piece;
+                    } else if (piece.equals(new int[]{xIdx - 2, yIdx - d * 2})){
+                        opponent[6] = true;
+                    } else if (piece.equals(new int[]{xIdx + 2, yIdx - d * 2})){
+                        opponent[7] = true;
+                    }
                 }
             }
         }
@@ -328,7 +355,7 @@ public class Game {
         }
 
         //TODO: check if is in final row, if so king
-        
+
 
         //TODO: add win trigger and uncomment code
         /*if (player2_pieces.isEmpty()){
