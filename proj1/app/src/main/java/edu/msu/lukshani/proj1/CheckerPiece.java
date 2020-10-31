@@ -73,13 +73,23 @@ public class CheckerPiece {
     }
 
     /**
-     * Move the puzzle piece to new_x, new_y
+     * Move the checker piece to new_x, new_y
      * @param new_x x to move to
      * @param new_y y to move to
      */
     public void setPos(float new_x, float new_y) {
         x = new_x;
         y = new_y;
+    }
+
+    /**
+     * Move the checker piece to new_idx, new_idy
+     * @param new_idx
+     * @param new_idy
+     */
+    public void setIdx(int new_idx, int new_idy) {
+        x_idx = new_idx;
+        y_idx = new_idy;
     }
 
     /**
@@ -175,8 +185,7 @@ public class CheckerPiece {
     }
 
     public boolean equals(int[] idx) {
-        boolean out = false;
-        if (idx == null || idx[0] != getXIdx() || idx[1] != getYIdx()) {
+        if (idx[0] != x_idx || idx[1] != y_idx) {
             return false;
         }
         return true;
