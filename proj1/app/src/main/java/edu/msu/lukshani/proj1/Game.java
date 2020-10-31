@@ -157,12 +157,22 @@ public class Game {
         }
         canvas.restore();
 
-        for (CheckerPiece piece : player1_pieces) {
-            piece.draw(canvas, marginX, marginY, pixelSize);
-        }
+        if(isTurnPlayer1) {
+            for (CheckerPiece piece : player1_pieces) {
+                piece.draw(canvas, marginX, marginY, pixelSize);
+            }
 
-        for (CheckerPiece piece : player2_pieces) {
-            piece.draw(canvas, marginX, marginY, pixelSize);
+            for (CheckerPiece piece : player2_pieces) {
+                piece.draw(canvas, marginX, marginY, pixelSize);
+            }
+        } else {
+            for (CheckerPiece piece : player2_pieces) {
+                piece.draw(canvas, marginX, marginY, pixelSize);
+            }
+
+            for (CheckerPiece piece : player1_pieces) {
+                piece.draw(canvas, marginX, marginY, pixelSize);
+            }
         }
 
     }
