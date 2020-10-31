@@ -12,12 +12,6 @@ public class CheckerPiece {
     private Bitmap piece;
 
     /**
-     * We consider a piece to be in a valid location if within
-     * this distance.
-     */
-    final static float SNAP_DISTANCE = 0.05f;
-
-    /**
      * x location.
      * We use relative x locations in the range 0-1 for the center
      * of the checkers piece.
@@ -30,18 +24,38 @@ public class CheckerPiece {
     private float y = 0;
 
     /**
+     * x index
+     */
+    private int x_idx = 0;
+
+    /**
+     * y index
+     */
+    private int y_idx = 0;
+
+    /**
      * whether the piece is a king or not
      */
     private boolean isKing = false;
+
+    /**
+     * integer representing piece default movement direction
+     */
+    private int direction;
 
     /**
      * valid locations of checker squares
      */
     private float[] valid = {};
 
-    public CheckerPiece(Context context, int id, float[] valid, int posX, int posY) {
+    public CheckerPiece(Context context, int id, float[] valid, int posX, int posY, int direction) {
         this.x = valid[posX];
         this.y = valid[posY];
+
+        this.x_idx = posX;//TODO
+        this.y_idx = posY;
+
+        this.direction = direction;
 
         this.valid = valid;
 
@@ -60,10 +74,62 @@ public class CheckerPiece {
 
     /**
      * Move the puzzle piece to new_x, new_y
-     * @param new_x x amount to move
-     * @param new_y y amount to move
+     * @param new_x x to move to
+     * @param new_y y to move to
      */
     public void setPos(float new_x, float new_y) {
+        x = new_x;
+        y = new_y;
+    }
+
+    /**
+     * return piece x position
+     */
+    public float getX() {
+        return x;
+    }
+
+    /**
+     * return piece y position
+     */
+    public float getY() {
+        return y;
+    }
+
+    /**
+     * return piece x index
+     */
+    public int getXIdx() {
+        return x_idx;
+    }
+
+    /**
+     * return piece y index
+     */
+    public int getYIdx() {
+        return y_idx;
+    }
+
+    /**
+     * return piece direction
+     */
+    public int getDirection() {
+        return direction;
+    }
+
+    /**
+     * return piece kinghood
+     */
+    public boolean getKing() {
+        return isKing;
+    }
+
+    /**
+     * Move the puzzle piece to new_x, new_y
+     * @param new_x x to move to
+     * @param new_y y to move to
+     */
+    public void getIdx(float new_x, float new_y) {
         x = new_x;
         y = new_y;
     }
@@ -118,8 +184,13 @@ public class CheckerPiece {
         return (piece.getPixel(pX, pY) & 0xff000000) != 0;
     }
 
-    public int isValid(){
-        return 1;
+    public boolean equals(int[] idx) {
+        boolean out = false;
+        if (idx == null || idx[0] != getXIdx() || idx[1] != getYIdx()) {
+            return false;
+        }
+        return true;
     }
+
 
 }

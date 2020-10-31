@@ -36,6 +36,12 @@ public class Game {
     private float scaleFactor;
 
     /**
+     * We consider a piece to be in a valid location if within
+     * this distance.
+     */
+    final static float SNAP_DISTANCE = 0.05f;
+
+    /**
      * Left margin in pixels
      */
     private int marginX;
@@ -61,14 +67,14 @@ public class Game {
     private float lastRelY;
 
     /**
-     * boolean for whose turn it is
+     * valid locations of checker squares
      */
-    private boolean isTurnPlayer1 = true;
+    private float[] valid = {.0625f, .1875f, .3125f, .4375f, .5625f, .6875f, .8125f, .9375f};
 
     /**
      * boolean for whose turn it is
      */
-    private boolean isTurnPlayer2 = true;
+    private boolean isTurnPlayer1 = true;
 
     /**
      * This variable is set to a piece we are dragging. If
@@ -81,7 +87,7 @@ public class Game {
      */
     public ArrayList<CheckerPiece> player1_pieces = new ArrayList<CheckerPiece>();
     public ArrayList<CheckerPiece> player2_pieces = new ArrayList<CheckerPiece>();
-    
+
     public Game(Context context){
 
         // Create paint for filling the area the puzzle will
@@ -93,7 +99,7 @@ public class Game {
         for(int i = 5; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 if(i % 2 !=  j % 2) {
-                    player1_pieces.add(new CheckerPiece(context, R.drawable.green, new float[]{.0625f, .1875f, .3125f, .4375f, .5625f, .6875f, .8125f, .9375f}, j, i));
+                    player1_pieces.add(new CheckerPiece(context, R.drawable.green, valid, j, i, -1));
                 }
             }
         }
@@ -102,7 +108,7 @@ public class Game {
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 8; j++){
                 if(i % 2 !=  j % 2) {
-                    player2_pieces.add(new CheckerPiece(context, R.drawable.white, new float[]{.0625f, .1875f, .3125f, .4375f, .5625f, .6875f, .8125f, .9375f}, j, i));
+                    player2_pieces.add(new CheckerPiece(context, R.drawable.white, valid, j, i, 1));
                 }
             }
         }
@@ -116,7 +122,7 @@ public class Game {
         // Determine the minimum of the two dimensions
         int minDim = wid < hit ? wid : hit;
 
-         pixelSize = (int)(minDim * SCALE_IN_VIEW);
+        pixelSize = (int)(minDim * SCALE_IN_VIEW);
 
         // Compute the margins so we center the puzzle
         marginX = (wid - pixelSize) / 2;
@@ -239,26 +245,154 @@ public class Game {
      * @return true if the touch is handled
      */
     private boolean onReleased(View view, float x, float y) {
-        dragging.isValid();
+        isValid();
         if(dragging != null) {
-            if(dragging.isValid() == 1) {
+            /*if(isValid() == 1) {
                 //The movement is valid
-                if (isTurnPlayer1 = !isTurnPlayer1) {
-                    view.invalidate();
-
-            }else if(isTurnPlayer2 = !isTurnPlayer2){
-                    view.invalidate();
-                }
-            else if (dragging.isValid() == 0) {
+                isTurnPlayer1 = !isTurnPlayer1;
+                view.invalidate();
+            } else if(isValid() == 0){
                 dragging.setPos(lastRelX, lastRelY);
-            } else if (dragging.isValid() == -1) {
+            } else if(isValid() == -1){
                 //The movement is valid
                 view.invalidate();
                 //TODO:add double jump code
-            }
-            }
-
+            }*/
             dragging = null;
+            return true;
+        }
+
+        return false;
+    }
+
+    public int isValid(){
+
+        float x = dragging.getX();
+        float y = dragging.getY();
+
+        int xIdx = dragging.getXIdx();
+        int yIdx = dragging.getYIdx();
+
+        int d = dragging.getDirection();
+
+        boolean[] opponent = {false, false, false, false, false, false, false, false};
+        CheckerPiece[] deletable = {null, null, null, null};
+
+        //TODO: create opponent/deletable internal class so this can be turned into a pretty function (private class Opponents {)
+        if(!isTurnPlayer1){
+            for(CheckerPiece piece: player1_pieces){
+                if (piece.equals(new int[]{xIdx - 1, yIdx + d})){
+                    opponent[0] = true;
+                    deletable[0] = piece;
+                } else if (piece.equals(new int[]{xIdx + 1, yIdx + d})){
+                    opponent[1] = true;
+                    deletable[1] = piece;
+                } else if (piece.equals(new int[]{xIdx - 2, yIdx + d * 2})){
+                    opponent[2] = true;
+                } else if (piece.equals(new int[]{xIdx + 2, yIdx + d * 2})){
+                    opponent[3] = true;
+                }
+                if(dragging.getKing()){
+                    if (piece.equals(new int[]{xIdx - 1, yIdx - d})){
+                        opponent[4] = true;
+                        deletable[2] = piece;
+                    } else if (piece.equals(new int[]{xIdx + 1, yIdx - d})){
+                        opponent[5] = true;
+                        deletable[3] = piece;
+                    } else if (piece.equals(new int[]{xIdx - 2, yIdx - d * 2})){
+                        opponent[6] = true;
+                    } else if (piece.equals(new int[]{xIdx + 2, yIdx - d * 2})){
+                        opponent[7] = true;
+                    }
+                }
+            }
+        } else {
+            for(CheckerPiece piece: player2_pieces){
+                if (piece.equals(new int[]{xIdx - 1, yIdx + d})){
+                    opponent[0] = true;
+                    deletable[0] = piece;
+                } else if (piece.equals(new int[]{xIdx + 1, yIdx + d})){
+                    opponent[1] = true;
+                    deletable[1] = piece;
+                } else if (piece.equals(new int[]{xIdx - 2, yIdx + d * 2})){
+                    opponent[2] = true;
+                } else if (piece.equals(new int[]{xIdx + 2, yIdx + d * 2})){
+                    opponent[3] = true;
+                }
+                if(dragging.getKing()){
+                    if (piece.equals(new int[]{xIdx - 1, yIdx - d})){
+                        opponent[4] = true;
+                        deletable[2] = piece;
+                    } else if (piece.equals(new int[]{xIdx + 1, yIdx - d})){
+                        opponent[5] = true;
+                        deletable[3] = piece;
+                    } else if (piece.equals(new int[]{xIdx - 2, yIdx - d * 2})){
+                        opponent[6] = true;
+                    } else if (piece.equals(new int[]{xIdx + 2, yIdx - d * 2})){
+                        opponent[7] = true;
+                    }
+                }
+            }
+        }
+
+        //TODO: add 'hypothetical' boolean to the function call to use for determining if a double jump is possible
+        //move one space
+        if(oneSpace(x, y, xIdx, yIdx, d, -1, opponent[0]) || oneSpace(x, y, xIdx, yIdx, d, 1, opponent[1])){
+            return 1;
+        }
+
+        if(twoSpace(x, y, xIdx, yIdx, d, -1, opponent[2], opponent[0], deletable[0]) || twoSpace(x, y, xIdx, yIdx, d, 1, opponent[3], opponent[1], deletable[1])){
+            return 1;
+        }
+
+        if(dragging.getKing()){
+            if(oneSpace(x, y, xIdx, yIdx, -1 * d, -1, opponent[0]) || oneSpace(x, y, xIdx, yIdx, -1 * d, 1, opponent[1])){
+                return 1;
+            }
+            if(twoSpace(x, y, xIdx, yIdx, -1 * d, -1, opponent[2], opponent[0], deletable[0]) || twoSpace(x, y, xIdx, yIdx, -1 * d, 1, opponent[3], opponent[1], deletable[1])){
+                return 1;
+            }
+        }
+
+        //TODO: check if is in final row, if so king
+
+
+        //TODO: add win trigger and uncomment code
+        /*if (player2_pieces.isEmpty()){
+            //player 1 win
+        } else if (player1_pieces.isEmpty()){
+            //player 2 win
+        }*/
+
+        return 0;
+    }
+
+    public boolean oneSpace(float x, float y, int xIdx, int yIdx, int yD, int xD, boolean opponent){
+        if (xIdx - xD < 0 || xIdx - xD > 7 || yIdx + yD < 0 ||  yIdx + yD > 7){
+            return false;
+        }
+
+        if(Math.abs(x - valid[xIdx + xD]) < SNAP_DISTANCE &&
+                Math.abs(y - valid[yIdx + yD]) < SNAP_DISTANCE && !opponent) {
+            dragging.setPos(valid[xIdx + xD], valid[yIdx + yD]);
+            return true;
+        }
+        return false;
+    }
+
+    public boolean twoSpace(float x, float y, int xIdx, int yIdx, int yD, int xD, boolean opponent, boolean victim, CheckerPiece deletable){
+        if (xIdx - xD * 2 < 0 || xIdx - xD * 2 > 7 || yIdx + yD * 2 < 0 ||  yIdx + yD * 2 > 7){
+            return false;
+        }
+
+        if(Math.abs(x - valid[xIdx - xD * 2]) < SNAP_DISTANCE &&
+                Math.abs(y - valid[yIdx + yD * 2]) < SNAP_DISTANCE && !opponent && victim) {
+            if (!isTurnPlayer1) {
+                player1_pieces.remove(deletable);
+            } else {
+                player2_pieces.remove(deletable);
+            }
+            dragging.setPos(valid[xIdx - xD * 2], valid[yIdx + yD * 2]);
             return true;
         }
         return false;
