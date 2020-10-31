@@ -6,6 +6,18 @@
     android:layout_height="match_parent"
     tools:context=".EndActivity">
 
+    <TextView
+        android:id="@+id/endMessage"
+        android:layout_width="249dp"
+        android:layout_height="120dp"
+        android:gravity="center"
+        android:text="@string/endMessage"
+        android:textSize="28sp"
+        app:layout_constraintBottom_toTopOf="@+id/restart"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <Button
         android:id="@+id/restart"
         android:layout_width="wrap_content"
@@ -13,6 +25,6 @@
         android:text="@string/restart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

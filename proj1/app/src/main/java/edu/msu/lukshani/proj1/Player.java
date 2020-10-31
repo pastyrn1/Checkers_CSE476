@@ -49,22 +49,17 @@ public class Player {
     final static float SCALE_IN_VIEW = 1;
 
     /**
-     * valid locations of checker squares
-     */
-    private float[] valid = {.0625f, .1875f, .3125f, .4375f, .5625f, .6875f, .8125f, .9375f};
-
-    /**
      * Collection of player's checker pieces
      */
     public ArrayList<CheckerPiece> pieces = new ArrayList<CheckerPiece>();
 
     public Player(Context context, boolean flip) {
-        /*if (flip){
+        if (flip){
             //create upper pieces
             for(int i = 0; i < 3; i++){
                 for(int j = 0; j < 8; j++){
                     if(i % 2 !=  j % 2) {
-                        pieces.add(new CheckerPiece(context, R.drawable.white, valid, j, i));
+                        pieces.add(new CheckerPiece(context, R.drawable.white, new float[]{.0625f, .1875f, .3125f, .4375f, .5625f, .6875f, .8125f, .9375f}, j, i));
                     }
                 }
             }
@@ -74,12 +69,12 @@ public class Player {
             for(int i = 5; i < 8; i++){
                 for(int j = 0; j < 8; j++){
                     if(i % 2 !=  j % 2) {
-                        pieces.add(new CheckerPiece(context, R.drawable.green, valid, j, i));
+                        pieces.add(new CheckerPiece(context, R.drawable.green, new float[]{.0625f, .1875f, .3125f, .4375f, .5625f, .6875f, .8125f, .9375f}, j, i));
                     }
                 }
             }
 
-        }*/
+        }
 
     }
 
