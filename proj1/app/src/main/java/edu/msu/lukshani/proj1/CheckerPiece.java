@@ -158,12 +158,13 @@ public class CheckerPiece {
 
         // Make relative to the location and size to the piece size
         int pX = (int)((testX - x) * pixelSize) +
-                piece.getWidth() / 2;
+                pixelSize/8 / 2;
         int pY = (int)((testY - y) * pixelSize) +
-                piece.getHeight() / 2;
+                pixelSize/8 / 2;
 
-        if(pX < 0 || pX >= piece.getWidth() ||
-                pY < 0 || pY >= piece.getHeight()) {
+        //TODO: make this range slightly wider so it isn't so finicky
+        if(pX < 0 || pX >= pixelSize/8 ||
+                pY < 0 || pY >= pixelSize/8) {
             return false;
         }
 
