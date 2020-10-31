@@ -31,11 +31,6 @@ public class Game {
     private int pixelSize;
 
     /**
-     * THe size of the board
-     */
-    private int boardSize;
-
-    /**
      * How much we scale the puzzle pieces
      */
     private float scaleFactor;
@@ -187,7 +182,7 @@ public class Game {
 
             case MotionEvent.ACTION_UP:
             case MotionEvent.ACTION_CANCEL:
-                //return onReleased(view, relX, relY);
+                return onReleased(view, relX, relY);
 
             case MotionEvent.ACTION_MOVE:
                 // If we are dragging, move the piece and force a redraw
@@ -198,7 +193,7 @@ public class Game {
                     //view.invalidate();
                     return true;
                 }
-
+                break;
         }
 
         return false;
@@ -214,10 +209,8 @@ public class Game {
 
         // Check each piece to see if it has been hit
         // We do this in reverse order so we find the pieces in front
-        for(int p1 = player1_pieces.size()-1; p1>=0;  p1--)
-        {
-            if(player1_pieces.get(p1).hit(x, y, pixelSize, boardSize, scaleFactor))
-            {
+        for(int p1 = player1_pieces.size()-1; p1>=0;  p1--) {
+            if(player1_pieces.get(p1).hit(x, y, pixelSize, scaleFactor)) {
                 // We hit player 1 piece!
                 dragging = player1_pieces.get(p1);
                 lastRelX = x;
@@ -225,11 +218,9 @@ public class Game {
                 return true;
             }
 
-
         }
         for(int p2 = player2_pieces.size()-1; p2>=0;  p2--) {
-            if(player2_pieces.get(p2).hit(x, y, pixelSize, boardSize, scaleFactor))
-            {
+            if(player2_pieces.get(p2).hit(x, y, pixelSize, scaleFactor)) {
                 // We hit player2 piece!
                 dragging = player2_pieces.get(p2);
                 lastRelX = x;
@@ -246,7 +237,7 @@ public class Game {
      * @param x x location for the touch release, relative to the puzzle - 0 to 1 over the puzzle
      * @param y y location for the touch release, relative to the puzzle - 0 to 1 over the puzzle
      * @return true if the touch is handled
-
+     */
     private boolean onReleased(View view, float x, float y) {
         dragging.isValid();
         if(dragging != null) {
@@ -273,5 +264,5 @@ public class Game {
         return false;
     }
 
-*/
+
 }

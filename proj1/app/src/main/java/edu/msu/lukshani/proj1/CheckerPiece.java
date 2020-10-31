@@ -50,7 +50,6 @@ public class CheckerPiece {
 
     /**
      * Move the puzzle piece by dx, dy
-     *
      * @param dx x amount to move
      * @param dy y amount to move
      */
@@ -61,7 +60,6 @@ public class CheckerPiece {
 
     /**
      * Move the puzzle piece to new_x, new_y
-     *
      * @param new_x x amount to move
      * @param new_y y amount to move
      */
@@ -72,11 +70,10 @@ public class CheckerPiece {
 
     /**
      * Draw the checker piece
-     *
-     * @param canvas      Canvas we are drawing on
-     * @param marginX     Margin x value in pixels
-     * @param marginY     Margin y value in pixels
-     * @param boardSize   Size we draw the checker board in pixels
+     * @param canvas Canvas we are drawing on
+     * @param marginX Margin x value in pixels
+     * @param marginY Margin y value in pixels
+     * @param boardSize Size we draw the checker board in pixels
      * @param scaleFactor Amount we scale the checker pieces when we draw them
      */
     public void draw(Canvas canvas, int marginX, int marginY,
@@ -87,30 +84,31 @@ public class CheckerPiece {
         canvas.translate(marginX + x * boardSize, marginY + y * boardSize);
 
         // Center of the piece at 0, 0
-        canvas.translate(-(boardSize / 8) / 2f, -(boardSize / 8) / 2f);
+        canvas.translate(-(boardSize/8) / 2f, -(boardSize/8) / 2f);
 
         // Draw the bitmap
-        canvas.drawBitmap(Bitmap.createScaledBitmap(piece, boardSize / 8, boardSize / 8, false), 0, 0, null);
+        canvas.drawBitmap(Bitmap.createScaledBitmap(piece, boardSize/8, boardSize/8, false), 0, 0, null);
         canvas.restore();
     }
 
     /**
      * Test to see if we have touched a puzzle piece
-     *
-     * @param testX       X location as a normalized coordinate (0 to 1)
-     * @param testY       Y location as a normalized coordinate (0 to 1)
-     * @param pixelSize   the size of the puzzle in pixels
+     * @param testX X location as a normalized coordinate (0 to 1)
+     * @param testY Y location as a normalized coordinate (0 to 1)
+     * @param pixelSize the size of the puzzle in pixels
      * @param scaleFactor the amount to scale a piece by
      * @return true if we hit the piece
      */
     public boolean hit(float testX, float testY,
-                       int pixelSize, int boardSize, float scaleFactor) {
+                       int pixelSize, float scaleFactor) {
 
         // Make relative to the location and size to the piece size
-        int pX = (int) (testX - x) * (boardSize / 8) / 2;
-        int pY = (int) (testY - y) * (boardSize / 8) / 2;
+        int pX = (int)((testX - x) * pixelSize / scaleFactor) +
+                piece.getWidth() / 2;
+        int pY = (int)((testY - y) * pixelSize / scaleFactor) +
+                piece.getHeight() / 2;
 
-        if (pX < 0 || pX >= piece.getWidth() ||
+        if(pX < 0 || pX >= piece.getWidth() ||
                 pY < 0 || pY >= piece.getHeight()) {
             return false;
         }
@@ -119,10 +117,9 @@ public class CheckerPiece {
         // Are we touching actual picture?
         return (piece.getPixel(pX, pY) & 0xff000000) != 0;
     }
-/*
+
     public int isValid(){
         return 1;
     }
 
- */
 }
