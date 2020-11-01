@@ -1,5 +1,6 @@
 package edu.msu.lukshani.proj1;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,6 +15,7 @@ public class OpenActivity extends AppCompatActivity {
     EditText nameInput;
     EditText nameInput2;
     Button button;
+    Button instructButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +25,13 @@ public class OpenActivity extends AppCompatActivity {
         button = findViewById(R.id.startButton);
         nameInput = findViewById(R.id.player1name);
         nameInput2 = findViewById(R.id.player2name);
+        instructButton = findViewById(R.id.dialogueButton);
+        instructButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openDialog();
+            }
+        });
 
 
         button.setOnClickListener(new View.OnClickListener() {
@@ -40,9 +49,25 @@ public class OpenActivity extends AppCompatActivity {
         nameInput2.setText(R.string.player2text);
 
     }
-
-//            public void onStart(View view) {
-//                startActivity(new Intent(OpenActivity.this, GameActivity.class));
-//            }
+    public void openDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Instructions");
+            builder.setMessage("One player has the green pieces; the other has the white pieces. " +
+                    "Players alternate turns. A player may not move an opponent's piece. " +
+                    "A move consists of moving a piece diagonally to an adjacent unoccupied square. " +
+                    "If the adjacent square contains an opponent's piece, and the square " +
+                    "immediately beyond it is vacant, the piece may be captured " +
+                    "(and removed from the game) by jumping over it.");
+            builder.setPositiveButton(android.R.string.ok, null);
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+    }
 
 }
+//  DIALOG BOX
+//AlertDialogue.Builder builder = new AlertDialog.Builder((view.getContext());)
+//         builder.setTitle("Instructions")
+//        builder.setMessage("Instructional how to steps")
+//        builder.setPositiveButton(android.R.string.ok, null);
+//        AlertDialog alertDialog = builder.create();
+//        alertDialog.show();
