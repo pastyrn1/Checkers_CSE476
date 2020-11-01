@@ -158,19 +158,20 @@ public class Game {
         canvas.restore();
 
         if(isTurnPlayer1) {
-            for (CheckerPiece piece : player1_pieces) {
+            for (CheckerPiece piece : player2_pieces) {
                 piece.draw(canvas, marginX, marginY, pixelSize);
+
             }
 
-            for (CheckerPiece piece : player2_pieces) {
+            for (CheckerPiece piece : player1_pieces) {
                 piece.draw(canvas, marginX, marginY, pixelSize);
             }
         } else {
-            for (CheckerPiece piece : player2_pieces) {
+            for (CheckerPiece piece : player1_pieces) {
                 piece.draw(canvas, marginX, marginY, pixelSize);
             }
 
-            for (CheckerPiece piece : player1_pieces) {
+            for (CheckerPiece piece : player2_pieces) {
                 piece.draw(canvas, marginX, marginY, pixelSize);
             }
         }
