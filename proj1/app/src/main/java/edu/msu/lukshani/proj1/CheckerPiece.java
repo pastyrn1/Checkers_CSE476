@@ -12,6 +12,11 @@ public class CheckerPiece {
     private Bitmap piece;
 
     /**
+     * The image for the kinged piece.
+     */
+    private Bitmap kinged;
+
+    /**
      * x location.
      * We use relative x locations in the range 0-1 for the center
      * of the checkers piece.
@@ -48,7 +53,7 @@ public class CheckerPiece {
      */
     private float[] valid = {};
 
-    public CheckerPiece(Context context, int id, float[] valid, int posX, int posY, int direction) {
+    public CheckerPiece(Context context, int id, int k_id, float[] valid, int posX, int posY, int direction) {
         this.x = valid[posX];
         this.y = valid[posY];
 
@@ -60,6 +65,15 @@ public class CheckerPiece {
         this.valid = valid;
 
         piece = BitmapFactory.decodeResource(context.getResources(), id);
+        kinged = BitmapFactory.decodeResource(context.getResources(), k_id);
+    }
+
+    /**
+     * king the piece
+     */
+    public void king(){
+        isKing = true;
+        piece = kinged;
     }
 
     /**

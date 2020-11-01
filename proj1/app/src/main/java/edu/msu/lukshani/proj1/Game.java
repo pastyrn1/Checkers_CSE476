@@ -77,6 +77,12 @@ public class Game {
     private boolean isTurnPlayer1 = true;
 
     /**
+     * This variable is set to a piece capable of a second or third jump. If
+     * we are not multijumping, the variable is null.
+     */
+    private CheckerPiece jumper = null;
+
+    /**
      * This variable is set to a piece we are dragging. If
      * we are not dragging, the variable is null.
      */
@@ -99,7 +105,7 @@ public class Game {
         for(int i = 5; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 if(i % 2 !=  j % 2) {
-                    player1_pieces.add(new CheckerPiece(context, R.drawable.green, valid, j, i, -1));
+                    player1_pieces.add(new CheckerPiece(context, R.drawable.green, R.drawable.spartan_green, valid, j, i, -1));
                 }
             }
         }
@@ -108,7 +114,7 @@ public class Game {
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 8; j++){
                 if(i % 2 !=  j % 2) {
-                    player2_pieces.add(new CheckerPiece(context, R.drawable.white, valid, j, i, 1));
+                    player2_pieces.add(new CheckerPiece(context, R.drawable.white, R.drawable.spartan_white, valid, j, i, 1));
                 }
             }
         }
@@ -230,14 +236,16 @@ public class Game {
             for(int p = player1_pieces.size()-1; p>=0;  p--) {
                 if(player1_pieces.get(p).hit(x, y, pixelSize)) {
                     // We hit player 1 piece!
-                    dragging = player1_pieces.get(p);
-                    preX = dragging.getX();
-                    preY = dragging.getY();
-                    player1_pieces.set(p, player1_pieces.get(player1_pieces.size()-1));
-                    player1_pieces.set(player1_pieces.size()-1, dragging);
-                    lastRelX = x;
-                    lastRelY = y;
-                    return true;
+                    if(jumper == null || player1_pieces.get(p) == jumper) {
+                        dragging = player1_pieces.get(p);
+                        preX = dragging.getX();
+                        preY = dragging.getY();
+                        player1_pieces.set(p, player1_pieces.get(player1_pieces.size() - 1));
+                        player1_pieces.set(player1_pieces.size() - 1, dragging);
+                        lastRelX = x;
+                        lastRelY = y;
+                        return true;
+                    }
                 }
 
             }
@@ -245,14 +253,16 @@ public class Game {
             for (int p = player2_pieces.size() - 1; p >= 0; p--) {
                 if (player2_pieces.get(p).hit(x, y, pixelSize)) {
                     // We hit player2 piece!
-                    dragging = player2_pieces.get(p);
-                    preX = dragging.getX();
-                    preY = dragging.getY();
-                    player2_pieces.set(p, player2_pieces.get(player2_pieces.size()-1));
-                    player2_pieces.set(player2_pieces.size()-1, dragging);
-                    lastRelX = x;
-                    lastRelY = y;
-                    return true;
+                    if(jumper == null || player2_pieces.get(p) == jumper) {
+                        dragging = player2_pieces.get(p);
+                        preX = dragging.getX();
+                        preY = dragging.getY();
+                        player2_pieces.set(p, player2_pieces.get(player2_pieces.size() - 1));
+                        player2_pieces.set(player2_pieces.size() - 1, dragging);
+                        lastRelX = x;
+                        lastRelY = y;
+                        return true;
+                    }
                 }
 
             }
@@ -269,17 +279,22 @@ public class Game {
     private boolean onReleased(View view, float x, float y) {
         //isValid();
         if(dragging != null) {
-            if(isValid() == 1) {
+            int v = isValid();
+
+            if(v == 1) {
                 //The movement is valid
                 isTurnPlayer1 = !isTurnPlayer1;
+                jumper = null;
+                view.invalidate();
+            } else if(v == -1){
+                //The movement is valid, multi jump has begun
+                jumper = dragging;
                 view.invalidate();
             } else {
                 dragging.setPos(preX, preY);
-            } /*else if(isValid() == -1){
-                //The movement is valid
                 view.invalidate();
-                //TODO:add double jump code
-            }*/
+            }
+
             dragging = null;
             return true;
         }
@@ -297,87 +312,60 @@ public class Game {
 
         int d = dragging.getDirection();
 
-        boolean[] opponent = {false, false, false, false, false, false, false, false};
-        CheckerPiece[] deletable = {null, null, null, null};
+        boolean king = dragging.getKing();
 
-        //TODO: create opponent/deletable internal class so this can be turned into a pretty function (private class Opponents {)
-        if(!isTurnPlayer1){
-            for(CheckerPiece piece: player1_pieces){
-                if (xIdx - 1 > 0 && yIdx + d > 0 && yIdx + d < 7 && piece.equals(new int[]{xIdx - 1, yIdx + d})){
-                    opponent[0] = true;
-                    deletable[0] = piece;
-                } else if (xIdx + 1 < 7 && yIdx + d > 0 && yIdx + d < 7 && piece.equals(new int[]{xIdx + 1, yIdx + d})){
-                    opponent[1] = true;
-                    deletable[1] = piece;
-                } else if (xIdx - 2 > 0 && yIdx + d * 2 > 0 && yIdx + d * 2 < 7 && piece.equals(new int[]{xIdx - 2, yIdx + d * 2})){
-                    opponent[2] = true;
-                } else if (xIdx + 2 < 7 && yIdx + d * 2 > 0 && yIdx + d * 2 < 7 && piece.equals(new int[]{xIdx + 2, yIdx + d * 2})){
-                    opponent[3] = true;
-                }
-                if(dragging.getKing()){
-                    if (xIdx - 1 > 0 && yIdx - d > 0 && yIdx - d < 7 && piece.equals(new int[]{xIdx - 1, yIdx - d})){
-                        opponent[4] = true;
-                        deletable[2] = piece;
-                    } else if (xIdx + 1 < 7 && yIdx - d > 0 && yIdx - d < 7 && piece.equals(new int[]{xIdx + 1, yIdx - d})){
-                        opponent[5] = true;
-                        deletable[3] = piece;
-                    } else if (xIdx - 2 > 0 && yIdx - d * 2 > 0 && yIdx - d * 2 < 7 && piece.equals(new int[]{xIdx - 2, yIdx - d * 2})){
-                        opponent[6] = true;
-                    } else if (xIdx + 2 < 7 && yIdx - d * 2 > 0 && yIdx - d * 2 < 7 && piece.equals(new int[]{xIdx + 2, yIdx - d * 2})){
-                        opponent[7] = true;
-                    }
-                }
-            }
-        } else {
-            for(CheckerPiece piece: player2_pieces){
-                if (xIdx - 1 > 0 && yIdx + d > 0 && yIdx + d < 7 && piece.equals(new int[]{xIdx - 1, yIdx + d})){
-                    opponent[0] = true;
-                    deletable[0] = piece;
-                } else if (xIdx + 1 < 7 && yIdx + d > 0 && yIdx + d < 7 && piece.equals(new int[]{xIdx + 1, yIdx + d})){
-                    opponent[1] = true;
-                    deletable[1] = piece;
-                } else if (xIdx - 2 > 0 && yIdx + d * 2 > 0 && yIdx + d * 2 < 7 && piece.equals(new int[]{xIdx - 2, yIdx + d * 2})){
-                    opponent[2] = true;
-                } else if (xIdx + 2 < 7 && yIdx + d * 2 > 0 && yIdx + d * 2 < 7 && piece.equals(new int[]{xIdx + 2, yIdx + d * 2})){
-                    opponent[3] = true;
-                }
-                if(dragging.getKing()){
-                    if (xIdx - 1 > 0 && yIdx - d > 0 && yIdx - d < 7 && piece.equals(new int[]{xIdx - 1, yIdx - d})){
-                        opponent[4] = true;
-                        deletable[2] = piece;
-                    } else if (xIdx + 1 < 7 && yIdx - d > 0 && yIdx - d < 7 && piece.equals(new int[]{xIdx + 1, yIdx - d})){
-                        opponent[5] = true;
-                        deletable[3] = piece;
-                    } else if (xIdx - 2 > 0 && yIdx - d * 2 > 0 && yIdx - d * 2 < 7 && piece.equals(new int[]{xIdx - 2, yIdx - d * 2})){
-                        opponent[6] = true;
-                    } else if (xIdx + 2 < 7 && yIdx - d * 2 > 0 && yIdx - d * 2 < 7 && piece.equals(new int[]{xIdx + 2, yIdx - d * 2})){
-                        opponent[7] = true;
-                    }
-                }
-            }
+        Opponents o = new Opponents(d, xIdx, yIdx, player1_pieces, king);
+        Opponents a = new Opponents(d, xIdx, yIdx, player2_pieces, king);
+
+        if(isTurnPlayer1) {
+            o = a;
+            a = new Opponents(d, xIdx, yIdx, player1_pieces, king);
         }
 
-        //TODO: add 'hypothetical' boolean to the function call to use for determining if a double jump is possible
+        boolean[] opponent = o.getOpponent();
+        boolean[] ally = a.getOpponent();
+        CheckerPiece[] deletable = o.getDeletable();
+
         //move one space
-        if(oneSpace(x, y, xIdx, yIdx, d, -1, opponent[0]) || oneSpace(x, y, xIdx, yIdx, d, 1, opponent[1])){
+        if(oneSpace(x, y, xIdx, yIdx, d, -1, opponent[0] || ally[0]) ||
+                oneSpace(x, y, xIdx, yIdx, d, 1, opponent[1] || ally[1]) ||
+                (dragging.getKing() && oneSpace(x, y, xIdx, yIdx, -1 * d, -1, opponent[4] || ally[4]) ||
+                        oneSpace(x, y, xIdx, yIdx, -1 * d, 1, opponent[5] || ally[5]))){
             return 1;
         }
 
-        if(twoSpace(x, y, xIdx, yIdx, d, -1, opponent[2], opponent[0], deletable[0]) || twoSpace(x, y, xIdx, yIdx, d, 1, opponent[3], opponent[1], deletable[1])){
+        if(twoSpace(x, y, xIdx, yIdx, d, -1, opponent[2] || ally[2], opponent[0], deletable[0]) ||
+                twoSpace(x, y, xIdx, yIdx, d, 1, opponent[3] || ally[3], opponent[1], deletable[1])
+                || (dragging.getKing() && (twoSpace(x, y, xIdx, yIdx, -1 * d, -1, opponent[6] || ally[6], opponent[4], deletable[2]) ||
+                twoSpace(x, y, xIdx, yIdx, -1 * d, 1, opponent[7] || ally[7], opponent[5], deletable[3])))){
+
+            xIdx = dragging.getXIdx();
+            yIdx = dragging.getYIdx();
+
+            king = dragging.getKing();
+
+            o.reset();
+            a.reset();
+
+            if (!isTurnPlayer1) {
+                o.survey(xIdx, yIdx, player1_pieces, king);
+                a.survey(xIdx, yIdx, player2_pieces, king);
+            } else {
+                o.survey(xIdx, yIdx, player2_pieces, king);
+                a.survey(xIdx, yIdx, player1_pieces, king);
+            }
+
+            opponent = o.getOpponent();
+            ally = a.getOpponent();
+
+            if(canJump(xIdx, yIdx, d, -1, opponent[2] || ally[2], opponent[0]) ||
+                    canJump(xIdx, yIdx, d, 1, opponent[3] || ally[3], opponent[1]) ||
+                    (dragging.getKing() && (canJump(xIdx, yIdx, -1 * d, -1, opponent[6] || ally[6], opponent[4]) ||
+                            canJump(xIdx, yIdx, -1 * d, 1, opponent[7] || ally[7], opponent[3])))){
+                return -1;
+            }
             return 1;
-        }
-
-        if(dragging.getKing()){
-            if(oneSpace(x, y, xIdx, yIdx, -1 * d, -1, opponent[0]) || oneSpace(x, y, xIdx, yIdx,-1 * d, 1, opponent[1])){
-                return 1;
-            }
-            if(twoSpace(x, y, xIdx, yIdx, -1 * d, -1, opponent[2], opponent[0], deletable[0]) || twoSpace(x, y, xIdx, yIdx,-1 * d, 1, opponent[3], opponent[1], deletable[1])){
-                return 1;
-            }
-        }
-
-        //TODO: check if is in final row, if so king
-
+        } //TODO:identify and fix overlap and civilian king bugs
 
         //TODO: add win trigger and uncomment code
         /*if (player2_pieces.isEmpty()){
@@ -389,6 +377,87 @@ public class Game {
         return 0;
     }
 
+    private void king_check(int d, int xIdx, int yIdx){
+        if(((d > 0 && yIdx >= 7) || (d < 0 && yIdx <= 0)) && !dragging.getKing()){
+            dragging.king();
+        }
+    }
+
+    private class Opponents {
+        /**
+         * If there are opponents at indexes:
+         *   2       3
+         *     0   1
+         *       X
+         *     4   5
+         *   6       7
+         */
+        boolean[] opponent = {false, false, false, false, false, false, false, false};
+
+        /**
+         * Current potential victims
+         *   0   1
+         *     X
+         *   2   3
+         */
+        CheckerPiece[] deletable = {null, null, null, null};
+
+        /**
+         * Current direction
+         */
+        int dir;
+
+        public boolean[] getOpponent(){
+            return opponent;
+        }
+
+        public CheckerPiece[] getDeletable(){
+            return deletable;
+        }
+
+        public Opponents(int d, int xIdx, int yIdx, ArrayList<CheckerPiece> player_pieces, boolean king){
+            dir = d;
+            survey(xIdx, yIdx, player_pieces, king);
+        }
+
+        public void reset(){
+            opponent = new boolean[]{false, false, false, false, false, false, false, false};
+            deletable = new CheckerPiece[]{null, null, null, null};
+        }
+
+        public void survey(int xIdx, int yIdx, ArrayList<CheckerPiece> player_pieces, boolean king){
+            for(CheckerPiece piece: player_pieces){
+
+                if (xIdx - 1 >= 0 && yIdx + dir >= 0 && yIdx + dir <= 7 && piece.equals(new int[]{xIdx - 1, yIdx + dir})){
+                    opponent[0] = true;
+                    deletable[0] = piece;
+                } else if (xIdx + 1 <= 7 && yIdx + dir >= 0 && yIdx + dir <= 7 && piece.equals(new int[]{xIdx + 1, yIdx + dir})){
+                    opponent[1] = true;
+                    deletable[1] = piece;
+                } else if (xIdx - 2 >= 0 && yIdx + dir * 2 >= 0 && yIdx + dir * 2 <= 7 && piece.equals(new int[]{xIdx - 2, yIdx + dir * 2})){
+                    opponent[2] = true;
+                } else if (xIdx + 2 <= 7 && yIdx + dir * 2 >= 0 && yIdx + dir * 2 <= 7 && piece.equals(new int[]{xIdx + 2, yIdx + dir * 2})){
+                    opponent[3] = true;
+                }
+                if(king){
+                    if (xIdx - 1 >= 0 && yIdx - dir >= 0 && yIdx - dir <= 7 && piece.equals(new int[]{xIdx - 1, yIdx - dir})){
+                        opponent[4] = true;
+                        deletable[2] = piece;
+                    } else if (xIdx + 1 <= 7 && yIdx - dir >= 0 && yIdx - dir <= 7 && piece.equals(new int[]{xIdx + 1, yIdx - dir})){
+                        opponent[5] = true;
+                        deletable[3] = piece;
+                    } else if (xIdx - 2 >= 0 && yIdx - dir * 2 >= 0 && yIdx - dir * 2 <= 7 && piece.equals(new int[]{xIdx - 2, yIdx - dir * 2})){
+                        opponent[6] = true;
+                    } else if (xIdx + 2 <= 7 && yIdx - dir * 2 >= 0 && yIdx - dir * 2 <= 7 && piece.equals(new int[]{xIdx + 2, yIdx - dir * 2})){
+                        opponent[7] = true;
+                    }
+                }
+            }
+        }
+
+    }
+
+
     public boolean oneSpace(float x, float y, int xIdx, int yIdx, int yD, int xD, boolean opponent){
         if (xIdx + xD < 0 || xIdx + xD > 7 || yIdx + yD < 0 ||  yIdx + yD > 7){
             return false;
@@ -398,6 +467,9 @@ public class Game {
                 Math.abs(y - valid[yIdx + yD]) < SNAP_DISTANCE && !opponent) {
             dragging.setPos(valid[xIdx + xD], valid[yIdx + yD]);
             dragging.setIdx(xIdx + xD, yIdx + yD);
+
+            king_check(yD, xIdx + xD, yIdx + yD);
+
             return true;
         }
         return false;
@@ -410,6 +482,7 @@ public class Game {
 
         if(Math.abs(x - valid[xIdx + xD * 2]) < SNAP_DISTANCE &&
                 Math.abs(y - valid[yIdx + yD * 2]) < SNAP_DISTANCE && !opponent && victim) {
+
             if (!isTurnPlayer1) {
                 player1_pieces.remove(deletable);
             } else {
@@ -417,8 +490,23 @@ public class Game {
             }
             dragging.setPos(valid[xIdx + xD * 2], valid[yIdx + yD * 2]);
             dragging.setIdx(xIdx + xD * 2, yIdx + yD * 2);
+
+            king_check(yD, xIdx + xD * 2, yIdx + yD * 2);
+
             return true;
         }
+        return false;
+    }
+
+    public boolean canJump(int xIdx, int yIdx, int yD, int xD, boolean opponent, boolean victim){
+        if (xIdx + xD * 2 < 0 || xIdx + xD * 2 > 7 || yIdx + yD * 2 < 0 ||  yIdx + yD * 2 > 7){
+            return false;
+        }
+
+        if(!opponent && victim){
+            return true;
+        }
+
         return false;
     }
 
