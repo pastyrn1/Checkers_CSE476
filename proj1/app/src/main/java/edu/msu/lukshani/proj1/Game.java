@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -67,12 +68,12 @@ public class Game {
     private float preY;
 
     /**
-     * valid locations of checker squares
+     * Valid locations of checker squares
      */
     private float[] valid = {.0625f, .1875f, .3125f, .4375f, .5625f, .6875f, .8125f, .9375f};
 
     /**
-     * boolean for whose turn it is
+     * A boolean for whose turn it is
      */
     private boolean isTurnPlayer1 = true;
 
@@ -89,15 +90,22 @@ public class Game {
     private CheckerPiece dragging = null;
 
     /**
-     * Collection of checker pieces
+     * The name of the bundle keys to save the game
+     */
+    private final static String P1LOCATIONS = "Game.p1locations";
+    private final static String P2LOCATIONS = "Game.p2locations";
+    private final static String P1IDS = "Game.p1ids";
+    private final static String P2IDS = "Game.p2ids";
+
+    /**
+     * Collection of checker pieces for each player
      */
     public ArrayList<CheckerPiece> player1_pieces = new ArrayList<CheckerPiece>();
     public ArrayList<CheckerPiece> player2_pieces = new ArrayList<CheckerPiece>();
 
     public Game(Context context){
 
-        // Create paint for filling the area the puzzle will
-        // be solved in.
+        // Create paint for filling the game board
         fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         fillPaint.setColor(0xff006400);
 
@@ -120,6 +128,69 @@ public class Game {
         }
     }
 
+    /**
+     * Save the game to a bundle
+     * @param bundle The bundle we save to
+     */
+    public void saveInstanceState(Bundle bundle) {
+        int [] player_1_locations = new int[player1_pieces.size() * 2];
+        int [] player_2_locations = new int[player2_pieces.size() * 2];
+        int [] player_1_ids = new int[player1_pieces.size()];
+        int [] player_2_ids = new int[player2_pieces.size()];
+
+        for(int i=0;  i<player1_pieces.size(); i++) {
+            CheckerPiece piece = player1_pieces.get(i);
+            player_1_locations[i*2] = piece.getXIdx();
+            player_1_locations[i*2+1] = piece.getYIdx();
+            player_1_ids[i] = piece.getId();
+        }
+
+        for(int i=0;  i<player2_pieces.size(); i++) {
+            CheckerPiece piece = player2_pieces.get(i);
+            player_2_locations[i*2] = piece.getXIdx();
+            player_2_locations[i*2+1] = piece.getYIdx();
+            player_2_ids[i] = piece.getId();
+        }
+
+        bundle.putIntArray(P1LOCATIONS, player_1_locations);
+        bundle.putIntArray(P2LOCATIONS, player_2_locations);
+        bundle.putIntArray(P1IDS,  player_1_ids);
+        bundle.putIntArray(P2IDS,  player_1_ids);
+    }
+
+    /**
+     * Read the game from a bundle
+     * @param bundle The bundle we save to
+     */
+    public void loadInstanceState(Bundle bundle) {
+        int [] player_1_locations = bundle.getIntArray(P1LOCATIONS);
+        int [] player_2_locations = bundle.getIntArray(P2LOCATIONS);
+        int [] player_1_ids = bundle.getIntArray(P1IDS);
+        int [] player_2_ids = bundle.getIntArray(P2IDS);
+
+        for(int i=0; i<player_1_ids.length-1; i++) {
+
+            // Find the corresponding piece
+            for(int j=i+1;  j<player_1_ids.length;  j++) {
+                if(player_1_ids[i] == player1_pieces.get(j).getId()) {
+                    // Swap the pieces
+                    CheckerPiece t = player1_pieces.get(i);
+                    player1_pieces.set(i, player1_pieces.get(j));
+                    player1_pieces.set(j, t);
+                }
+            }
+        }
+
+        //TODO: add code to king appropriate pieces and remove any not called and restore p2
+        for(int i=0;  i<player1_pieces.size(); i++) {
+            CheckerPiece piece = player1_pieces.get(i);
+            piece.setIdx(player_1_locations[i*2], player_1_locations[i*2+1]);
+            piece.setPos(valid[player_1_locations[i*2]], valid[player_1_locations[i*2+1]]);
+        }
+
+    }
+
+
     public void draw(Canvas canvas){
 
         int wid = canvas.getWidth();
@@ -130,7 +201,7 @@ public class Game {
 
         pixelSize = (int)(minDim * SCALE_IN_VIEW);
 
-        // Compute the margins so we center the puzzle
+        // Compute the margins so we center the game board
         marginX = (wid - pixelSize) / 2;
         marginY = (hit - pixelSize) / 2;
 
@@ -193,7 +264,7 @@ public class Game {
     public boolean onTouchEvent(View view, MotionEvent event) {
         //
         // Convert an x,y location to a relative location in the
-        // puzzle.
+        // game board.
         //
 
         float relX = (event.getX() - marginX) / pixelSize;
@@ -224,8 +295,8 @@ public class Game {
 
     /**
      * Handle a touch message. This is when we get an initial touch
-     * @param x x location for the touch, relative to the puzzle - 0 to 1 over the puzzle
-     * @param y y location for the touch, relative to the puzzle - 0 to 1 over the puzzle
+     * @param x x location for the touch, relative to the game board - 0 to 1 over the game board
+     * @param y y location for the touch, relative to the game board - 0 to 1 over the game board
      * @return true if the touch is handled
      */
     private boolean onTouched(float x, float y) {
@@ -273,8 +344,8 @@ public class Game {
     }
     /**
      * Handle a release of a touch message.
-     * @param x x location for the touch release, relative to the puzzle - 0 to 1 over the puzzle
-     * @param y y location for the touch release, relative to the puzzle - 0 to 1 over the puzzle
+     * @param x x location for the touch release, relative to the game board - 0 to 1 over the game board
+     * @param y y location for the touch release, relative to the game board - 0 to 1 over the game board
      * @return true if the touch is handled
      */
     private boolean onReleased(View view, float x, float y) {

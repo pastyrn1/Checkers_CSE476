@@ -29,6 +29,11 @@ public class CheckerPiece {
     private float y = 0;
 
     /**
+     * checker piece id
+     */
+    private int id;
+
+    /**
      * x index
      */
     private int x_idx = 0;
@@ -59,6 +64,8 @@ public class CheckerPiece {
 
         this.x_idx = posX;//TODO
         this.y_idx = posY;
+
+        this.id = id;
 
         this.direction = direction;
 
@@ -135,6 +142,13 @@ public class CheckerPiece {
     }
 
     /**
+     * return piece id
+     */
+    public int getId() {
+        return id;
+    }
+
+    /**
      * return piece direction
      */
     public int getDirection() {
@@ -184,9 +198,9 @@ public class CheckerPiece {
 
         // Make relative to the location and size to the piece size
         int pX = (int)((testX - x) * pixelSize) +
-                (pixelSize/5 / 2)+4;
+                (pixelSize/7 / 2)+4;
         int pY = (int)((testY - y) * pixelSize) +
-                (pixelSize/5 / 2)+4;
+                (pixelSize/7 / 2)+4;
 
         if(pX < 0 || pX >= pixelSize/8 ||
                 pY < 0 || pY >= pixelSize/8) {
