@@ -198,9 +198,9 @@ public class CheckerPiece {
 
         // Make relative to the location and size to the piece size
         int pX = (int)((testX - x) * pixelSize) +
-                (pixelSize/7 / 2)+4;
+                (pixelSize/7 / 2)+11;
         int pY = (int)((testY - y) * pixelSize) +
-                (pixelSize/7 / 2)+4;
+                (pixelSize/7 / 2)+11;
 
         if(pX < 0 || pX >= pixelSize/8 ||
                 pY < 0 || pY >= pixelSize/8) {
