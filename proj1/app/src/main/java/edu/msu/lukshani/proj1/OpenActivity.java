@@ -12,6 +12,7 @@ import android.widget.EditText;
 public class OpenActivity extends AppCompatActivity {
 
     String name;
+    String name2;
     EditText nameInput;
     EditText nameInput2;
     Button button;
@@ -40,6 +41,8 @@ public class OpenActivity extends AppCompatActivity {
                 Intent i = new Intent(OpenActivity.this, GameActivity.class);
                 name = nameInput.getText().toString();
                 i.putExtra("player", name);
+                name2 =nameInput2.getText().toString();
+                i.putExtra("player2", name2);
                 startActivity(i);
                 finish();
             }

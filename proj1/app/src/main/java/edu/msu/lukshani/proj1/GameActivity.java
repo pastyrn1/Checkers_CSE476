@@ -9,11 +9,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class GameActivity extends AppCompatActivity {
-
+    String message;
     TextView playerTurn;
     String st;
-    EditText player2name;
-    EditText player1name;
+    String st2;
     TextView endMessage;
     public Game game;
 
@@ -28,10 +27,10 @@ public class GameActivity extends AppCompatActivity {
         endMessage = findViewById(R.id.endMessage);
 
         game = getGameView().getGame();
-        player1name = findViewById(R.id.player1name);
-        player2name = findViewById(R.id.player2name);
         st = getIntent().getExtras().getString("player");
+        st2 = getIntent().getExtras().getString("player2");
         playerTurn.setText(st);
+//        savedInstanceState.putIntArray("GameActivity.array", new int[]{1, 2, 3});
 
         if(savedInstanceState != null) {
             getGameView().loadInstanceState(savedInstanceState);
@@ -43,10 +42,11 @@ public class GameActivity extends AppCompatActivity {
         super.onSaveInstanceState(bundle);
         getGameView().saveInstanceState(bundle);
     }
+
     public void onResign(View View) {
-//        doResign();
 
         Intent intent = new Intent(this, EndActivity.class);
+        doResign(intent);
         startActivity(intent);
     }
 
@@ -68,39 +68,39 @@ public class GameActivity extends AppCompatActivity {
 //    }
 
 
-//    public void onDone(View v){
-//        View gameView = findViewById(R.id.gameView);
-//        if(game.getWin() == 1){  //if win == 1
-//            game.setTurnPlayer1(false);
-//            onResign(v);
-//            Intent intent = new Intent(this, EndActivity.class);
-//            startActivity(intent);
-//        } else if (game.getWin() == 2){ //if win == 2
-//            game.setTurnPlayer1(true);
-//            onResign(v);
-//            Intent intent = new Intent(this, EndActivity.class);
-//            startActivity(intent);
-//        }
-//        doDone(); ///switching turns
-//    }
+    public void onDone(View v){
+        View gameView = findViewById(R.id.gameView);
+        if(game.getWin() == 1){  //if win == 1
+            game.setTurnPlayer1(false);
+            onResign(v);
+            Intent intent = new Intent(this, EndActivity.class);
+            startActivity(intent);
+        } else if (game.getWin() == 2){ //if win == 2
+            game.setTurnPlayer1(true);
+            onResign(v);
+            Intent intent = new Intent(this, EndActivity.class);
+            startActivity(intent);
+        }
+        doDone(); ///switching turns
+    }
 
     private void doDone(){ //call doDone when clicking Done Button
         if(game.getTurnPlayer1()){
-            playerTurn.setText(player2name + " make a move");
+            playerTurn.setText(st2 + " make a move");
             game.setTurnPlayer1(false);
         }
         else{
-            playerTurn.setText(player1name + " make a move"); //change player 1 to player1name
+            playerTurn.setText(st + " make a move"); //change player 1 to player1name
             game.setTurnPlayer1(true);
         }
     }
 
-    private void doResign(){ // call doResign when clicking Resign Button
+    private void doResign(Intent intent){ // call doResign when clicking Resign Button
         if(game.getTurnPlayer1()){// player 1 resigns
-            endMessage.setText(player2name + " has won"); //change player 2 to player2name
+            intent.putExtra("winner", st2); //change player 2 to player2name
         }
         else{ //player 2 resigns
-            endMessage.setText(player1name + " has won"); //change player 1 to player1name
+            intent.putExtra("winner", st); //change player 1 to player1name
         }
     }
 
