@@ -16,6 +16,11 @@ import java.util.ArrayList;
 
 public class Game {
     /**
+     * win condition (1 - player 1, 2 - player 2, 0 - Neither)
+     */
+    private int win = 0;
+
+    /**
      * Paint for filling the area the checkerboard is in
      */
     private Paint fillPaint;
@@ -350,6 +355,7 @@ public class Game {
      */
     private boolean onReleased(View view, float x, float y) {
         //isValid();
+        //isDone();
         if(dragging != null) {
             int v = isValid();
 
@@ -440,11 +446,11 @@ public class Game {
         } //TODO:identify and fix overlap and civilian king bugs
 
         //TODO: add win trigger and uncomment code
-        /*if (player2_pieces.isEmpty()){
-            //player 1 win
+        if (player2_pieces.isEmpty()){
+            win = 1;
         } else if (player1_pieces.isEmpty()){
-            //player 2 win
-        }*/
+            win = 2;
+        }
 
         return 0;
     }
@@ -581,6 +587,31 @@ public class Game {
 
         return false;
     }
+    public boolean getTurnPlayer1() {
+        return isTurnPlayer1;
+    }
+    public void setTurnPlayer1(boolean isTurnPlayer1) {
+        this.isTurnPlayer1 = isTurnPlayer1;
+    }
+    public int getWin() {
+        return win;
+    }
 
+    public void setWin(int win) {
+        this.win = win;
+    }
+//    public void isDone(){
+////        TextView endMessage = (TextView)findViewById(R.id.endMessage);
+////        EditText player2name = (EditText)findViewById(R.id.player2name);
+////        EditText player1name = (EditText)findViewById(R.id.player1name);
+//        if(win == 1){
+//            ///player 1 win
+//            endMessage.setText(player2name + "has Won"); //change player 2 to player2name
+//        }
+//        else if(win == 2) {
+//            ///player 2 win
+//            endMessage.setText(player1name + "has Won"); //change player 1 to player1name
+//        }
+//    }
 
 }

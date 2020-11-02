@@ -3,6 +3,7 @@ package edu.msu.lukshani.proj1;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Bundle;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
@@ -56,6 +57,23 @@ public class GameView extends View {
 
         game.draw(canvas);
 
+    }
+    /**
+     * Save the puzzle to a bundle
+     * @param bundle The bundle we save to
+     */
+    public void saveInstanceState(Bundle bundle) {
+        game.saveInstanceState(bundle);
+    }
+    /**
+     * Load the puzzle from a bundle
+     * @param bundle The bundle we save to
+     */
+    public void loadInstanceState(Bundle bundle) {
+        game.loadInstanceState(bundle);
+    }
+    public Game getGame() {
+        return game;
     }
 
 }

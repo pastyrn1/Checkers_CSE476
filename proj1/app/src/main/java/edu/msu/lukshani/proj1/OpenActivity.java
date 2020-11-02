@@ -64,10 +64,3 @@ public class OpenActivity extends AppCompatActivity {
     }
 
 }
-//  DIALOG BOX
-//AlertDialogue.Builder builder = new AlertDialog.Builder((view.getContext());)
-//         builder.setTitle("Instructions")
-//        builder.setMessage("Instructional how to steps")
-//        builder.setPositiveButton(android.R.string.ok, null);
-//        AlertDialog alertDialog = builder.create();
-//        alertDialog.show();
