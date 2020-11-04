@@ -105,8 +105,8 @@ public class Game {
      */
     private final static String P1LOCATIONS = "Game.p1locations";
     private final static String P2LOCATIONS = "Game.p2locations";
-    private final static String P1IDS = "Game.p1ids";
-    private final static String P2IDS = "Game.p2ids";
+    private final static String P1YLOCATIONS = "Game.p1ylocations";
+    private final static String P2YLOCATIONS = "Game.p2ylocations";
 
     /**
      * Collection of checker pieces for each player
@@ -144,29 +144,27 @@ public class Game {
      * @param bundle The bundle we save to
      */
     public void saveInstanceState(Bundle bundle) {
-        int [] player_1_locations = new int[player1_pieces.size() * 2];
-        int [] player_2_locations = new int[player2_pieces.size() * 2];
-        int [] player_1_ids = new int[player1_pieces.size()];
-        int [] player_2_ids = new int[player2_pieces.size()];
+        int [] player1_x_locations = new int[player1_pieces.size()];
+        int [] player2_x_locations = new int[player2_pieces.size()];
+        int [] player1_y_locations = new int[player1_pieces.size()];
+        int [] player2_y_locations = new int[player2_pieces.size()];
 
         for(int i=0;  i<player1_pieces.size(); i++) {
             CheckerPiece piece = player1_pieces.get(i);
-            player_1_locations[i*2] = piece.getXIdx();
-            player_1_locations[i*2+1] = piece.getYIdx();
-            player_1_ids[i] = piece.getId();
+            player1_x_locations[i] = piece.getXIdx();
+            player1_y_locations[i] = piece.getYIdx();
         }
 
         for(int i=0;  i<player2_pieces.size(); i++) {
             CheckerPiece piece = player2_pieces.get(i);
-            player_2_locations[i*2] = piece.getXIdx();
-            player_2_locations[i*2+1] = piece.getYIdx();
-            player_2_ids[i] = piece.getId();
+            player2_x_locations[i] = piece.getXIdx();
+            player2_y_locations[i] = piece.getYIdx();
         }
 
-        bundle.putIntArray(P1LOCATIONS, player_1_locations);
-        bundle.putIntArray(P2LOCATIONS, player_2_locations);
-        bundle.putIntArray(P1IDS,  player_1_ids);
-        bundle.putIntArray(P2IDS,  player_1_ids);
+        bundle.putIntArray(P1LOCATIONS, player1_x_locations);
+        bundle.putIntArray(P2LOCATIONS, player2_x_locations);
+        bundle.putIntArray(P1YLOCATIONS, player1_y_locations);
+        bundle.putIntArray(P2YLOCATIONS, player2_y_locations);
     }
 
     /**
@@ -174,88 +172,69 @@ public class Game {
      * @param bundle The bundle we save to
      */
     public void loadInstanceState(Bundle bundle) {
-        int [] player_1_locations = bundle.getIntArray(P1LOCATIONS);
-        int [] player_2_locations = bundle.getIntArray(P2LOCATIONS);
-        int [] player_1_ids = bundle.getIntArray(P1IDS);
-        int [] player_2_ids = bundle.getIntArray(P2IDS);
+        int [] player1_x_locations = bundle.getIntArray(P1LOCATIONS);
+        int [] player2_x_locations = bundle.getIntArray(P2LOCATIONS);
+        int [] player1_y_locations = bundle.getIntArray(P1YLOCATIONS);
+        int [] player2_y_locations = bundle.getIntArray(P2YLOCATIONS);
 
-        ArrayList<CheckerPiece> current_player1 = new ArrayList<CheckerPiece>();
+        //TODO: ensure king status transfers as intended, clean up piece removal (only two arrays necessary now)
 
-        //ArrayList<CheckerPiece> temp = new ArrayList<CheckerPiece>(player1_pieces);
+        ArrayList<CheckerPiece> player1_dead = new ArrayList<CheckerPiece>();
+        ArrayList<CheckerPiece> player2_dead = new ArrayList<CheckerPiece>();
 
-        //player1_pieces = new ArrayList<CheckerPiece>();
+        boolean alive = false;
+        for(CheckerPiece piece: player1_pieces){
+            for(int i=0;  i<player1_x_locations.length; i++) {
+                int x = piece.getXIdx();
+                int y = piece.getYIdx();
 
-        //for (CheckerPiece piece : player1_pieces) {
-             //int pieceid = piece.getId();
-            //if(Arrays.asList(player_1_ids).contains(pieceid)){
-                //TODO: move code here
-            //    player1_pieces.add(piece);
-        //    }
-       // }
-
-
-        for(int i=0; i<player_1_ids.length-1; i++) {
-            // Find the corresponding piece
-            for(int j=i+1;  j<player_1_ids.length;  j++) {
-                if(player_1_ids[i] == player1_pieces.get(j).getId()) {
-                    // Swap the pieces
-                    CheckerPiece t = player1_pieces.get(i);
-                    player1_pieces.set(i, player1_pieces.get(j));
-                    player1_pieces.set(j, t);
+                if(piece.getXIdx() == player1_x_locations[i] && piece.getYIdx() == player1_y_locations[i]){
+                    alive = true;
                 }
             }
-        }
 
-        for(int i=0; i<player_2_ids.length-1; i++) {
-            // Find the corresponding piece
-            for(int j=i+1;  j<player_2_ids.length;  j++) {
-                if(player_2_ids[i] == player2_pieces.get(j).getId()) {
-                    // Swap the pieces
-                    CheckerPiece t = player2_pieces.get(i);
-                    player2_pieces.set(i, player2_pieces.get(j));
-                    player2_pieces.set(j, t);
-                }
+            if(!alive){
+                player1_dead.add(piece);
             }
+            alive = false;
         }
 
-        //TODO: ensure king status transfers as intended, remove pieces that have been removed from play
-
-        ArrayList<CheckerPiece> temp = new ArrayList<CheckerPiece>(player1_pieces);
-
-        //TODO: remove this backward nightmare
-        /*for (CheckerPiece piece : current_player1) {
-            temp.remove(piece);
-
-        }
-
-        for (CheckerPiece piece : temp) {
+        for(CheckerPiece piece: player1_dead){
             player1_pieces.remove(piece);
-
-        }*/
-
-        //for (CheckerPiece piece : player1_pieces) {
-            //int idx = Arrays.asList(player_1_locations).indexOf(piece.getXIdx());
-            //if(Arrays.asList(player_1_ids).indexOf(piece.getId()) == -1){
-                //player1_pieces.remove(0);
-            //}
-            //player1_pieces.remove(0);
-
-        //}
-
-        //TODO: uncomment this code
-        /*for(int i=0;  i<player1_pieces.size(); i++) {
-            CheckerPiece piece = player1_pieces.get(i);
-            piece.setIdx(player_1_locations[i*2], player_1_locations[i*2+1]);
-            piece.setPos(valid[player_1_locations[i*2]], valid[player_1_locations[i*2+1]]);
         }
 
-        for(int i=0;  i<player2_pieces.size(); i++) {
-            CheckerPiece piece = player2_pieces.get(i);
-            piece.setIdx(player_2_locations[i*2], player_2_locations[i*2+1]);
-            piece.setPos(valid[player_2_locations[i*2]], valid[player_2_locations[i*2+1]]);
-        }*/
+        for(CheckerPiece piece: player2_pieces){
+            for(int i=0;  i<player2_x_locations.length; i++) {
+                if(piece.getXIdx() == player2_x_locations[i] && piece.getYIdx() == player2_y_locations[i]){
+                    alive = true;
+                }
+            }
 
+            if(!alive){
+                player2_dead.add(piece);
+            }
+            alive = false;
+        }
 
+        for(CheckerPiece piece: player2_dead){
+            player2_pieces.remove(piece);
+        }
+
+        if(!player1_pieces.isEmpty() && player1_pieces.size() == player1_x_locations.length){
+            for(int i=0;  i<player1_pieces.size(); i++) {
+                CheckerPiece piece = player1_pieces.get(i);
+                piece.setIdx(player1_x_locations[i], player1_y_locations[i]);
+                piece.setPos(valid[player1_x_locations[i]], valid[player1_y_locations[i]]);
+            }
+        }
+
+        if(!player2_pieces.isEmpty() && player2_pieces.size() == player2_x_locations.length){
+            for(int i=0;  i<player2_pieces.size(); i++) {
+                CheckerPiece piece = player2_pieces.get(i);
+                piece.setIdx(player2_x_locations[i], player2_y_locations[i]);
+                piece.setPos(valid[player2_x_locations[i]], valid[player2_y_locations[i]]);
+            }
+        }
 
     }
 
