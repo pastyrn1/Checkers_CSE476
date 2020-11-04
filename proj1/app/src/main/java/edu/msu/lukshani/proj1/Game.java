@@ -180,24 +180,29 @@ public class Game {
 
         //TODO: ensure king status transfers as intended, clean up piece removal (only two arrays necessary now)
 
-        for(int i=0;  i<=(player1_pieces.size() - player1_x_locations.length); i++) {
+        for(int i=0;  i<(player1_pieces.size() - player1_x_locations.length); i++) {
             player1_pieces.remove(0);
         }
 
-        for(int i=0;  i<player1_x_locations.length; i++) {
-            CheckerPiece piece = player1_pieces.get(i);
-            piece.setIdx(player1_x_locations[i], player1_y_locations[i]);
-            piece.setPos(valid[player1_x_locations[i]], valid[player1_y_locations[i]]);
+        if(!player1_pieces.isEmpty() && player1_pieces.size() == player1_x_locations.length){
+            for(int i=0;  i<player1_x_locations.length; i++) {
+                CheckerPiece piece = player1_pieces.get(i);
+                piece.setIdx(player1_x_locations[i], player1_y_locations[i]);
+                piece.setPos(valid[player1_x_locations[i]], valid[player1_y_locations[i]]);
+            }
         }
 
-        for(int i=0;  i<=(player2_pieces.size() - player2_x_locations.length); i++) {
+
+        for(int i=0;  i<(player2_pieces.size() - player2_x_locations.length); i++) {
             player2_pieces.remove(0);
         }
 
-        for(int i=0;  i<player2_x_locations.length; i++) {
-            CheckerPiece piece = player2_pieces.get(i);
-            piece.setIdx(player2_x_locations[i], player2_y_locations[i]);
-            piece.setPos(valid[player2_x_locations[i]], valid[player2_y_locations[i]]);
+        if(!player2_pieces.isEmpty() && player2_pieces.size() == player2_x_locations.length) {
+            for (int i = 0; i < player2_x_locations.length; i++) {
+                CheckerPiece piece = player2_pieces.get(i);
+                piece.setIdx(player2_x_locations[i], player2_y_locations[i]);
+                piece.setPos(valid[player2_x_locations[i]], valid[player2_y_locations[i]]);
+            }
         }
 
     }
