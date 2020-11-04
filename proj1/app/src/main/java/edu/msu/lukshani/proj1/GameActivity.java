@@ -27,18 +27,24 @@ public class GameActivity extends AppCompatActivity {
         st = getIntent().getExtras().getString("player");
         st2 = getIntent().getExtras().getString("player2");
 
-        playerTurn.setText(st);
-
         playerTurn.setText(st+ " make a move");
 
         if(savedInstanceState != null) {
+            final TextView playerTurn = (TextView)findViewById(R.id.playerTurn);
+            CharSequence player = playerTurn.getText();
+            player = savedInstanceState.getCharSequence("playerTurn");
+            playerTurn.setText(player);
             getGameView().loadInstanceState(savedInstanceState);
+
         }
     }
 
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
+        final TextView playerTurn = (TextView)findViewById(R.id.playerTurn);
+        CharSequence player = playerTurn.getText();
+        bundle.putCharSequence("playerTurn", player);
         getGameView().saveInstanceState(bundle);
     }
 

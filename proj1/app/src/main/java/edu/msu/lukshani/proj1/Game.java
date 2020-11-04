@@ -621,18 +621,5 @@ public class Game {
             win = 2;
         }
     }
-//    public void isDone(){
-////        TextView endMessage = (TextView)findViewById(R.id.endMessage);
-////        EditText player2name = (EditText)findViewById(R.id.player2name);
-////        EditText player1name = (EditText)findViewById(R.id.player1name);
-//        if(win == 1){
-//            ///player 1 win
-//            endMessage.setText(player2name + "has Won"); //change player 2 to player2name
-//        }
-//        else if(win == 2) {
-//            ///player 2 win
-//            endMessage.setText(player1name + "has Won"); //change player 1 to player1name
-//        }
-//    }
 
 }
