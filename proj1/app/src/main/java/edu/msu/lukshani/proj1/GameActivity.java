@@ -62,6 +62,7 @@ public class GameActivity extends AppCompatActivity {
             Intent intent = new Intent(this, EndActivity.class);
             startActivity(intent);
         }
+
         doDone(); ///switching turns
     }
 
@@ -74,6 +75,7 @@ public class GameActivity extends AppCompatActivity {
             playerTurn.setText(st + " make a move"); //change player 1 to player1name
             game.setTurnPlayer1(true);
         }
+        game.setTurnComplete(false);
     }
 
     private void doResign(Intent intent){ // call doResign when clicking Resign Button

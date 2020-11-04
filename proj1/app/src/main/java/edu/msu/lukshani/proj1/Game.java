@@ -84,6 +84,11 @@ public class Game {
     private boolean isTurnPlayer1 = true;
 
     /**
+     * A boolean for if a valid turn has been completed
+     */
+    private boolean isTurnComplete = false;
+
+    /**
      * This variable is set to a piece capable of a second or third jump. If
      * we are not multijumping, the variable is null.
      */
@@ -197,15 +202,13 @@ public class Game {
                     CheckerPiece t = player1_pieces.get(i);
                     player1_pieces.set(i, player1_pieces.get(j));
                     player1_pieces.set(j, t);
-                    current_player1.add(t);
                 }
             }
         }
 
-        for(int i=0; i<player_1_ids.length-1; i++) {
-
+        for(int i=0; i<player_2_ids.length-1; i++) {
             // Find the corresponding piece
-            for(int j=i+1;  j<player_1_ids.length;  j++) {
+            for(int j=i+1;  j<player_2_ids.length;  j++) {
                 if(player_2_ids[i] == player2_pieces.get(j).getId()) {
                     // Swap the pieces
                     CheckerPiece t = player2_pieces.get(i);
@@ -370,7 +373,7 @@ public class Game {
         // Check each piece to see if it has been hit
         // We do this in reverse order so we find the pieces in front
 
-        if(isTurnPlayer1){
+        if(isTurnPlayer1 && !isTurnComplete){
             for(int p = player1_pieces.size()-1; p>=0;  p--) {
                 if(player1_pieces.get(p).hit(x, y, pixelSize)) {
                     // We hit player 1 piece!
@@ -387,7 +390,7 @@ public class Game {
                 }
 
             }
-        } else {
+        } else if(!isTurnComplete) {
             for (int p = player2_pieces.size() - 1; p >= 0; p--) {
                 if (player2_pieces.get(p).hit(x, y, pixelSize)) {
                     // We hit player2 piece!
@@ -422,8 +425,9 @@ public class Game {
 
             if(v == 1) {
                 //The movement is valid
-                isTurnPlayer1 = !isTurnPlayer1;
+                //isTurnPlayer1 = !isTurnPlayer1;
                 jumper = null;
+                isTurnComplete = true;
                 view.invalidate();
             } else if(v == -1){
                 //The movement is valid, multi jump has begun
@@ -654,6 +658,11 @@ public class Game {
     public void setTurnPlayer1(boolean isTurnPlayer1) {
         this.isTurnPlayer1 = isTurnPlayer1;
     }
+
+    public void setTurnComplete(boolean isTurnComplete){
+        this.isTurnComplete = isTurnComplete;
+    }
+
     public int getWin() {
         return win;
     }
