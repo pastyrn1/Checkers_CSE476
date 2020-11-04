@@ -178,7 +178,7 @@ public class Game {
         int [] player1_y_locations = bundle.getIntArray(P1YLOCATIONS);
         int [] player2_y_locations = bundle.getIntArray(P2YLOCATIONS);
 
-        //TODO: ensure king status transfers as intended, clean up piece removal (only two arrays necessary now)
+        //TODO: clean up piece removal (only two arrays necessary now)
 
         for(int i=0;  i<(player1_pieces.size() - player1_x_locations.length); i++) {
             player1_pieces.remove(0);
@@ -189,6 +189,11 @@ public class Game {
                 CheckerPiece piece = player1_pieces.get(i);
                 piece.setIdx(player1_x_locations[i], player1_y_locations[i]);
                 piece.setPos(valid[player1_x_locations[i]], valid[player1_y_locations[i]]);
+
+                if(player1_y_locations[i] == 0){
+                    piece.king();
+                }
+
             }
         }
 
@@ -202,6 +207,10 @@ public class Game {
                 CheckerPiece piece = player2_pieces.get(i);
                 piece.setIdx(player2_x_locations[i], player2_y_locations[i]);
                 piece.setPos(valid[player2_x_locations[i]], valid[player2_y_locations[i]]);
+
+                if(player2_y_locations[i] == 7){
+                    piece.king();
+                }
             }
         }
 
@@ -358,6 +367,7 @@ public class Game {
 
         return false;
     }
+
     /**
      * Handle a release of a touch message.
      * @param x x location for the touch release, relative to the game board - 0 to 1 over the game board
