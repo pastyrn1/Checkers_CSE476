@@ -145,21 +145,36 @@ public class Game {
      * @param bundle The bundle we save to
      */
     public void saveInstanceState(Bundle bundle) {
-        int [] player1_x_locations = new int[player1_pieces.size()];
-        int [] player2_x_locations = new int[player2_pieces.size()];
-        int [] player1_y_locations = new int[player1_pieces.size()];
-        int [] player2_y_locations = new int[player2_pieces.size()];
-
-        for(int i=0;  i<player1_pieces.size(); i++) {
-            CheckerPiece piece = player1_pieces.get(i);
-            player1_x_locations[i] = piece.getXIdx();
-            player1_y_locations[i] = piece.getYIdx();
+        int [] player1_x_locations = {};
+        int [] player1_y_locations = {};
+        if(player1_pieces.size() != 0){
+            player1_x_locations = new int[player1_pieces.size()];
+            player1_y_locations = new int[player1_pieces.size()];
         }
 
-        for(int i=0;  i<player2_pieces.size(); i++) {
-            CheckerPiece piece = player2_pieces.get(i);
-            player2_x_locations[i] = piece.getXIdx();
-            player2_y_locations[i] = piece.getYIdx();
+        int [] player2_x_locations = {};
+        int [] player2_y_locations = {};
+        if(player2_pieces.size() != 0){
+            player2_x_locations = new int[player2_pieces.size()];
+            player2_y_locations = new int[player2_pieces.size()];
+        }
+
+
+
+        if(!player1_pieces.isEmpty()){
+            for(int i=0;  i<player1_pieces.size(); i++) {
+                CheckerPiece piece = player1_pieces.get(i);
+                player1_x_locations[i] = piece.getXIdx();
+                player1_y_locations[i] = piece.getYIdx();
+            }
+        }
+
+        if(!player2_pieces.isEmpty()) {
+            for (int i = 0; i < player2_pieces.size(); i++) {
+                CheckerPiece piece = player2_pieces.get(i);
+                player2_x_locations[i] = piece.getXIdx();
+                player2_y_locations[i] = piece.getYIdx();
+            }
         }
 
         bundle.putIntArray(P1LOCATIONS, player1_x_locations);
@@ -180,7 +195,8 @@ public class Game {
 
         //TODO: clean up piece removal (only two arrays necessary now)
 
-        for(int i=0;  i<(player1_pieces.size() - player1_x_locations.length); i++) {
+        int size = player1_pieces.size() - player1_x_locations.length;
+        for(int i=0;  i<size; i++) {
             player1_pieces.remove(0);
         }
 
@@ -197,8 +213,8 @@ public class Game {
             }
         }
 
-
-        for(int i=0;  i<(player2_pieces.size() - player2_x_locations.length); i++) {
+        size = player2_pieces.size() - player2_x_locations.length;
+        for(int i=0;  i<size; i++) {
             player2_pieces.remove(0);
         }
 
@@ -466,13 +482,6 @@ public class Game {
                 return -1;
             }
             return 1;
-        } //TODO:identify and fix overlap and civilian king bugs
-
-        //TODO: add win trigger and uncomment code
-        if (player2_pieces.isEmpty()){
-            win = 1;
-        } else if (player1_pieces.isEmpty()){
-            win = 2;
         }
 
         return 0;
