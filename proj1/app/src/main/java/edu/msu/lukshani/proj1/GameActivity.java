@@ -38,7 +38,10 @@ public class GameActivity extends AppCompatActivity {
 
         }
     }
-
+    /**
+     * Save the instance state into a bundle
+     * @param bundle the bundle to save into
+     */
     @Override
     protected void onSaveInstanceState(Bundle bundle) {
         super.onSaveInstanceState(bundle);
@@ -54,7 +57,10 @@ public class GameActivity extends AppCompatActivity {
         doResign(intent);
         startActivity(intent);
     }
-
+    /**
+     * Get the GameView
+     * @return GameView reference
+     */
     private GameView getGameView() {
         return (GameView) this.findViewById(R.id.gameView);
     }
