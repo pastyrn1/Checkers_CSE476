@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -25,7 +26,10 @@ public class GameActivity extends AppCompatActivity {
         game = getGameView().getGame();
         st = getIntent().getExtras().getString("player");
         st2 = getIntent().getExtras().getString("player2");
+
         playerTurn.setText(st);
+
+        playerTurn.setText(st+ " make a move");
 
         if(savedInstanceState != null) {
             getGameView().loadInstanceState(savedInstanceState);
@@ -50,17 +54,12 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void onDone(View v){
-        View gameView = findViewById(R.id.gameView);
         if(game.getWin() == 1){  //if win == 1
             game.setTurnPlayer1(false);
             onResign(v);
-            Intent intent = new Intent(this, EndActivity.class);
-            startActivity(intent);
         } else if (game.getWin() == 2){ //if win == 2
             game.setTurnPlayer1(true);
             onResign(v);
-            Intent intent = new Intent(this, EndActivity.class);
-            startActivity(intent);
         }
 
         doDone(); ///switching turns
