@@ -106,6 +106,8 @@ public class Game {
      */
     private final static String P1LOCATIONS = "Game.p1locations";
     private final static String P2LOCATIONS = "Game.p2locations";
+    private final static String P1KINGS = "Game.p1kings";
+    private final static String P2KINGS = "Game.p2kings";
     private final static String P1YLOCATIONS = "Game.p1ylocations";
     private final static String P2YLOCATIONS = "Game.p2ylocations";
 
@@ -147,25 +149,30 @@ public class Game {
     public void saveInstanceState(Bundle bundle) {
         int [] player1_x_locations = {};
         int [] player1_y_locations = {};
+        boolean [] player1_kings = {};
+
         if(player1_pieces.size() != 0){
             player1_x_locations = new int[player1_pieces.size()];
             player1_y_locations = new int[player1_pieces.size()];
+            player1_kings = new boolean[player1_pieces.size()];
         }
 
         int [] player2_x_locations = {};
         int [] player2_y_locations = {};
+        boolean [] player2_kings = {};
+
         if(player2_pieces.size() != 0){
             player2_x_locations = new int[player2_pieces.size()];
             player2_y_locations = new int[player2_pieces.size()];
+            player2_kings = new boolean[player2_pieces.size()];
         }
-
-
 
         if(!player1_pieces.isEmpty()){
             for(int i=0;  i<player1_pieces.size(); i++) {
                 CheckerPiece piece = player1_pieces.get(i);
                 player1_x_locations[i] = piece.getXIdx();
                 player1_y_locations[i] = piece.getYIdx();
+                player1_kings[i] = piece.getKing();
             }
         }
 
@@ -174,11 +181,16 @@ public class Game {
                 CheckerPiece piece = player2_pieces.get(i);
                 player2_x_locations[i] = piece.getXIdx();
                 player2_y_locations[i] = piece.getYIdx();
+                player2_kings[i] = piece.getKing();
             }
         }
 
         bundle.putIntArray(P1LOCATIONS, player1_x_locations);
         bundle.putIntArray(P2LOCATIONS, player2_x_locations);
+
+        bundle.putBooleanArray(P1KINGS, player1_kings);
+        bundle.putBooleanArray(P2KINGS, player2_kings);
+
         bundle.putIntArray(P1YLOCATIONS, player1_y_locations);
         bundle.putIntArray(P2YLOCATIONS, player2_y_locations);
     }
@@ -190,6 +202,10 @@ public class Game {
     public void loadInstanceState(Bundle bundle) {
         int [] player1_x_locations = bundle.getIntArray(P1LOCATIONS);
         int [] player2_x_locations = bundle.getIntArray(P2LOCATIONS);
+
+        boolean [] player1_kings = bundle.getBooleanArray(P1KINGS);
+        boolean [] player2_kings = bundle.getBooleanArray(P2KINGS);
+
         int [] player1_y_locations = bundle.getIntArray(P1YLOCATIONS);
         int [] player2_y_locations = bundle.getIntArray(P2YLOCATIONS);
 
@@ -206,7 +222,7 @@ public class Game {
                 piece.setIdx(player1_x_locations[i], player1_y_locations[i]);
                 piece.setPos(valid[player1_x_locations[i]], valid[player1_y_locations[i]]);
 
-                if(player1_y_locations[i] == 0){
+                if(player1_kings[i]){
                     piece.king();
                 }
 
@@ -224,11 +240,13 @@ public class Game {
                 piece.setIdx(player2_x_locations[i], player2_y_locations[i]);
                 piece.setPos(valid[player2_x_locations[i]], valid[player2_y_locations[i]]);
 
-                if(player2_y_locations[i] == 7){
+                if(player2_kings[i]){
                     piece.king();
                 }
             }
         }
+
+        checkWin();
 
     }
 
