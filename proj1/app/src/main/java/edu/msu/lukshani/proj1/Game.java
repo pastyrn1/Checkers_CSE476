@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
 
+import java.util.Arrays;
 import java.util.ArrayList;
 //import android.graphics.Rect;
 //import android.graphics.Shader;
@@ -173,8 +174,22 @@ public class Game {
         int [] player_1_ids = bundle.getIntArray(P1IDS);
         int [] player_2_ids = bundle.getIntArray(P2IDS);
 
-        for(int i=0; i<player_1_ids.length-1; i++) {
+        ArrayList<CheckerPiece> current_player1 = new ArrayList<CheckerPiece>();
 
+        //ArrayList<CheckerPiece> temp = new ArrayList<CheckerPiece>(player1_pieces);
+
+        //player1_pieces = new ArrayList<CheckerPiece>();
+
+        //for (CheckerPiece piece : player1_pieces) {
+             //int pieceid = piece.getId();
+            //if(Arrays.asList(player_1_ids).contains(pieceid)){
+                //TODO: move code here
+            //    player1_pieces.add(piece);
+        //    }
+       // }
+
+
+        for(int i=0; i<player_1_ids.length-1; i++) {
             // Find the corresponding piece
             for(int j=i+1;  j<player_1_ids.length;  j++) {
                 if(player_1_ids[i] == player1_pieces.get(j).getId()) {
@@ -182,16 +197,62 @@ public class Game {
                     CheckerPiece t = player1_pieces.get(i);
                     player1_pieces.set(i, player1_pieces.get(j));
                     player1_pieces.set(j, t);
+                    current_player1.add(t);
                 }
             }
         }
 
-        //TODO: add code to king appropriate pieces and remove any not called and restore p2
-        for(int i=0;  i<player1_pieces.size(); i++) {
+        for(int i=0; i<player_1_ids.length-1; i++) {
+
+            // Find the corresponding piece
+            for(int j=i+1;  j<player_1_ids.length;  j++) {
+                if(player_2_ids[i] == player2_pieces.get(j).getId()) {
+                    // Swap the pieces
+                    CheckerPiece t = player2_pieces.get(i);
+                    player2_pieces.set(i, player2_pieces.get(j));
+                    player2_pieces.set(j, t);
+                }
+            }
+        }
+
+        //TODO: ensure king status transfers as intended, remove pieces that have been removed from play
+
+        ArrayList<CheckerPiece> temp = new ArrayList<CheckerPiece>(player1_pieces);
+
+        //TODO: remove this backward nightmare
+        /*for (CheckerPiece piece : current_player1) {
+            temp.remove(piece);
+
+        }
+
+        for (CheckerPiece piece : temp) {
+            player1_pieces.remove(piece);
+
+        }*/
+
+        //for (CheckerPiece piece : player1_pieces) {
+            //int idx = Arrays.asList(player_1_locations).indexOf(piece.getXIdx());
+            //if(Arrays.asList(player_1_ids).indexOf(piece.getId()) == -1){
+                //player1_pieces.remove(0);
+            //}
+            //player1_pieces.remove(0);
+
+        //}
+
+        //TODO: uncomment this code
+        /*for(int i=0;  i<player1_pieces.size(); i++) {
             CheckerPiece piece = player1_pieces.get(i);
             piece.setIdx(player_1_locations[i*2], player_1_locations[i*2+1]);
             piece.setPos(valid[player_1_locations[i*2]], valid[player_1_locations[i*2+1]]);
         }
+
+        for(int i=0;  i<player2_pieces.size(); i++) {
+            CheckerPiece piece = player2_pieces.get(i);
+            piece.setIdx(player_2_locations[i*2], player_2_locations[i*2+1]);
+            piece.setPos(valid[player_2_locations[i*2]], valid[player_2_locations[i*2+1]]);
+        }*/
+
+
 
     }
 

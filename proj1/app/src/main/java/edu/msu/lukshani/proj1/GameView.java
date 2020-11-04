@@ -58,20 +58,23 @@ public class GameView extends View {
         game.draw(canvas);
 
     }
+
     /**
-     * Save the puzzle to a bundle
+     * Save the game to a bundle
      * @param bundle The bundle we save to
      */
     public void saveInstanceState(Bundle bundle) {
         game.saveInstanceState(bundle);
     }
+
     /**
-     * Load the puzzle from a bundle
+     * Load the game from a bundle
      * @param bundle The bundle we save to
      */
     public void loadInstanceState(Bundle bundle) {
         game.loadInstanceState(bundle);
     }
+
     public Game getGame() {
         return game;
     }

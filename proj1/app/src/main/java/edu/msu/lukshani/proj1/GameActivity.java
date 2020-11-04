@@ -9,15 +9,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 public class GameActivity extends AppCompatActivity {
-    String message;
     TextView playerTurn;
     String st;
     String st2;
     TextView endMessage;
     public Game game;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +26,6 @@ public class GameActivity extends AppCompatActivity {
         st = getIntent().getExtras().getString("player");
         st2 = getIntent().getExtras().getString("player2");
         playerTurn.setText(st);
-//        savedInstanceState.putIntArray("GameActivity.array", new int[]{1, 2, 3});
 
         if(savedInstanceState != null) {
             getGameView().loadInstanceState(savedInstanceState);
@@ -53,20 +48,6 @@ public class GameActivity extends AppCompatActivity {
     private GameView getGameView() {
         return (GameView) this.findViewById(R.id.gameView);
     }
-
-
-//    public void onDone(View v){
-//        View gameView = findViewById(R.id.gameView);
-//        if(gameView.getGame().getWin() == gameview.getPlayer1()){  //if win == 1
-//            game.setTurnPlayer1(false);
-//            onResign(v);
-//        } else if (gameView.getGame().getWin() == gameview.getPlayer2()){ //if win == 2
-//            game.setTurnPlayer1(true);
-//            onResign(v);
-//        }
-//        doDone(); ///switching turns
-//    }
-
 
     public void onDone(View v){
         View gameView = findViewById(R.id.gameView);
