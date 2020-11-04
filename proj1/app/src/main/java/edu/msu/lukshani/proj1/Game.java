@@ -472,8 +472,8 @@ public class Game {
         //move one space
         if(oneSpace(x, y, xIdx, yIdx, d, -1, opponent[0] || ally[0]) ||
                 oneSpace(x, y, xIdx, yIdx, d, 1, opponent[1] || ally[1]) ||
-                (dragging.getKing() && oneSpace(x, y, xIdx, yIdx, -1 * d, -1, opponent[4] || ally[4]) ||
-                        oneSpace(x, y, xIdx, yIdx, -1 * d, 1, opponent[5] || ally[5]))){
+                (dragging.getKing() && (oneSpace(x, y, xIdx, yIdx, -1 * d, -1, opponent[4] || ally[4]) ||
+                        oneSpace(x, y, xIdx, yIdx, -1 * d, 1, opponent[5] || ally[5])))){
             return 1;
         }
 
