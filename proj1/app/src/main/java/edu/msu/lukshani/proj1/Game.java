@@ -223,7 +223,7 @@ public class Game {
         ArrayList<CheckerPiece> temp = new ArrayList<CheckerPiece>(player1_pieces);
 
         //TODO: remove this backward nightmare
-        /*for (CheckerPiece piece : current_player1) {
+       for (CheckerPiece piece : current_player1) {
             temp.remove(piece);
 
         }
@@ -231,19 +231,18 @@ public class Game {
         for (CheckerPiece piece : temp) {
             player1_pieces.remove(piece);
 
+        }
+
+       /* for (CheckerPiece piece : player1_pieces) {
+            int idx = Arrays.asList(player_1_locations).indexOf(piece.getXIdx());
+            if(Arrays.asList(player_1_ids).indexOf(piece.getId()) == -1){
+                player1_pieces.remove(0);
+            }
+
         }*/
 
-        //for (CheckerPiece piece : player1_pieces) {
-            //int idx = Arrays.asList(player_1_locations).indexOf(piece.getXIdx());
-            //if(Arrays.asList(player_1_ids).indexOf(piece.getId()) == -1){
-                //player1_pieces.remove(0);
-            //}
-            //player1_pieces.remove(0);
-
-        //}
-
         //TODO: uncomment this code
-        /*for(int i=0;  i<player1_pieces.size(); i++) {
+        for(int i=0;  i<player1_pieces.size(); i++) {
             CheckerPiece piece = player1_pieces.get(i);
             piece.setIdx(player_1_locations[i*2], player_1_locations[i*2+1]);
             piece.setPos(valid[player_1_locations[i*2]], valid[player_1_locations[i*2+1]]);
@@ -253,7 +252,7 @@ public class Game {
             CheckerPiece piece = player2_pieces.get(i);
             piece.setIdx(player_2_locations[i*2], player_2_locations[i*2+1]);
             piece.setPos(valid[player_2_locations[i*2]], valid[player_2_locations[i*2+1]]);
-        }*/
+        }
 
 
 
