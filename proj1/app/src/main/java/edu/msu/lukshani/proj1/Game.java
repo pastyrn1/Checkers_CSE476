@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -335,7 +336,6 @@ public class Game {
         // Convert an x,y location to a relative location in the
         // game board.
         //
-
         float relX = (event.getX() - marginX) / pixelSize;
         float relY = (event.getY() - marginY) / pixelSize;
 
@@ -439,6 +439,7 @@ public class Game {
             }
 
             dragging = null;
+            checkWin();
             return true;
         }
 
@@ -669,6 +670,14 @@ public class Game {
 
     public void setWin(int win) {
         this.win = win;
+    }
+
+    public void checkWin(){
+        if (player2_pieces.isEmpty()){
+            win = 1;
+        } else if (player1_pieces.isEmpty()){
+            win = 2;
+        }
     }
 //    public void isDone(){
 ////        TextView endMessage = (TextView)findViewById(R.id.endMessage);
