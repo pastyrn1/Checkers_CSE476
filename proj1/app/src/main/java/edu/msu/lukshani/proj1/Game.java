@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Toast;
 
 
 import java.util.Arrays;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 //import android.graphics.Shader;
 
 public class Game {
+    private Context context;
     /**
      * win condition (1 - player 1, 2 - player 2, 0 - Neither)
      */
@@ -119,6 +121,7 @@ public class Game {
     public ArrayList<CheckerPiece> player2_pieces = new ArrayList<CheckerPiece>();
 
     public Game(Context context){
+        this.context = context;
 
         // Create paint for filling the game board
         fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -427,9 +430,9 @@ public class Game {
                 view.invalidate();
             } else {
                 dragging.setPos(preX, preY);
+                showToast("Invalid Move");
                 view.invalidate();
             }
-
             dragging = null;
             checkWin();
             return true;
@@ -502,7 +505,6 @@ public class Game {
             }
             return 1;
         }
-
         return 0;
     }
 
@@ -664,5 +666,11 @@ public class Game {
             win = 2;
         }
     }
-
+    /**
+     * Show toast message
+     * @param message the message shown
+     */
+    private void showToast(String message){
+        Toast.makeText(context, message, Toast.LENGTH_LONG).show();
+    }
 }

@@ -51,18 +51,19 @@ public class GameActivity extends AppCompatActivity {
         getGameView().saveInstanceState(bundle);
     }
 
-    public void onResign(View View) {
-
-        Intent intent = new Intent(this, EndActivity.class);
-        doResign(intent);
-        startActivity(intent);
-    }
     /**
      * Get the GameView
      * @return GameView reference
      */
     private GameView getGameView() {
         return (GameView) this.findViewById(R.id.gameView);
+    }
+
+    public void onResign(View View) {
+
+        Intent intent = new Intent(this, EndActivity.class);
+        doResign(intent);
+        startActivity(intent);
     }
 
     public void onDone(View v){
@@ -77,24 +78,30 @@ public class GameActivity extends AppCompatActivity {
         doDone(); ///switching turns
     }
 
+    /**
+     * Sets player name for each turn
+     */
     private void doDone(){ //call doDone when clicking Done Button
         if(game.getTurnPlayer1()){
             playerTurn.setText(st2 + " make a move");
             game.setTurnPlayer1(false);
         }
         else{
-            playerTurn.setText(st + " make a move"); //change player 1 to player1name
+            playerTurn.setText(st + " make a move");
             game.setTurnPlayer1(true);
         }
         game.setTurnComplete(false);
     }
 
+    /**
+     * Sets winner in next activity
+     */
     private void doResign(Intent intent){ // call doResign when clicking Resign Button
         if(game.getTurnPlayer1()){// player 1 resigns
-            intent.putExtra("winner", st2); //change player 2 to player2name
+            intent.putExtra("winner", st2);
         }
         else{ //player 2 resigns
-            intent.putExtra("winner", st); //change player 1 to player1name
+            intent.putExtra("winner", st);
         }
     }
 
