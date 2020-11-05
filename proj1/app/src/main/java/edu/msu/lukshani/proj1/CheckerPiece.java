@@ -29,11 +29,6 @@ public class CheckerPiece {
     private float y = 0;
 
     /**
-     * checker piece id
-     */
-    private int id;
-
-    /**
      * x index
      */
     private int x_idx = 0;
@@ -53,23 +48,14 @@ public class CheckerPiece {
      */
     private int direction;
 
-    /**
-     * valid locations of checker squares
-     */
-    private float[] valid = {};
-
     public CheckerPiece(Context context, int id, int k_id, float[] valid, int posX, int posY, int direction) {
         this.x = valid[posX];
         this.y = valid[posY];
 
-        this.x_idx = posX;//TODO
+        this.x_idx = posX;
         this.y_idx = posY;
 
-        this.id = id;
-
         this.direction = direction;
-
-        this.valid = valid;
 
         piece = BitmapFactory.decodeResource(context.getResources(), id);
         kinged = BitmapFactory.decodeResource(context.getResources(), k_id);
@@ -84,7 +70,7 @@ public class CheckerPiece {
     }
 
     /**
-     * Move the puzzle piece by dx, dy
+     * Move the checker piece by dx, dy
      * @param dx x amount to move
      * @param dy y amount to move
      */
@@ -142,13 +128,6 @@ public class CheckerPiece {
     }
 
     /**
-     * return piece id
-     */
-    public int getId() {
-        return id;
-    }
-
-    /**
      * return piece direction
      */
     public int getDirection() {
@@ -193,8 +172,6 @@ public class CheckerPiece {
      */
     public boolean hit(float testX, float testY,
                        int pixelSize) {
-
-        //TODO: make this range slightly wider so it isn't so finicky
 
         // Make relative to the location and size to the piece size
         int pX = (int)((testX - x) * pixelSize) +
