@@ -15,12 +15,6 @@ import android.view.View;
 public class GameView extends View {
 
     /**
-     * Percentage of the display width or height that
-     * is occupied by the puzzle.
-     */
-    //final static float SCALE_IN_VIEW = 0.9f;
-
-    /**
      * The game
      */
     private Game game;
@@ -45,7 +39,6 @@ public class GameView extends View {
 
     }
 
-
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return game.onTouchEvent(this, event);
@@ -54,9 +47,7 @@ public class GameView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-
         game.draw(canvas);
-
     }
 
     /**
