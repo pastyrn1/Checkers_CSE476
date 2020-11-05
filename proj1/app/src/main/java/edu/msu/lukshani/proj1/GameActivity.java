@@ -58,14 +58,18 @@ public class GameActivity extends AppCompatActivity {
     private GameView getGameView() {
         return (GameView) this.findViewById(R.id.gameView);
     }
-
+    /**
+     * Button Resigns the game
+     */
     public void onResign(View View) {
 
         Intent intent = new Intent(this, EndActivity.class);
         doResign(intent);
         startActivity(intent);
     }
-
+    /**
+     * Done Button to switch turns
+     */
     public void onDone(View v){
         if(game.getWin() == 1){  //if win == 1
             game.setTurnPlayer1(false);

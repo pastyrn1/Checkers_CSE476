@@ -52,6 +52,10 @@ public class OpenActivity extends AppCompatActivity {
         nameInput2.setText(R.string.player2text);
 
     }
+
+    /**
+     * Button Instruction pop up dialogue
+     */
     public void openDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Instructions");
