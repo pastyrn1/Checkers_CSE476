@@ -22,7 +22,6 @@ Member 3: Anna Lynn Pastyrnak
 
 Responsiblity: The movement rules, including jumping and capturing and also detecting valid and invalid moves. 
 
-(Given these are primarily late-development tasks, I implemented the player/piece classes and initialized/drew them on the board for this checkpoint)
 
 
 Member 4 (if applicable): n/a

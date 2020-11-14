@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">proj2</string>
+    <string name="welcome">Welcome to Checkers</string>
+    <string name="startButton">Start</string>
+    <string name="player1text">Player 1</string>
+    <string name="nameHint">Name</string>
+    <string name="player2text">Player 2</string>
+    <string name="restart">Restart</string>
+    <string name="piece_desc">checker pieces design</string>
+    <string name="resignButton">Resign</string>
+    <string name="doneButton">Done</string>
+    <string name="endMessage">Message</string>
+    <string name="dialogue">Instructions</string>
+</resources>
