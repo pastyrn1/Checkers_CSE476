@@ -5,17 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class OpenActivity extends AppCompatActivity {
 
-    String name;
-    String name2;
-    EditText nameInput;
-    EditText nameInput2;
-    Button button;
+//    String name;
+//    String name2;
+    EditText username;
+    EditText password ;
+    Button createBtn;
+    Button loginBtn;
     Button instructButton;
 
     @Override
@@ -23,9 +26,10 @@ public class OpenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_open);
 
-        button = findViewById(R.id.startButton);
-        nameInput = findViewById(R.id.player1name);
-        nameInput2 = findViewById(R.id.player2name);
+        createBtn = findViewById(R.id.createButton);
+        loginBtn = findViewById(R.id.loginBttn);
+        username = findViewById(R.id.userID);
+        password = findViewById(R.id.passWord);
         instructButton = findViewById(R.id.dialogueButton);
         instructButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +38,27 @@ public class OpenActivity extends AppCompatActivity {
             }
         });
 
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //validate inputs
+
+                if(TextUtils.isEmpty(username.getText().toString()) || TextUtils.isEmpty(password.getText().toString())){
+                    Toast.makeText(OpenActivity.this, "Missing UserId or Password", Toast.LENGTH_LONG).show();
+                }
+                //else if (correct username and password)
+//                  dummy activity
+                //else "incorrect/invalid input"
+//                Toast.makeText(OpenActivity.this, "Invalid Username or Password", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        createBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(OpenActivity.this, CreateActivity.class));
+            }
+        });
 
         /*button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,8 +73,8 @@ public class OpenActivity extends AppCompatActivity {
             }
         });*/
 
-        nameInput.setText(R.string.player1text);
-        nameInput2.setText(R.string.player2text);
+//        nameInput.setText(R.string.player1text);
+//        nameInput2.setText(R.string.player2text);
 
     }
 
