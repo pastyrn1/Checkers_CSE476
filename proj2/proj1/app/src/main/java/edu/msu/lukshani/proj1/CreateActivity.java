@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 public class CreateActivity extends AppCompatActivity {
 
@@ -28,7 +30,30 @@ public class CreateActivity extends AppCompatActivity {
         createBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(CreateActivity.this, OpenActivity.class));
+                String user = username.getText().toString();
+                String pass1 = password1.getText().toString();
+                String pass2 = password2.getText().toString();
+
+                if(pass1 != pass2){
+                    password2.setError("Passwords do not not match");
+                    //Toast.makeText(CreateActivity.this, "Passwords don't match", Toast.LENGTH_LONG).show();
+                }
+                else{ // both passwords are the same
+                    //String pass = pass1;
+                    if(TextUtils.isEmpty(user)){
+                        username.setError("Please provide username");
+//                        Toast.makeText(CreateActivity.this, "Missing UserId or Password", Toast.LENGTH_LONG).show();
+                    }else if(TextUtils.isEmpty(pass1)){
+                        password1.setError("Please provide password");
+                    }else if(TextUtils.isEmpty(pass2)){
+                        password2.setError("Please confirm password");
+                    }//create and save
+
+                }
+
+                Intent i = new Intent(CreateActivity.this, OpenActivity.class);
+                startActivity(i);
+                finish();
             }
         });
 

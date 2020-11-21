@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 public class OpenActivity extends AppCompatActivity {
 
-//    String name;
-//    String name2;
     EditText username;
     EditText password ;
     Button createBtn;
@@ -42,7 +40,6 @@ public class OpenActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //validate inputs
-
                 if(TextUtils.isEmpty(username.getText().toString()) || TextUtils.isEmpty(password.getText().toString())){
                     Toast.makeText(OpenActivity.this, "Missing UserId or Password", Toast.LENGTH_LONG).show();
                 }
