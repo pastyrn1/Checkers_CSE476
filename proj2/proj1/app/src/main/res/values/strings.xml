@@ -17,4 +17,5 @@
     <string name="doneButton">Done</string>
     <string name="endMessage">Message</string>
     <string name="dialogue">Instructions</string>
+    <string name="failed_to_save">Failed to save user to the server</string>
 </resources>

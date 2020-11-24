@@ -16,7 +16,7 @@ public class User {
     public static String User(){;
         {
             return USER;
-            
+
         }
     }
 

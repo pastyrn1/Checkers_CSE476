@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import edu.msu.lukshani.proj1.Cloud.Cloud;
+
 public class CreateActivity extends AppCompatActivity {
 
     EditText username;
@@ -58,6 +60,25 @@ public class CreateActivity extends AppCompatActivity {
                 Intent i = new Intent(CreateActivity.this, OpenActivity.class);
                 startActivity(i);
                 finish();
+            }
+        });
+
+    }
+
+    /** saving the user
+     * @param username name of user
+     */
+    private void saveUser(EditText username){
+        username = username;
+        final EditText finalUsername = username;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Cloud cloud = new Cloud();
+                final boolean ok = cloud.saveToCloud(finalUsername, password1);
+                if(!ok){
+                    
+                }
             }
         });
 
