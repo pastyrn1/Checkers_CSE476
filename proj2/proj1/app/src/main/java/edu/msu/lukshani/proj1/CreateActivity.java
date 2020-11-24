@@ -54,7 +54,7 @@ public class CreateActivity extends AppCompatActivity {
                         password2.setError("Please confirm password");
                         return;
                     }//create and save
-
+                    saveUser(username,password1);
                 }
 
                 Intent i = new Intent(CreateActivity.this, OpenActivity.class);

@@ -4,6 +4,7 @@
     <string name="startButton">Start</string>
     <string name="player1text">Player 1</string>
     <string name="nameHint">Name</string>
+    <string name="dummy">Dummy Activity</string>
     <string name="userHint">Username</string>
     <string name="userConfirm">Confirm Username</string>
     <string name="loginBtn">Login</string>
