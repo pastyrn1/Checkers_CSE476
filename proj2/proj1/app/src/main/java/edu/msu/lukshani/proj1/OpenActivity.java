@@ -44,9 +44,10 @@ public class OpenActivity extends AppCompatActivity {
                     Toast.makeText(OpenActivity.this, "Missing UserId or Password", Toast.LENGTH_LONG).show();
                 }
                 //else if (correct username and password)
-//                  dummy activity
-                //else "incorrect/invalid input"
-//                Toast.makeText(OpenActivity.this, "Invalid Username or Password", Toast.LENGTH_LONG).show();
+//                  startActivity(new Intent(OpenActivity.this, DummyActivity.class));
+                else {
+                    Toast.makeText(OpenActivity.this, "Invalid Username or Password", Toast.LENGTH_LONG).show();
+                }
             }
         });
 

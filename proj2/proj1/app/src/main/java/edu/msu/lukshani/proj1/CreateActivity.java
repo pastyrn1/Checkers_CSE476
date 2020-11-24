@@ -54,7 +54,7 @@ public class CreateActivity extends AppCompatActivity {
                         password2.setError("Please confirm password");
                         return;
                     }//create and save
-
+                    saveUser(username,password1);
                 }
 
 
@@ -69,7 +69,7 @@ public class CreateActivity extends AppCompatActivity {
     /** saving the user
      * @param username name of user
      */
-    private void saveUser(EditText username){
+    private void saveUser(EditText username, final EditText password1){
         username = username;
         final EditText finalUsername = username;
         new Thread(new Runnable() {
@@ -78,7 +78,8 @@ public class CreateActivity extends AppCompatActivity {
                 Cloud cloud = new Cloud();
                 final boolean ok = cloud.saveToCloud(finalUsername, password1);
                 if(!ok){
-                    
+
+
                 }
             }
         });
