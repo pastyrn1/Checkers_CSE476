@@ -57,6 +57,7 @@ public class CreateActivity extends AppCompatActivity {
 
                 }
 
+
                 Intent i = new Intent(CreateActivity.this, OpenActivity.class);
                 startActivity(i);
                 finish();

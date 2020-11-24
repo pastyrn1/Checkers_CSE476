@@ -16,7 +16,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
-import edu.msu.lukshani.proj1.CreateActivity;
+//import edu.msu.lukshani.proj1.CreateActivity;
 
 //import edu.msu.lukshani.proj1.Cloud.R;
 //import retrofit2.Response;
@@ -26,7 +26,7 @@ import edu.msu.lukshani.proj1.CreateActivity;
 @SuppressWarnings("deprecation")
 public class Cloud {
     private static final String BASE_URL = "https://webdev.cse.msu.edu/~pastyrn1/cse476/project2/";
-    public static final String CATALOG_PATH = "create-player.php";
+    public static final String CREATE_PATH = "create-player.php";
 
     private static final String MAGIC = "NechAtHa6RuzeR8x";
 

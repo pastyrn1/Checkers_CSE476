@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Project2</string>
+    <string name="welcome">Welcome to Checkers</string>
+    <string name="startButton">Start</string>
+    <string name="player1text">Player 1</string>
+    <string name="nameHint">Name</string>
+    <string name="userHint">Username</string>
+    <string name="userConfirm">Confirm Username</string>
+    <string name="loginBtn">Login as existing user</string>
+    <string name="login">Login</string>
+    <string name="createBtn">Create a new user</string>
+    <string name="new_user">New User</string>
+    <string name="passwordHint">Password</string>
+    <string name="passConfirm">Confirm Password</string>
+    <string name="player2text">Player 2</string>
+    <string name="restart">Restart</string>
+    <string name="piece_desc">checker pieces design</string>
+    <string name="resignButton">Resign</string>
+    <string name="doneButton">Done</string>
+    <string name="endMessage">Message</string>
+    <string name="dialogue">Instructions</string>
+    <string name="failed_to_save">Failed to save user to the server</string>
+    <string name="name_prompt">User:</string>
+    <string name="password_prompt">Pw:</string>
+</resources>
