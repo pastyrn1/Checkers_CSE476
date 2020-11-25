@@ -45,8 +45,7 @@ public class CreateActivity extends AppCompatActivity {
                     password2.setError("Passwords do not not match");
                     //Toast.makeText(CreateActivity.this, "Passwords don't match", Toast.LENGTH_LONG).show();
                     return;
-                }
-                else{ // both passwords are the same
+                } else { // both passwords are the same
                     //String pass = pass1;
                     if(TextUtils.isEmpty(user)){
                         username.setError("Please provide username");
@@ -62,23 +61,10 @@ public class CreateActivity extends AppCompatActivity {
                     create(user,pass1);
                 }
 
-//                Intent i = new Intent(CreateActivity.this, DummyActivity.class);
-//                startActivity(i);
-//                finish();
             }
         });
 
     }
-//    private Activity getActivity() {
-//        Context context = getContext();
-//        while (context instanceof ContextWrapper) {
-//            if (context instanceof Activity) {
-//                return (Activity)context;
-//            }
-//            context = ((ContextWrapper)context).getBaseContext();
-//        }
-//        return null;
-//    }
 
     /**
      * Attempt a login with input information
@@ -87,15 +73,6 @@ public class CreateActivity extends AppCompatActivity {
      */
     private void create(final String name, final String pw) {
 
-
-//        if (!(getActivity() instanceof StartActivity)) {
-//            return;
-//        }
-//
-//        final StartActivity activity = (StartActivity) getActivity();
-//        final View view = (View) activity.findViewById(R.id.relativeLayout);//TODO: check this work
-        //final View view = (View) findViewById(R.id.relativeLayout);
-        //final View view = (View) findViewById(R.id.relativeLayout);
         final View view = (View) findViewById(R.id.CreateLayout);
 
         new Thread(new Runnable() {
@@ -112,8 +89,11 @@ public class CreateActivity extends AppCompatActivity {
                         }
                     });
 
+                } else {
+                    startActivity(new Intent(CreateActivity.this, DummyActivity.class));
                 }
             }
         }).start();
+
     }
 }

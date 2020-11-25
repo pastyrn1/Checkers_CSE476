@@ -22,4 +22,14 @@
     <string name="failed_to_save">Failed to save user to the server</string>
     <string name="name_prompt">User:</string>
     <string name="password_prompt">Pw:</string>
+    <string name="dummy_message">You made it to the dummy!</string>
+    <string name="title_activity_dummy">DummyActivity</string>
+    <!-- Strings used for fragments for navigation -->
+    <string name="first_fragment_label">First Fragment</string>
+    <string name="second_fragment_label">Second Fragment</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+
+    <string name="hello_first_fragment">Hello first fragment</string>
+    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
 </resources>
