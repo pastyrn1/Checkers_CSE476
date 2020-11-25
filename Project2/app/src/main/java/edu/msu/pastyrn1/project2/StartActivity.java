@@ -1,5 +1,6 @@
 package edu.msu.pastyrn1.project2;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
@@ -21,8 +22,9 @@ public class StartActivity extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                CreateDlg dlg1 = new CreateDlg();
-                dlg1.show(getSupportFragmentManager(), "create");
+//                CreateDlg dlg1 = new CreateDlg();
+//                dlg1.show(getSupportFragmentManager(), "create");
+                startActivity(new Intent(StartActivity.this, CreateActivity.class));
             }
         });
 
