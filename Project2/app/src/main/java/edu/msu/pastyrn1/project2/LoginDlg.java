@@ -74,7 +74,7 @@ public class LoginDlg extends DialogFragment {
         }
 
         final StartActivity activity = (StartActivity) getActivity();
-        final View view = (View) activity.findViewById(R.id.relativeLayout);//TODO: check this works
+        final View view = (View) activity.findViewById(R.id.relativeLayout);
 
         new Thread(new Runnable() {
 
