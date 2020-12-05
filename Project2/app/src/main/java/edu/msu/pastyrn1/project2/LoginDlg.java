@@ -86,7 +86,7 @@ public class LoginDlg extends DialogFragment {
                     //If we fail to find the user, display a toast
                     view.post(new Runnable(){
                         public void run() {
-                            Toast.makeText(view.getContext(), "User Creation Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(view.getContext(), "Login Failed", Toast.LENGTH_SHORT).show();
                         }
                     });
 
