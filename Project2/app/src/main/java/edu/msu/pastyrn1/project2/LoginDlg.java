@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -85,11 +86,14 @@ public class LoginDlg extends DialogFragment {
                     //If we fail to find the user, display a toast
                     view.post(new Runnable(){
                         public void run() {
-                            Toast.makeText(view.getContext(), "Login Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(view.getContext(), "User Creation Failed", Toast.LENGTH_SHORT).show();
                         }
                     });
 
+                } else {
+                    //TODO: Start Dummy Activity here
                 }
+
             }
         }).start();
     }
