@@ -18,6 +18,7 @@ public class Cloud {
     private static final String BASE_URL = "https://webdev.cse.msu.edu/~pastyrn1/cse476/project2/";
     public static final String CREATE_PATH = "create-player.php";
     public static final String LOAD_PATH = "load-player.php";
+    public static final String SET_PATH = "set-board.php";
     private static final String MAGIC = "NechAtHa6RuzeR8x"; //TODO: alter this?
 
     private static Retrofit retrofit = new Retrofit.Builder()
@@ -57,6 +58,38 @@ public class Cloud {
 
         } catch (IOException e) {
             Log.e("LoginUser", "Exception occurred while logging in.", e);
+            return false;
+        }
+
+    }
+
+    /**
+     * Set the checkerboard database
+     * @return true if successful
+     */
+    public boolean setBoard(){
+
+        CheckersService service = retrofit.create(CheckersService.class);
+        try {
+            Response<CreateResult> response = service.setBoard().execute();
+
+            // check if request failed
+            if (!response.isSuccessful()) {
+                Log.e("SetBoard", "Failed to set the board, response code is = " + response.code());
+                return false;
+            }
+
+            //check if status == "yes"
+            CreateResult result = response.body();
+            if (result.getStatus().equals("yes")) {
+                return true;
+            }
+
+            Log.e("SetBoard", "Failed to set the board, message is = '" + result.getMessage() + "'");
+            return false;
+
+        } catch (IOException e) {
+            Log.e("SetBoard", "Exception occurred while logging in.", e);
             return false;
         }
 

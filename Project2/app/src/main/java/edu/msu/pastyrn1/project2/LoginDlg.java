@@ -89,6 +89,9 @@ public class LoginDlg extends DialogFragment {
             public void run() {
                 Cloud cloud = new Cloud();
                 final boolean ok = cloud.checkExistence(name, pw);
+
+                //cloud.setBoard(); //TODO:remove this tester code
+
                 if(!ok) {
                     //If we fail to find the user, display a toast
                     view.post(new Runnable(){

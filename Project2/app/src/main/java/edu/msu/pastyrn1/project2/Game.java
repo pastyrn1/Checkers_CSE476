@@ -57,15 +57,15 @@ public class Game {
     private boolean myTurn = true;
 
     /**
+     * Indices of dragging before move attempt
+     */
+    private int startXIdx, startYIdx;
+
+    /**
      * This variable is set to a piece we are dragging. If
      * we are not dragging, the variable is null.
      */
     private CheckerPiece dragging = null;
-
-    /**
-     * Indices of dragging before move attempt
-     */
-    private int startXIdx, startYIdx;
 
     /**
      * This variable is set to a piece capable of a second or third jump. If
@@ -76,14 +76,15 @@ public class Game {
     /**
      * Collection of checker pieces for each player
      */
-    public ArrayList<CheckerPiece> player1_pieces = new ArrayList<CheckerPiece>();
-    public ArrayList<CheckerPiece> player2_pieces = new ArrayList<CheckerPiece>();
+    public ArrayList<CheckerPiece> userPieces = new ArrayList<CheckerPiece>();
+    public ArrayList<CheckerPiece> enemyPieces = new ArrayList<CheckerPiece>();
 
     private Context context;
 
+
+
+
     //TODO: makes these variables obsolete
-
-
     /**
      * Valid locations of checker squares
      */
@@ -105,6 +106,12 @@ public class Game {
     private final static String P1YLOCATIONS = "Game.p1ylocations";
     private final static String P2YLOCATIONS = "Game.p2ylocations";
 
+
+
+
+
+
+
     public Game(Context context){
         this.context = context;
 
@@ -112,20 +119,36 @@ public class Game {
         fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         //TODO: check this isn't necessary here: fillPaint.setColor(0xff006400);
 
-        // Create lower pieces (player 1)
+
+        //TODO: set player
+        int player = 1;
+
+        // Create lower pieces (user)
         for(int i = 5; i < 8; i++){
             for(int j = 0; j < 8; j++){
                 if(i % 2 !=  j % 2) {
-                    player1_pieces.add(new CheckerPiece(context, R.drawable.green, R.drawable.spartan_green, j, i, -1));
+
+                    if(player == 1){
+                        userPieces.add(new CheckerPiece(context, R.drawable.green, R.drawable.spartan_green, j, i, -1));
+                    } else {
+                        userPieces.add(new CheckerPiece(context, R.drawable.white, R.drawable.spartan_white, j, i, 1));
+                    }
+
                 }
             }
         }
 
-        // Create upper pieces (player 2)
+        // Create upper pieces (opponent)
         for(int i = 0; i < 3; i++){
             for(int j = 0; j < 8; j++){
                 if(i % 2 !=  j % 2) {
-                    player2_pieces.add(new CheckerPiece(context, R.drawable.white, R.drawable.spartan_white, j, i, 1));
+
+                    if(player == 1){
+                        enemyPieces.add(new CheckerPiece(context, R.drawable.white, R.drawable.spartan_white, j, i, 1));
+                    } else {
+                        enemyPieces.add(new CheckerPiece(context, R.drawable.green, R.drawable.spartan_green, j, i, -1));
+                    }
+
                 }
             }
         }
@@ -171,12 +194,12 @@ public class Game {
         }
         canvas.restore();
 
-        // Draw the pieces, current player first
-        for (CheckerPiece piece : player1_pieces) {
+        // Draw the pieces, user player first
+        for (CheckerPiece piece : userPieces) {
             piece.draw(canvas, marginX, marginY, gameSize);
         }
 
-        for (CheckerPiece piece : player2_pieces) {
+        for (CheckerPiece piece : enemyPieces) {
             piece.draw(canvas, marginX, marginY, gameSize);
         }
     }
@@ -234,20 +257,20 @@ public class Game {
         // Check each piece to see if it has been hit
         // We do this in reverse order for reasons
         if(myTurn && !isTurnComplete){
-            for(int p = player1_pieces.size()-1; p>=0;  p--) {
-                if(player1_pieces.get(p).hit(x, y, gameSize)) {
+            for(int p = userPieces.size()-1; p>=0;  p--) {
+                if(userPieces.get(p).hit(x, y, gameSize)) {
                     // We hit current player piece!
-                    if(jumper == null || player1_pieces.get(p) == jumper) {
+                    if(jumper == null || userPieces.get(p) == jumper) {
                         // Set dragging to touched piece
-                        dragging = player1_pieces.get(p);
+                        dragging = userPieces.get(p);
 
                         // Record piece's start index
                         startXIdx = dragging.getXIdx();
                         startYIdx = dragging.getYIdx();
 
                         // Move dragged piece to top of ArrayList
-                        player1_pieces.set(p, player1_pieces.get(player1_pieces.size() - 1));
-                        player1_pieces.set(player1_pieces.size() - 1, dragging);
+                        userPieces.set(p, userPieces.get(userPieces.size() - 1));
+                        userPieces.set(userPieces.size() - 1, dragging);
 
                         // Record relative position for calculating visual movement of piece
                         lastRelX = x;
@@ -329,13 +352,12 @@ public class Game {
      * check if a player has won
      */
     public void checkWin(){
-        if (player2_pieces.isEmpty()){
+        if (enemyPieces.isEmpty()){
             win = 1;
-        } else if (player1_pieces.isEmpty()){
+        } else if (userPieces.isEmpty()){
             win = 2;
         }
     }
-
 
     private class Opponents {
         /**

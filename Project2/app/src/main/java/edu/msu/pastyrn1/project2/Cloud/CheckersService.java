@@ -10,6 +10,7 @@ import retrofit2.http.Field;
 
 import static edu.msu.pastyrn1.project2.Cloud.Cloud.CREATE_PATH;
 import static edu.msu.pastyrn1.project2.Cloud.Cloud.LOAD_PATH;
+import static edu.msu.pastyrn1.project2.Cloud.Cloud.SET_PATH;
 
 public interface CheckersService {
     @GET(LOAD_PATH)
@@ -21,4 +22,7 @@ public interface CheckersService {
     @FormUrlEncoded
     @POST(CREATE_PATH)
     Call<CreateResult> createUser(@Field("xml") String xmlData);
+
+    @GET(SET_PATH)
+    Call<CreateResult> setBoard();
 }
