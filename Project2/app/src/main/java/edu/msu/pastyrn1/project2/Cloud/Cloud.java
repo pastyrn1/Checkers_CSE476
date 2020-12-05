@@ -18,7 +18,7 @@ public class Cloud {
     private static final String BASE_URL = "https://webdev.cse.msu.edu/~pastyrn1/cse476/project2/";
     public static final String CREATE_PATH = "create-player.php";
     public static final String LOAD_PATH = "load-player.php";
-    //private static final String MAGIC = "NechAtHa6RuzeR8x"; //TODO: alter this?
+    private static final String MAGIC = "NechAtHa6RuzeR8x"; //TODO: alter this?
 
     private static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -38,7 +38,7 @@ public class Cloud {
 
             //TODO: Create loginResult/userResult once more information needs to be retrieved
 
-            Response<CreateResult> response = service.loginUser().execute();//, password).execute();
+            Response<CreateResult> response = service.loginUser(username, password).execute();
 
             // check if request failed
             if (!response.isSuccessful()) {
@@ -69,7 +69,7 @@ public class Cloud {
      * @return true if successful
      */
     public boolean createUser(String username, String password){
-        /*username = username.trim();
+        username = username.trim();
         if(username.length() == 0) {
             return false;
         }
@@ -107,7 +107,7 @@ public class Cloud {
         } catch (IOException e){
             //Log.e("CreateUser", "Exception occurred while trying to create a new user.", e);
             return false;
-        }*/
+        }
 
         return true;
     }

@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -75,6 +77,12 @@ public class LoginDlg extends DialogFragment {
         final StartActivity activity = (StartActivity) getActivity();
         final View view = (View) activity.findViewById(R.id.relativeLayout);//TODO: check this works
 
+        if(name.isEmpty()|pw.isEmpty()){
+            Toast.makeText(view.getContext(), "Login Failed: Username or Password not provided",
+                    Toast.LENGTH_LONG).show();
+            return;
+        }
+
         new Thread(new Runnable() {
 
             @Override
@@ -89,7 +97,13 @@ public class LoginDlg extends DialogFragment {
                         }
                     });
 
+                } else {
+                    //TODO: Start Dummy Activity here
+//                    Intent intent = new Intent(getContext(), DummyActivity.class);
+//                    startActivity(intent);
+
                 }
+
             }
         }).start();
     }
