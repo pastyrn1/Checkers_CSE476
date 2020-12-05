@@ -18,7 +18,7 @@ public class Cloud {
     private static final String BASE_URL = "https://webdev.cse.msu.edu/~pastyrn1/cse476/project2/";
     public static final String CREATE_PATH = "create-player.php";
     public static final String LOAD_PATH = "load-player.php";
-    private static final String MAGIC = "NechAtHa6RuzeR8x"; //TODO: alter this?
+    //private static final String MAGIC = "NechAtHa6RuzeR8x"; //TODO: alter this?
 
     private static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -31,12 +31,14 @@ public class Cloud {
      * @param password password of user
      * @return true if successful
      */
-    public boolean checkExistence(String username, String password){
-        return false;
-        /*CheckersService service = retrofit.create(CheckersService.class);
+    public boolean checkExistence(final String username, final String password){
+
+        CheckersService service = retrofit.create(CheckersService.class);
         try {
+
             //TODO: Create loginResult/userResult once more information needs to be retrieved
-            Response<CreateResult> response = service.loginUser(username, MAGIC, password).execute();
+
+            Response<CreateResult> response = service.loginUser().execute();//, password).execute();
 
             // check if request failed
             if (!response.isSuccessful()) {
@@ -44,17 +46,20 @@ public class Cloud {
                 return false;
             }
 
+            //check if status == "yes"
             CreateResult result = response.body();
-            if (!result.getStatus().equals("yes")) {
-                Log.e("LoginUser", "Failed to login, message is = '" + result.getMessage() + "'");
-                return false;
+            if (result.getStatus().equals("yes")) {
+                return true;
             }
+
+            Log.e("LoginUser", "Failed to login, message is = '" + result.getMessage() + "'");
+            return false;
+
         } catch (IOException e) {
             Log.e("LoginUser", "Exception occurred while logging in.", e);
             return false;
         }
 
-        return true;*/
     }
 
     /**

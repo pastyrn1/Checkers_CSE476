@@ -11,18 +11,26 @@ public class CreateResult {
     @Attribute(name = "msg", required = false)
     private String message;
 
-    public String getMessage(){return message;}
+    public String getMessage() {
+        return message;
+    }
 
-    public void setMessage(String message){this.message = message;}
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
-    public String getStatus() {return status;}
+    public String getStatus() {
+        return status;
+    }
 
-    public void setStatus(String status) {this.status = status;}
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     public CreateResult() {}
 
-    public CreateResult(String status, String message) {
+    public CreateResult(String status, String msg) {
         this.status = status;
-        this.message = message;
+        this.message = msg;
     }
 }
