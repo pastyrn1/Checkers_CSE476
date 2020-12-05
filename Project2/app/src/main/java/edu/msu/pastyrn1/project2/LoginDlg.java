@@ -73,7 +73,7 @@ public class LoginDlg extends DialogFragment {
         }
 
         final StartActivity activity = (StartActivity) getActivity();
-        final View view = (View) activity.findViewById(R.id.relativeLayout);//TODO: check this works
+        final View view = (View) activity.findViewById(R.id.relativeLayout);
 
         new Thread(new Runnable() {
 
@@ -81,6 +81,9 @@ public class LoginDlg extends DialogFragment {
             public void run() {
                 Cloud cloud = new Cloud();
                 final boolean ok = cloud.checkExistence(name, pw);
+
+                //cloud.setBoard(); //TODO:remove this tester code
+
                 if(!ok) {
                     //If we fail to find the user, display a toast
                     view.post(new Runnable(){
