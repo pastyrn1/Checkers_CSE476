@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
@@ -98,8 +99,8 @@ public class LoginDlg extends DialogFragment {
 
                 } else {
                     //TODO: Start Dummy Activity here
-                    Intent intent = new Intent(getActivity(), DummyActivity.class);
-                    startActivity(intent);
+//                    Intent intent = new Intent(getContext(), DummyActivity.class);
+//                    startActivity(intent);
 
                 }
 
