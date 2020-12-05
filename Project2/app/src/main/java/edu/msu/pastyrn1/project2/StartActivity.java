@@ -17,13 +17,10 @@ public class StartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        //TODO: convert this to a call to the 'new user activity'
         Button createButton = findViewById(R.id.createButton);
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                CreateDlg dlg1 = new CreateDlg();
-//                dlg1.show(getSupportFragmentManager(), "create");
                 startActivity(new Intent(StartActivity.this, CreateActivity.class));
             }
         });
