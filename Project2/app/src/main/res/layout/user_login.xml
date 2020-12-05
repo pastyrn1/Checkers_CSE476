@@ -30,7 +30,9 @@
         android:layout_centerInParent="false"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:inputType="text" />
+        android:autofillHints="@string/userHint"
+        android:hint="@string/userHint"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/editPw"
@@ -41,5 +43,7 @@
         android:layout_centerInParent="false"
         android:layout_centerHorizontal="true"
         android:ems="10"
-        android:inputType="text" />
+        android:hint="@string/passwordHint"
+        android:autofillHints="@string/passwordHint"
+        android:inputType="textPassword" />
 </RelativeLayout>
