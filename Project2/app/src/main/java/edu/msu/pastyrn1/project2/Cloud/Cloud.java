@@ -18,6 +18,8 @@ public class Cloud {
     private static final String BASE_URL = "https://webdev.cse.msu.edu/~pastyrn1/cse476/project2/";
     public static final String CREATE_PATH = "create-player.php";
     public static final String LOAD_PATH = "load-player.php";
+    public static final String SET_PATH = "set-board.php";
+
     //private static final String MAGIC = "NechAtHa6RuzeR8x"; //TODO: alter this?
 
     private static Retrofit retrofit = new Retrofit.Builder()
