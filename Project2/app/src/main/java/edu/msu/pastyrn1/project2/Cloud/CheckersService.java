@@ -14,9 +14,10 @@ import static edu.msu.pastyrn1.project2.Cloud.Cloud.SET_PATH;
 
 public interface CheckersService {
     @GET(LOAD_PATH)
-    Call<CreateResult> loginUser();
-    //@Query("user") String username,
-    //@Query("pw") String password
+    Call<CreateResult> loginUser(
+            @Query("user") String username,
+            @Query("pw") String password
+    );
 
     @FormUrlEncoded
     @POST(CREATE_PATH)
