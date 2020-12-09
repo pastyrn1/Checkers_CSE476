@@ -29,8 +29,9 @@ public class StartActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                LoginDlg dlg2 = new LoginDlg();
-                dlg2.show(getSupportFragmentManager(), "login");
+//                LoginDlg dlg2 = new LoginDlg();
+//                dlg2.show(getSupportFragmentManager(), "login");
+                startActivity(new Intent(StartActivity.this, LoginActivity.class));
             }
         });
 
