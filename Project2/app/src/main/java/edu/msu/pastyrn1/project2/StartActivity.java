@@ -12,6 +12,7 @@ import android.widget.Button;
 
 public class StartActivity extends AppCompatActivity {
 
+
     public static String REFRESH_DATA_INTENT = "edu.msu.pastryn1.fcm.refreshdata";
     public static String MESSAGE_FROM = "edu.msu.pastryn1.fcm.messagefrom";
     public static String MESSAGE_BODY = "edu.msu.pastryn1.fcm.messagebody";
