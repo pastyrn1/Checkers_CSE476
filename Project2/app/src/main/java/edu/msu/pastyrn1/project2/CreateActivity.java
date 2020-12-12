@@ -2,13 +2,9 @@ package edu.msu.pastyrn1.project2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -89,8 +85,8 @@ public class CreateActivity extends AppCompatActivity {
                         }
                     });
 
-                } else {
-                    startActivity(new Intent(CreateActivity.this, DummyActivity.class));
+                } else {//Return to the opening screen to log in
+                    startActivity(new Intent(CreateActivity.this, StartActivity.class));
                 }
             }
         }).start();

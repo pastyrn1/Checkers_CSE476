@@ -23,6 +23,7 @@
     <string name="name_prompt">User:</string>
     <string name="password_prompt">Pw:</string>
     <string name="dummy_message">You made it to the dummy!</string>
+    <string name="wait_message">Waiting for Player 2 to join</string>
     <string name="title_activity_dummy">DummyActivity</string>
     <string name="checkbox">Remember</string>
 
