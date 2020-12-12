@@ -58,6 +58,24 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     /**
+     * Saves input information if box is checked
+     * @param name username
+     * @param pw password
+     */
+    private void saveCheckBox(String name, String pw){
+        if (saveLoginCheckBox.isChecked()) {
+            loginPrefsEditor.putBoolean("saveLogin", true);
+            loginPrefsEditor.putString("username", name);
+            loginPrefsEditor.putString("password", pw);
+            loginPrefsEditor.commit();
+        } else {
+            loginPrefsEditor.clear();
+            loginPrefsEditor.commit();
+        }
+    }
+
+
+    /**
      * Attempt a login with input information
      * @param name username
      * @param pw password
@@ -80,18 +98,38 @@ public class LoginActivity extends AppCompatActivity {
                         }
                     });
 
-                } else { //check if available: game, else: waiting
-                    if (saveLoginCheckBox.isChecked()) {
-                        loginPrefsEditor.putBoolean("saveLogin", true);
-                        loginPrefsEditor.putString("username", username.getText().toString());
-                        loginPrefsEditor.putString("password", password.getText().toString());
-                        loginPrefsEditor.commit();
-                    } else {
-                        loginPrefsEditor.clear();
-                        loginPrefsEditor.commit();
-                    }
+                } else {//check if available: game, else: waiting
+                    saveCheckBox(name, pw);
+//                    if (saveLoginCheckBox.isChecked()) {
+//                        loginPrefsEditor.putBoolean("saveLogin", true);
+//                        loginPrefsEditor.putString("username", username.getText().toString());
+//                        loginPrefsEditor.putString("password", password.getText().toString());
+//                        loginPrefsEditor.commit();
+//                    } else {
+//                        loginPrefsEditor.clear();
+//                        loginPrefsEditor.commit();
+//                    }
+
+            ////////    CHECKING IF GAME EXISTS     ////////////
+
+//                    final boolean game = cloud.checkgame()
+
+//                    if(game exists){
+//                        Intent i = new Intent(LoginActivity.this, GameActivity.class);
+////                        i.putExtra("name", name);
+//                        startActivity(i);
+//                    }
+//
+//                    else{
+//                        Intent intent = new Intent(LoginActivity.this, WaitingActivity.class);
+////                        intent.putExtra("name", name);
+//                        startActivity(intent);
+//                    }
+
+            ////////    CHECKING IF GAME EXISTS/>     ////////////
+
                         Intent intent = new Intent(LoginActivity.this, WaitingActivity.class);
-//                        intent.putExtra("name", name);
+                        intent.putExtra("name", name);
                         startActivity(intent);
 
                 }
