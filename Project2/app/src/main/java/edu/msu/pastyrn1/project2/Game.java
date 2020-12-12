@@ -110,7 +110,7 @@ public class Game {
      * player number of user
      */
     private int player;
-    
+
 
     public Game(Context context, int player){
         this.context = context;
