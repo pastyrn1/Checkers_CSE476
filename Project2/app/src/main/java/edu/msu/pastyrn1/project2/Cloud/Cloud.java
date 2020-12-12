@@ -7,8 +7,10 @@ import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
 import java.io.StringWriter;
+import java.util.ArrayList;
 
-import edu.msu.pastyrn1.project2.Cloud.Models.CreateResult;
+import edu.msu.pastyrn1.project2.CheckerPiece;
+import edu.msu.pastyrn1.project2.Cloud.Models.SimpleResult;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
@@ -19,7 +21,12 @@ public class Cloud {
     public static final String CREATE_PATH = "create-player.php";
     public static final String LOAD_PATH = "load-player.php";
     public static final String SET_PATH = "set-board.php";
+    public static final String UPDATE_PATH = "update-piece.php";
     private static final String MAGIC = "NechAtHa6RuzeR8x"; //TODO: alter this?
+
+    //current user/pw
+    private String user;
+    private String pw;
 
     private static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -39,7 +46,7 @@ public class Cloud {
 
             //TODO: Create loginResult/userResult once more information needs to be retrieved
 
-            Response<CreateResult> response = service.loginUser(username, password).execute();
+            Response<SimpleResult> response = service.loginUser(username, password).execute();
 
             // check if request failed
             if (!response.isSuccessful()) {
@@ -48,8 +55,10 @@ public class Cloud {
             }
 
             //check if status == "yes"
-            CreateResult result = response.body();
+            SimpleResult result = response.body();
             if (result.getStatus().equals("yes")) {
+                user = username;
+                pw = password;
                 return true;
             }
 
@@ -71,7 +80,7 @@ public class Cloud {
 
         CheckersService service = retrofit.create(CheckersService.class);
         try {
-            Response<CreateResult> response = service.setBoard().execute();
+            Response<SimpleResult> response = service.setBoard().execute();
 
             // check if request failed
             if (!response.isSuccessful()) {
@@ -80,7 +89,7 @@ public class Cloud {
             }
 
             //check if status == "yes"
-            CreateResult result = response.body();
+            SimpleResult result = response.body();
             if (result.getStatus().equals("yes")) {
                 return true;
             }
@@ -132,7 +141,7 @@ public class Cloud {
         final String xmlStr = writer.toString();
 
         try{
-            CreateResult result = service.createUser(xmlStr).execute().body();
+            SimpleResult result = service.createUser(xmlStr).execute().body();
             if (result.getStatus() == null || !result.getStatus().equals("yes")) {
                 //Log.e("CreateUser", "Failed to create, message = '" + result.getMessage() + "'");
                 return false;
@@ -142,6 +151,76 @@ public class Cloud {
             return false;
         }
 
+        user = username;
+        pw = password;
         return true;
+    }
+
+    /**
+     * Commit the results of a moved piece to the board
+     * This should be run in a thread.
+     * @param piece checker piece moved
+     * @param killed checker piece casualties
+     * @return true if successful
+     */
+    public boolean updatePiece(CheckerPiece piece, ArrayList<CheckerPiece> killed) {
+
+        // Create an XML packet with the information about the results of the player's turn
+        XmlSerializer xml = Xml.newSerializer();
+        StringWriter writer = new StringWriter();
+
+        try {
+            xml.setOutput(writer);
+
+            xml.startDocument("UTF-8", true);
+
+            xml.startTag(null, "checkers");
+
+            xml.attribute(null, "user", user);
+            xml.attribute(null, "pw", pw);
+            xml.attribute(null, "magic", MAGIC);
+
+            // Add moved piece to the xml
+            xml.startTag(null, "checkertable");
+
+            xml.attribute(null, "xidx", String.valueOf(piece.getXIdx()));
+            xml.attribute(null, "yidx", String.valueOf(piece.getYIdx()));
+            xml.attribute(null, "king", String.valueOf(piece.getKing()));
+
+            xml.endTag(null, "checkertable");
+
+            // Add casualties to the xml
+            for(CheckerPiece casualty : killed){
+                xml.startTag(null, "checkertable");
+
+                xml.attribute(null, "xidx", String.valueOf(casualty.getXIdx()));
+                xml.attribute(null, "yidx", String.valueOf(casualty.getYIdx()));
+                xml.attribute(null, "king", String.valueOf(casualty.getKing()));
+
+                xml.endTag(null, "checkertable");
+            }
+
+            xml.endTag(null, "checkers");
+
+            xml.endDocument();
+
+        } catch (IOException e) {
+            return false;
+        }
+
+        CheckersService service = retrofit.create(CheckersService.class);
+        final String xmlStr = writer.toString();
+        try {
+            SimpleResult result = service.updatePiece(xmlStr).execute().body();
+            if (result.getStatus() != null && result.getStatus().equals("yes")) {
+                return true;
+            }
+            Log.e("UpdatePiece", "Failed to update, message = '" + result.getMessage() + "'");
+            return false;
+        } catch (IOException e) {
+            Log.e("UpdatePiece", "Exception occurred while trying to update piece", e);
+            return false;
+        }
+
     }
 }

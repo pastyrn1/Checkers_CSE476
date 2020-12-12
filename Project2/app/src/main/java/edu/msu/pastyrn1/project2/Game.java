@@ -106,13 +106,13 @@ public class Game {
     private final static String P1YLOCATIONS = "Game.p1ylocations";
     private final static String P2YLOCATIONS = "Game.p2ylocations";
 
+    /**
+     * player number of user
+     */
+    private int player;
+    
 
-
-
-
-
-
-    public Game(Context context){
+    public Game(Context context, int player){
         this.context = context;
 
         // Create paint for filling the game board
@@ -121,7 +121,8 @@ public class Game {
 
 
         //TODO: set player
-        int player = 1;
+        //int player = 1;
+        this.player = player;
 
         // Create lower pieces (user)
         for(int i = 5; i < 8; i++){
