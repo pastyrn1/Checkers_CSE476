@@ -4,7 +4,7 @@ import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
 @Root(name = "checkers")
-public class CreateResult {
+public class SimpleResult {
     @Attribute
     private String status;
 
@@ -27,9 +27,9 @@ public class CreateResult {
         this.status = status;
     }
 
-    public CreateResult() {}
+    public SimpleResult() {}
 
-    public CreateResult(String status, String msg) {
+    public SimpleResult(String status, String msg) {
         this.status = status;
         this.message = msg;
     }
