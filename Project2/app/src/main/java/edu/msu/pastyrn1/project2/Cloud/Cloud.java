@@ -2,6 +2,10 @@ package edu.msu.pastyrn1.project2.Cloud;
 
 import android.util.Log;
 import android.util.Xml;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlSerializer;
 
@@ -10,7 +14,10 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 
 import edu.msu.pastyrn1.project2.CheckerPiece;
+import edu.msu.pastyrn1.project2.Cloud.Models.BoardResult;
 import edu.msu.pastyrn1.project2.Cloud.Models.SimpleResult;
+import edu.msu.pastyrn1.project2.Cloud.Models.TablePiece;
+import edu.msu.pastyrn1.project2.R;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
@@ -19,14 +26,15 @@ import retrofit2.converter.simplexml.SimpleXmlConverterFactory;
 public class Cloud {
     private static final String BASE_URL = "https://webdev.cse.msu.edu/~pastyrn1/cse476/project2/";
     public static final String CREATE_PATH = "create-player.php";
-    public static final String LOAD_PATH = "load-player.php";
+    public static final String LOAD_P_PATH = "load-player.php";
     public static final String SET_PATH = "set-board.php";
+    public static final String LOAD_B_PATH = "load-board.php";
     public static final String UPDATE_PATH = "update-piece.php";
     private static final String MAGIC = "NechAtHa6RuzeR8x"; //TODO: alter this?
 
     //current user/pw
-    private String user;
-    private String pw;
+    public String user;
+    public String pw;
 
     private static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -157,6 +165,40 @@ public class Cloud {
     }
 
     /**
+     * Load the current board layout
+     * @return piece locations and identities
+     */
+    public boolean loadBoard(){
+
+        CheckersService service = retrofit.create(CheckersService.class);
+        try {
+
+            //TODO: Create boardResult once more information needs to be retrieved
+
+            Response<BoardResult> response = service.loadBoard(user, pw).execute();
+
+            // check if request failed
+            if (!response.isSuccessful()) {
+                Log.e("LoadBoard", "Failed to load board, response code is = " + response.code());
+                return false;
+            }
+
+            //check if status == "yes"
+            BoardResult result = response.body();
+            if (result.getStatus().equals("yes")) {
+                return true;
+            }
+
+            Log.e("LoadBoard", "Failed to load board, message is = '" + result.getMessage() + "'");
+            return false;
+
+        } catch (IOException e) {
+            Log.e("LoadBoard", "Exception occurred while loading board.", e);
+            return false;
+        }
+    }
+
+    /**
      * Commit the results of a moved piece to the board
      * This should be run in a thread.
      * @param piece checker piece moved
@@ -223,4 +265,93 @@ public class Cloud {
         }
 
     }
+
+    /**
+     * An adapter so that the board can show current checker pieces from the cloud.
+     */
+    public static class BoardAdapter extends BaseAdapter {
+        /**
+         * The checker pieces active in the current game. Initially this is
+         * null until we get checkertable information from the server.
+         */
+        private BoardResult board = new BoardResult("", new ArrayList(), "");
+
+        private String user;
+        private String pw;
+
+        /**
+         * Constructor
+         */
+        public BoardAdapter(final View view, String user, String pw) {
+
+            this.user = user;
+            this.pw = pw;
+
+            // Create a thread to load the board
+            new Thread(new Runnable() {
+
+                @Override
+                public void run() {
+                    try {
+                        board = getBoard();
+
+                        if (board.getStatus().equals("no")) {
+                            String msg = "Loading board returned status 'no'! Message is = '" + board.getMessage() + "'";
+                            throw new Exception(msg);
+                        }
+
+                        view.post(new Runnable() {
+
+                            @Override
+                            public void run() {
+                                // Tell the adapter the data set has been changed
+                                notifyDataSetChanged();
+                            }
+
+                        });
+                    } catch (Exception e) {
+                        // Error condition! Something went wrong
+                        Log.e("BoardAdapter", "Something went wrong when loading the board", e);
+                        view.post(new Runnable() {
+                            @Override
+                            public void run() {
+                                // Creates a toast in the event there is an error
+                                Toast.makeText(view.getContext(), R.string.board_fail, Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }
+            }).start();
+        }
+
+        public BoardResult getBoard() throws IOException{
+            CheckersService service = retrofit.create(CheckersService.class);
+            return service.loadBoard(user, pw).execute().body();
+        }
+
+        @Override
+        public int getCount() {
+            return board.getPieces().size();
+        }
+
+        @Override
+        public TablePiece getItem(int position) {
+            return board.getPieces().get(position);
+        }
+
+        @Override
+        public long getItemId(int position) {
+            return position;
+        }
+
+        @Override
+        public View getView(int position, View view, ViewGroup parent) {
+            //apply view changes and call set game here
+
+            return view;
+        }
+
+    }
+
+
 }
