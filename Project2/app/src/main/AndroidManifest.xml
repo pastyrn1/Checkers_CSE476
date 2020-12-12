@@ -13,7 +13,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".LoginActivity"></activity>
         <activity
-            android:name=".DummyActivity"
+            android:name=".WaitingActivity"
             android:label="@string/title_activity_dummy"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".CreateActivity" />
