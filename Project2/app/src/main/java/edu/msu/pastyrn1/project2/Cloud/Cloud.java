@@ -19,8 +19,7 @@ public class Cloud {
     public static final String CREATE_PATH = "create-player.php";
     public static final String LOAD_PATH = "load-player.php";
     public static final String SET_PATH = "set-board.php";
-
-    //private static final String MAGIC = "NechAtHa6RuzeR8x"; //TODO: alter this?
+    private static final String MAGIC = "NechAtHa6RuzeR8x"; //TODO: alter this?
 
     private static Retrofit retrofit = new Retrofit.Builder()
             .baseUrl(BASE_URL)
@@ -40,7 +39,7 @@ public class Cloud {
 
             //TODO: Create loginResult/userResult once more information needs to be retrieved
 
-            Response<CreateResult> response = service.loginUser().execute();//, password).execute();
+            Response<CreateResult> response = service.loginUser(username, password).execute();
 
             // check if request failed
             if (!response.isSuccessful()) {
@@ -65,13 +64,45 @@ public class Cloud {
     }
 
     /**
+     * Set the checkerboard database
+     * @return true if successful
+     */
+    public boolean setBoard(){
+
+        CheckersService service = retrofit.create(CheckersService.class);
+        try {
+            Response<CreateResult> response = service.setBoard().execute();
+
+            // check if request failed
+            if (!response.isSuccessful()) {
+                Log.e("SetBoard", "Failed to set the board, response code is = " + response.code());
+                return false;
+            }
+
+            //check if status == "yes"
+            CreateResult result = response.body();
+            if (result.getStatus().equals("yes")) {
+                return true;
+            }
+
+            Log.e("SetBoard", "Failed to set the board, message is = '" + result.getMessage() + "'");
+            return false;
+
+        } catch (IOException e) {
+            Log.e("SetBoard", "Exception occurred while logging in.", e);
+            return false;
+        }
+
+    }
+
+    /**
      * Create a user
      * @param username name of user
      * @param password password of user
      * @return true if successful
      */
     public boolean createUser(String username, String password){
-        /*username = username.trim();
+        username = username.trim();
         if(username.length() == 0) {
             return false;
         }
@@ -109,7 +140,7 @@ public class Cloud {
         } catch (IOException e){
             //Log.e("CreateUser", "Exception occurred while trying to create a new user.", e);
             return false;
-        }*/
+        }
 
         return true;
     }
