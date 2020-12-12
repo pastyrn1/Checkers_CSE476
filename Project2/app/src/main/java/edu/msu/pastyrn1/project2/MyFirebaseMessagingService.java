@@ -8,8 +8,11 @@ import com.google.firebase.messaging.FirebaseMessagingService;
 
 public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
-    public void onNewToken(@NonNull String s) {
-        super.onNewToken(s);
-        Log.d("TAG", "Refreshed Token" + s );
+    public void onNewToken(@NonNull String token) {
+        super.onNewToken(token);
+        Log.d("TAG", "Refreshed Token" + token );
+
+
+        ////sendRegistrationToServer(token);
     }
 }
