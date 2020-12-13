@@ -1,18 +1,47 @@
 package edu.msu.pastyrn1.project2;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class StartActivity extends AppCompatActivity {
+    private class DataUpdateReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (intent.getAction().equals(StartActivity.REFRESH_DATA_INTENT)) {
+                // Do stuff - maybe update my view based on the changed DB contents
+                String from = intent.getStringExtra(MESSAGE_FROM);
+                String body = intent.getStringExtra(MESSAGE_BODY);
+                LayoutInflater inflater = getLayoutInflater();
+                View layout = inflater.inflate(R.layout.custom_toast,
+                        (ViewGroup) findViewById(R.id.custom_toast_container));
 
+                TextView textFrom = (TextView) layout.findViewById(R.id.textView2);
+                textFrom.setText(from);
+                TextView textBody = (TextView) layout.findViewById(R.id.textView4);
+                textBody.setText(body);
 
+                Toast toast = new Toast(context);
+                toast.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL,0,0);
+                toast.setDuration(Toast.LENGTH_LONG);
+                toast.setView(layout);
+                toast.show();
+            }
+        }
+    }
     public static String REFRESH_DATA_INTENT = "edu.msu.pastryn1.fcm.refreshdata";
     public static String MESSAGE_FROM = "edu.msu.pastryn1.fcm.messagefrom";
     public static String MESSAGE_BODY = "edu.msu.pastryn1.fcm.messagebody";
