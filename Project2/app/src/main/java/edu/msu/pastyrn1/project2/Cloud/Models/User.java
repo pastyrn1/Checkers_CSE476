@@ -3,6 +3,8 @@ package edu.msu.pastyrn1.project2.Cloud.Models;
 import org.simpleframework.xml.Attribute;
 import org.simpleframework.xml.Root;
 
+//TODO:Delete this class if it remains unused
+
 @Root(name = "checkers")
 public class User {
     @Attribute

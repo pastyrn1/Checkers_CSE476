@@ -26,6 +26,7 @@
     <string name="wait_message">Waiting for Player 2 to join</string>
     <string name="title_activity_dummy">DummyActivity</string>
     <string name="checkbox">Remember</string>
+    <string name="board_fail">Failed to load board</string>
 
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
