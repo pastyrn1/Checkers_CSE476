@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
 
             ////////    CHECKING IF GAME EXISTS/>     ////////////
 
-                        Intent intent = new Intent(LoginActivity.this, WaitingActivity.class);
+                        Intent intent = new Intent(LoginActivity.this, GameActivity.class);
                         intent.putExtra("name", name);
                         startActivity(intent);
 

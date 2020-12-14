@@ -155,7 +155,6 @@ public class Game {
         }
     }
 
-
     /**
      * Draw the checker game
      * @param canvas Canvas we are drawing on
