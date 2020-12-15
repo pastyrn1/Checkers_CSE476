@@ -27,6 +27,16 @@ public class CheckerPiece {
     private int y_idx = 0;
 
     /**
+     * x pos, necessary for dragging
+     */
+    private float x = 0;
+
+    /**
+     * y pos, necessary for dragging
+     */
+    private float y = 0;
+
+    /**
      * integer representing piece default movement direction
      */
     private int direction;
@@ -74,6 +84,8 @@ public class CheckerPiece {
     public void setIdx(int new_idx, int new_idy) {
         x_idx = new_idx;
         y_idx = new_idy;
+        x = valid[new_idx];
+        y = valid[new_idy];
     }
 
     /**
@@ -95,6 +107,29 @@ public class CheckerPiece {
      */
     public int getDirection() {
         return direction;
+    }
+
+    /**
+     * set non-indexed position
+     */
+    public void setPos(float x, float y) {
+        this.x = x;
+        this.y = y;
+    }
+
+
+    /**
+     * get non-indexed x position
+     */
+    public float getX() {
+        return x;
+    }
+
+    /**
+     * get non-indexed y position
+     */
+    public float getY() {
+        return y;
     }
 
 
@@ -157,6 +192,16 @@ public class CheckerPiece {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Move the checker piece by dx, dy
+     * @param dx x amount to move
+     * @param dy y amount to move
+     */
+    public void move(float dx, float dy) {
+        x += dx;
+        y += dy;
     }
 
 }
