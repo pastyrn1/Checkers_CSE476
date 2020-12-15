@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import org.xmlpull.v1.XmlSerializer;
 
 import java.io.IOException;
@@ -198,7 +200,7 @@ public class Cloud {
      * @param killed checker piece casualties
      * @return true if successful
      */
-    public boolean updatePiece(CheckerPiece piece, ArrayList<CheckerPiece> killed) {
+    public boolean updatePiece(CheckerPiece piece, @Nullable CheckerPiece killed) {
 
         // Create an XML packet with the information about the results of the player's turn
         XmlSerializer xml = Xml.newSerializer();
@@ -225,13 +227,12 @@ public class Cloud {
             xml.endTag(null, "checkertable");
 
             // Add casualties to the xml
-            for(CheckerPiece casualty : killed){
+            if(killed != null){
                 xml.startTag(null, "checkertable");
 
-                xml.attribute(null, "xidx", String.valueOf(casualty.getXIdx()));
-                xml.attribute(null, "yidx", String.valueOf(casualty.getYIdx()));
-                xml.attribute(null, "king", String.valueOf(casualty.getKing()));
-
+                xml.attribute(null, "xidx", String.valueOf(killed.getXIdx()));
+                xml.attribute(null, "yidx", String.valueOf(killed.getYIdx()));
+                xml.attribute(null, "king", String.valueOf(killed.getKing()));
                 xml.endTag(null, "checkertable");
             }
 

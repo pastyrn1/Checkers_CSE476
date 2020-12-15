@@ -9,6 +9,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,8 +100,6 @@ public class Game {
     private Context context;
 
 
-
-
     //TODO: makes these variables obsolete
     /**
      * Valid locations of checker squares
@@ -126,7 +126,6 @@ public class Game {
      * player number of user
      */
     private int player;
-
 
     public Game(Context context, int player){
         this.context = context;
@@ -307,9 +306,6 @@ public class Game {
 
         isTurnComplete = bundle.getBoolean(COMPLETE);
 
-        //TODO: clean up piece removal
-        // (only two int arrays necessary now - maybe save this for project 2)
-
         int size = userPieces.size() - player1_x_locations.length;
         for(int i=0;  i<size; i++) {
             userPieces.remove(0);
@@ -346,7 +342,6 @@ public class Game {
         }
 
         checkWin();
-
     }
 
     /**
@@ -434,11 +429,25 @@ public class Game {
 
             if(v == 1) {
                 //The movement is valid
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Cloud cloud = new Cloud();
+                        cloud.updatePiece(dragging, null);
+                    }
+                }).start();
                 jumper = null;
                 isTurnComplete = true;
                 view.invalidate();
             } else if(v == -1){
                 //The movement is valid, multi jump has begun
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Cloud cloud = new Cloud();
+                        cloud.updatePiece(dragging, null);
+                    }
+                }).start();
                 jumper = dragging;
                 view.invalidate();
             } else {
@@ -640,6 +649,14 @@ public class Game {
                 Math.abs(y - valid[yIdx + yD]) < SNAP_DISTANCE && !opponent) {
             dragging.setIdx(xIdx + xD, yIdx + yD);
 
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Cloud cloud = new Cloud();
+                    cloud.updatePiece(dragging, null);
+                }
+            }).start();
+
             king_check(yD, yIdx + yD);
             return true;
         }
@@ -667,12 +684,19 @@ public class Game {
         if(Math.abs(x - valid[xIdx + xD * 2]) < SNAP_DISTANCE &&
                 Math.abs(y - valid[yIdx + yD * 2]) < SNAP_DISTANCE && !opponent && victim) {
 
-            if (!myTurn) {
-                userPieces.remove(deletable);
-            } else {
-                enemyPieces.remove(deletable);
-            }
+
+            enemyPieces.remove(deletable);
             dragging.setIdx(xIdx + xD * 2, yIdx + yD * 2);
+
+            final CheckerPiece delete = deletable;
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    Cloud cloud = new Cloud();
+                    cloud.updatePiece(dragging, delete);
+                }
+            }).start();
 
             king_check(yD, yIdx + yD * 2);
             return true;
@@ -735,7 +759,6 @@ public class Game {
         this.win = win;
     }
 
-    //TODO:modify where this is called
     /**
      * check if a player has won
      */

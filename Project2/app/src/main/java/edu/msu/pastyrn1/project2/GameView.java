@@ -37,7 +37,6 @@ public class GameView extends View {
         game = new Game(getContext(),1);
     }
 
-    //TODO:uncomment this
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return game.onTouchEvent(this, event);
