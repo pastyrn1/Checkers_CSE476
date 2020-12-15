@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Root(name = "checkers")
-public class BoardResult {
+public final class BoardResult {
     @Attribute
     private String status;
 
@@ -22,17 +22,6 @@ public class BoardResult {
         this.status = status;
     }
 
-    @Attribute(name = "msg", required = false)
-    private String message;
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
     @ElementList(name = "checkertable", inline = true, required = false, type = TablePiece.class)
     private List<TablePiece> pieces;
 
@@ -42,6 +31,17 @@ public class BoardResult {
 
     public void setPieces(List<TablePiece>  piece) {
         this.pieces = pieces;
+    }
+
+    @Attribute(name = "msg", required = false)
+    private String message;
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public BoardResult() {}

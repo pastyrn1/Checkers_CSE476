@@ -23,10 +23,7 @@ public interface CheckersService {
     );
 
     @GET(LOAD_B_PATH)
-    Call<BoardResult> loadBoard(
-            @Query("user") String username,
-            @Query("pw") String password
-    );
+    Call<BoardResult> loadBoard();
 
     @FormUrlEncoded
     @POST(CREATE_PATH)

@@ -36,13 +36,13 @@ public class GameView extends View {
 
     private void init(AttributeSet attrs, int defStyle) {
         game = new Game(getContext(),2);
-
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return game.onTouchEvent(this, event);
-    }
+    //TODO:uncomment this
+   // @Override
+  //  public boolean onTouchEvent(MotionEvent event) {
+        //return game.onTouchEvent(this, event);
+  //  }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -66,8 +66,8 @@ public class GameView extends View {
 //        game.loadInstanceState(bundle);
 //    }
 
-    public Game getGame() {
-        return game;
-    }
+    //public Game getGame() {
+    //    return game;
+    //}
 
 }

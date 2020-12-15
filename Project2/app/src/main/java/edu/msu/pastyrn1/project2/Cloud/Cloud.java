@@ -173,7 +173,7 @@ public class Cloud {
 
         try {
             CheckersService service = retrofit.create(CheckersService.class);
-            BoardResult board = service.loadBoard(user, pw).execute().body();
+            BoardResult board = service.loadBoard().execute().body();
 
             if (board.getStatus().equals("no")) {
                 String msg = "Loading board returned status 'no'! Message is = '" + board.getMessage() + "'";

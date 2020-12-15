@@ -1,5 +1,5 @@
 <?php
-//FIle: checkers-fcm.php
+//File: checkers-fcm.php
 
 $pdo = pdo_connect();
 $sql = "select token from checkers-fcm";
