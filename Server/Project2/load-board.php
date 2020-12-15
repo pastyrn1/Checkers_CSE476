@@ -2,23 +2,30 @@
 require_once "db.inc.php";
 echo '<?xml version="1.0" encoding="UTF-8" ?>';
 
-process($_GET['user'], $_GET['pw']);
+process();//$_GET['user'], $_GET['pw']);
 
 /**
  * Process the query
- * @param $user the user to look for
- * @param $password the user password
  */
-function process($user, $password) {
+function process() {
     // Connect to the database
     $pdo = pdo_connect();
 
-    $userid = getUser($pdo, $user, $password);
-    //$query = "select id, user from chessplayer where userid='$userid'";
-    //$rows = $pdo->query($query);
+    //$userid = getUser($pdo, $user, $password);
 
-    echo '<checkers status="yes" msg="test"/>';
-    exit;
+    $query = "select player, xidx, yidx, king from currentcplayer inner join  checkertable on currentcplayer.id = checkertable.id";
+    $rows = $pdo->query($query);
+
+    echo "\r\n<checkers status=\"yes\">\r\n";
+    foreach($rows as $row){
+        $player = $row['player'];
+        $xidx = $row['xidx'];
+        $yidx = $row['yidx'];
+        $king = $row['king'];
+
+        echo "<checkertable player=\"$player\" xidx=\"$xidx\" yidx=\"$yidx\" king=\"$king\" />\r\n";
+    }
+    echo '</checkers>';
 }
 
 /**
@@ -42,7 +49,6 @@ function getUser($pdo, $user, $password) {
             echo '<checkers status="no" msg="password error" />';
             exit;
         }
-
         return $row['id'];
     }
 

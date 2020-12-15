@@ -32,19 +32,20 @@ Member 4 (if applicable): n/a
 Responsiblity: n/a
 
 
-Provide instructions on how to reach the first editing activity if the login button is not yet functional.
-
 User account the server-side communications is running under: pastyrn1
 
 Paths to all server-side scripts: (Such as https://www.cse.msu.edu/~carter/project2/login.php).
+These are fully functional:
 http://webdev.cse.msu.edu/~pastyrn1/cse476/project2/create-player.php
 http://webdev.cse.msu.edu/~pastyrn1/cse476/project2/load-player.php
+http://webdev.cse.msu.edu/~pastyrn1/cse476/project2/load-board.php
+http://webdev.cse.msu.edu/~pastyrn1/cse476/project2/set-board.php
+
+These may not be:
+http://webdev.cse.msu.edu/~pastyrn1/cse476/project2/update-piece.php
+http://webdev.cse.msu.edu/~pastyrn1/cse476/project2/checkers-fcm.php
 
 (Also http://webdev.cse.msu.edu/~pastyrn1/cse476/project2/db.inc.php and the index.html)
 
 Calls in the code to the server (provide a class name and function, or URL used for debugging):
 createUser and checkExistence in Cloud.java, though both are currently commented out
-
-Currently the login button showcases a failure (showing the toast) and the create user showcases a success (though neither are fully functional in the background).
-
-Roles turned out somewhat different than described above, and can be seen more clearly in the repo history.
