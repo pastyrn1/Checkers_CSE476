@@ -383,30 +383,30 @@ public class Game {
         // Convert an x,y location to a relative location in the
         // game board.
         //
-        if(my)
+        if(myTurn){
+            float relX = (event.getX() - marginX) / gameSize;
+            float relY = (event.getY() - marginY) / gameSize;
 
-        float relX = (event.getX() - marginX) / gameSize;
-        float relY = (event.getY() - marginY) / gameSize;
+            switch (event.getActionMasked()) {
 
-        switch (event.getActionMasked()) {
+                case MotionEvent.ACTION_DOWN:
+                    return onTouched(relX, relY);
 
-            case MotionEvent.ACTION_DOWN:
-                return onTouched(relX, relY);
+                case MotionEvent.ACTION_UP:
+                case MotionEvent.ACTION_CANCEL:
+                    return onReleased(view, relX, relY);
 
-            case MotionEvent.ACTION_UP:
-            case MotionEvent.ACTION_CANCEL:
-                return onReleased(view, relX, relY);
-
-            case MotionEvent.ACTION_MOVE:
-                // If we are dragging, move the piece and force a redraw
-                if(dragging != null) {
-                    dragging.move(relX - lastRelX, relY - lastRelY);
-                    lastRelX = relX;
-                    lastRelY = relY;
-                    view.invalidate();
-                    return true;
-                }
-                break;
+                case MotionEvent.ACTION_MOVE:
+                    // If we are dragging, move the piece and force a redraw
+                    if(dragging != null) {
+                        dragging.move(relX - lastRelX, relY - lastRelY);
+                        lastRelX = relX;
+                        lastRelY = relY;
+                        view.invalidate();
+                        return true;
+                    }
+                    break;
+            }
         }
         return false;
     }
