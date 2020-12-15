@@ -120,7 +120,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra(StartActivity.MESSAGE_FROM, remoteMessage.getFrom());
         intent.putExtra(StartActivity.MESSAGE_BODY, remoteMessage.getNotification().getBody());
         sendBroadcast(intent);
-        
+
         
     }
 }
