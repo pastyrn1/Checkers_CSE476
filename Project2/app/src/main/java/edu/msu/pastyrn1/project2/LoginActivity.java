@@ -100,36 +100,7 @@ public class LoginActivity extends AppCompatActivity {
 
                 } else {//check if available: game, else: waiting
                     saveCheckBox(name, pw);
-//                    if (saveLoginCheckBox.isChecked()) {
-//                        loginPrefsEditor.putBoolean("saveLogin", true);
-//                        loginPrefsEditor.putString("username", username.getText().toString());
-//                        loginPrefsEditor.putString("password", password.getText().toString());
-//                        loginPrefsEditor.commit();
-//                    } else {
-//                        loginPrefsEditor.clear();
-//                        loginPrefsEditor.commit();
-//                    }
-
-            ////////    CHECKING IF GAME EXISTS     ////////////
-
-//                    final boolean game = cloud.checkgame()
-
-//                    if(game exists){
-//                        Intent i = new Intent(LoginActivity.this, GameActivity.class);
-////                        i.putExtra("name", name);
-//                        startActivity(i);
-//                    }
-//
-//                    else{
-//                        Intent intent = new Intent(LoginActivity.this, WaitingActivity.class);
-////                        intent.putExtra("name", name);
-//                        startActivity(intent);
-//                    }
-
-            ////////    CHECKING IF GAME EXISTS/>     ////////////
-
                         Intent intent = new Intent(LoginActivity.this, GameActivity.class);
-//                        intent.putExtra("name", name);
                         startActivity(intent);
 
                 }
