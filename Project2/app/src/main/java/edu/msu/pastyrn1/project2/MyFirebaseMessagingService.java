@@ -8,13 +8,6 @@ import androidx.annotation.NonNull;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -120,13 +113,14 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
         Log.d("FCM Message", "From: " + remoteMessage.getFrom());
-        Log.d("FCM Message", "Notification Message Body: " + remoteMessage.getNotification().getBody());
+        Log.d("FCM Message", "Notification Message Body: Your Turn! " + remoteMessage.getNotification().getBody());
         Intent intent;
         // Do stuff that alters the content of my local SQLite Database
         intent = new Intent(StartActivity.REFRESH_DATA_INTENT);
         intent.putExtra(StartActivity.MESSAGE_FROM, remoteMessage.getFrom());
         intent.putExtra(StartActivity.MESSAGE_BODY, remoteMessage.getNotification().getBody());
         sendBroadcast(intent);
+        
     }
 }
 
