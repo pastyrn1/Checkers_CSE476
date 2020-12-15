@@ -175,16 +175,6 @@ public class Game {
             }
         }).start();
 
-        //TODO: remove this tester code
-
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Cloud cloud = new Cloud();
-                cloud.updatePiece(userPieces.get(0), enemyPieces.get(0));
-            }
-        }).start();
-
     }
 
 
