@@ -8,7 +8,10 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 import edu.msu.pastyrn1.project2.Cloud.Cloud;
+import edu.msu.pastyrn1.project2.Cloud.Models.TablePiece;
 
 public class GameActivity extends AppCompatActivity {
 
@@ -17,6 +20,15 @@ public class GameActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
+
+        //set the checkerboard for the new game
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Cloud cloud = new Cloud();
+                cloud.setBoard();
+            }
+        }).start();
     }
 
     /**

@@ -8,7 +8,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
 
-
 /**
  * Custom view class for our Game.
  */
@@ -35,7 +34,7 @@ public class GameView extends View {
     }
 
     private void init(AttributeSet attrs, int defStyle) {
-        game = new Game(getContext(),2);
+        game = new Game(getContext(),1);
     }
 
     //TODO:uncomment this
