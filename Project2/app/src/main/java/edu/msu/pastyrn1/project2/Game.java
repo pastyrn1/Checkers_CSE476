@@ -70,7 +70,7 @@ public class Game {
     /**
      * A boolean for whose turn it is
      */
-    private boolean myTurn = true;
+    private boolean myTurn;
 
     /**
      * Indices of dragging before move attempt
@@ -131,39 +131,16 @@ public class Game {
     public Game(Context context, int player){
         this.context = context;
 
+        if (player == 1){
+            myTurn = true;
+        } else {
+            myTurn = false;
+        }
+
         // Create paint for filling the game board
         fillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         this.player = player;
 
-        // Create lower pieces (user)
-        /*for(int i = 5; i < 8; i++){
-            for(int j = 0; j < 8; j++){
-                if(i % 2 !=  j % 2) {
-
-                    if(player == 1){
-                        userPieces.add(new CheckerPiece(context, R.drawable.green, R.drawable.spartan_green, j, i, -1));
-                    } else {
-                        userPieces.add(new CheckerPiece(context, R.drawable.white, R.drawable.spartan_white, j, i, 1));
-                    }
-
-                }
-            }
-        }
-
-        // Create upper pieces (opponent)
-        for(int i = 0; i < 3; i++){
-            for(int j = 0; j < 8; j++){
-                if(i % 2 !=  j % 2) {
-
-                    if(player == 1){
-                        enemyPieces.add(new CheckerPiece(context, R.drawable.white, R.drawable.spartan_white, j, i, 1));
-                    } else {
-                        enemyPieces.add(new CheckerPiece(context, R.drawable.green, R.drawable.spartan_green, j, i, -1));
-                    }
-
-                }
-            }
-        }*/
         reload();
     }
 
@@ -383,31 +360,31 @@ public class Game {
         // Convert an x,y location to a relative location in the
         // game board.
         //
-        if(myTurn){
-            float relX = (event.getX() - marginX) / gameSize;
-            float relY = (event.getY() - marginY) / gameSize;
 
-            switch (event.getActionMasked()) {
+        float relX = (event.getX() - marginX) / gameSize;
+        float relY = (event.getY() - marginY) / gameSize;
 
-                case MotionEvent.ACTION_DOWN:
-                    return onTouched(relX, relY);
+        switch (event.getActionMasked()) {
 
-                case MotionEvent.ACTION_UP:
-                case MotionEvent.ACTION_CANCEL:
-                    return onReleased(view, relX, relY);
+            case MotionEvent.ACTION_DOWN:
+                return onTouched(relX, relY);
 
-                case MotionEvent.ACTION_MOVE:
-                    // If we are dragging, move the piece and force a redraw
-                    if(dragging != null) {
-                        dragging.move(relX - lastRelX, relY - lastRelY);
-                        lastRelX = relX;
-                        lastRelY = relY;
-                        view.invalidate();
-                        return true;
-                    }
-                    break;
+            case MotionEvent.ACTION_UP:
+            case MotionEvent.ACTION_CANCEL:
+                return onReleased(view, relX, relY);
+
+            case MotionEvent.ACTION_MOVE:
+                // If we are dragging, move the piece and force a redraw
+                if(dragging != null) {
+                    dragging.move(relX - lastRelX, relY - lastRelY);
+                    lastRelX = relX;
+                    lastRelY = relY;
+                    view.invalidate();
+                    return true;
+                }
+                break;
             }
-        }
+
         return false;
     }
 
@@ -451,6 +428,7 @@ public class Game {
      * @return true if the touch is handled
      */
     private boolean onReleased(View view, float x, float y) {
+
         if(dragging != null) {
             int v = isValid();
 
@@ -465,7 +443,9 @@ public class Game {
                 view.invalidate();
             } else {
                 dragging.setPos(preX, preY);
-                showToast("Invalid Move");
+                if(myTurn) {
+                    showToast("Invalid Move");
+                }
                 view.invalidate();
             }
             dragging = null;
