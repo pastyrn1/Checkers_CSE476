@@ -17,4 +17,5 @@
         android:text="@string/wait_message"
         tools:layout_editor_absoluteX="133dp"
         tools:layout_editor_absoluteY="189dp" />
+
 </RelativeLayout>

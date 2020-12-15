@@ -3,6 +3,7 @@ package edu.msu.pastyrn1.project2;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +22,8 @@ public class GameActivity extends AppCompatActivity {
      * Button Resigns the game
      */
     public void onResign(View View) {
-
+        Toast.makeText(View.getContext(), "You Resigned. Opponent won", Toast.LENGTH_LONG).show();
+        startActivity(new Intent(GameActivity.this, StartActivity.class));
     }
 
     /**
