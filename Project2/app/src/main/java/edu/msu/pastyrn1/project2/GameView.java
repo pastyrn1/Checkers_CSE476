@@ -39,10 +39,10 @@ public class GameView extends View {
     }
 
     //TODO:uncomment this
-   // @Override
-  //  public boolean onTouchEvent(MotionEvent event) {
-        //return game.onTouchEvent(this, event);
-  //  }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        return game.onTouchEvent(this, event);
+    }
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -66,8 +66,8 @@ public class GameView extends View {
 //        game.loadInstanceState(bundle);
 //    }
 
-    //public Game getGame() {
-    //    return game;
-    //}
+    public Game getGame() {
+        return game;
+    }
 
 }
