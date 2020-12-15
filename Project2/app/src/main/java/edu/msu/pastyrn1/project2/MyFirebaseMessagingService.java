@@ -112,7 +112,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // If the application is in the foreground handle both data and notification messages here.
         // Also if you intend on generating your own notifications as a result of a received FCM
         // message, here is where that should be initiated. See sendNotification method below.
-        Log.d("FCM Message", "From: " + remoteMessage.getFrom());
+        Log.d("FCM Message", "From Player: " + remoteMessage.getFrom());
         Log.d("FCM Message", "Notification Message Body: Your Turn! " + remoteMessage.getNotification().getBody());
         Intent intent;
         // Do stuff that alters the content of my local SQLite Database
@@ -120,6 +120,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         intent.putExtra(StartActivity.MESSAGE_FROM, remoteMessage.getFrom());
         intent.putExtra(StartActivity.MESSAGE_BODY, remoteMessage.getNotification().getBody());
         sendBroadcast(intent);
+        
         
     }
 }
