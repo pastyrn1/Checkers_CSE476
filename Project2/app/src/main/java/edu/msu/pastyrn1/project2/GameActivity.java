@@ -8,6 +8,8 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import edu.msu.pastyrn1.project2.Cloud.Cloud;
+
 public class GameActivity extends AppCompatActivity {
 
 
@@ -16,6 +18,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        Board();
     }
 
     /**
@@ -23,7 +26,7 @@ public class GameActivity extends AppCompatActivity {
      */
     public void onResign(View View) {
         Toast.makeText(View.getContext(), "You Resigned. Opponent won", Toast.LENGTH_LONG).show();
-        startActivity(new Intent(GameActivity.this, StartActivity.class));
+        startActivity(new Intent(GameActivity.this, EndActivity.class));
     }
 
     /**
@@ -34,5 +37,25 @@ public class GameActivity extends AppCompatActivity {
 
     }
 
+    private void Board(){
+        final View view = (View) findViewById(R.id.gameLayout);
+
+        new Thread(new Runnable() {
+
+            @Override
+            public void run() {
+                Cloud cloud = new Cloud();
+                final boolean ok = cloud.setBoard();
+                if(!ok) {
+                    //If we fail to find the user, display a toast
+                    view.post(new Runnable(){
+                        public void run() {
+                            Toast.makeText(view.getContext(), "Set Board Failed", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        }).start();
+    }
 
 }
