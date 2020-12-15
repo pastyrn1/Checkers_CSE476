@@ -1,7 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
-    <list default="true" id="64db3d47-c6a5-44e3-9c04-7d0c98c2a953" name="Default Changelist" comment="" />
+    <list default="true" id="64db3d47-c6a5-44e3-9c04-7d0c98c2a953" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/checkers-fcm.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -17,7 +38,11 @@
       </list>
     </option>
   </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
   <component name="ProjectId" id="1khs2YnGITo3tjW4RkgjH9WVamu" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -45,11 +70,23 @@
       <workItem from="1606164855797" duration="4687000" />
       <workItem from="1606190101186" duration="603000" />
       <workItem from="1606251935709" duration="8984000" />
+      <workItem from="1607981433601" duration="3358000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="WindowStateProjectService">
     <state x="812" y="206" key="#Deployment" timestamp="1606256008211">
@@ -68,13 +105,15 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="1095" y="307" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1606256752939" />
-    <state x="1051" y="471" key="NewPhpFileDialog" timestamp="1606173420753">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="713" y="348" key="NewPhpFileDialog" timestamp="1607987050653">
+      <screen x="0" y="0" width="1303" height="768" />
     </state>
+    <state x="713" y="348" key="NewPhpFileDialog/0.0.1303.768/1366.0.1304.768@0.0.1303.768" timestamp="1607987050653" />
     <state x="1051" y="471" key="NewPhpFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1606173420753" />
-    <state x="819" y="481" key="publish.login" timestamp="1606254705012">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="556" y="355" key="publish.login" timestamp="1607988555384">
+      <screen x="0" y="0" width="1303" height="768" />
     </state>
+    <state x="556" y="355" key="publish.login/0.0.1303.768/1366.0.1304.768@0.0.1303.768" timestamp="1607988555384" />
     <state x="819" y="481" key="publish.login/0.0.1920.1040@0.0.1920.1040" timestamp="1606254705012" />
     <state x="1032" y="286" key="webDeployment.PermissionsDialog.Tabs" timestamp="1606167061068">
       <screen x="0" y="0" width="1920" height="1040" />
